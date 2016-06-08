@@ -3,18 +3,6 @@
 //文字列が空でない
 //文字列がスペースだけでない = 最初から最後までスペースでない
 
-if(!empty($_POST['my_name']) && !preg_match('/^\s+$/',($_POST['my_name']))){
-
-  $name = htmlspecialchars($_POST['my_name'], ENT_QUOTES, 'UTF-8');
-
-  echo 'ようこそ' .$name. 'さん';
-
-}else{
-
-  echo '名前を入力してください';
-
-}
-
 //Question
 
 //全角スペースの場合はどうするか？
@@ -42,6 +30,53 @@ if(preg_match('/^\s+$/',($_POST['my_name']))){
 }
 
 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/********06/07*********/
+
+
+$class = array('ガリ勉' => '鈴木', '委員長' => '佐藤', 'セレブ' => '斎藤', 'メガネ' => '伊藤', '女神' => '杉内');
+
+
+foreach ($class as $key => $name) {
+  echo $key;
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
