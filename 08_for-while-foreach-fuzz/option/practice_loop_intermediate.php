@@ -1,30 +1,26 @@
 <?php
 
+$table = '';
 
+$table .= '<table border=1>';
 
 for ($i = 1; $i <= 9; $i++) {
 
-  echo '<table border=1>';
-  echo '<tr>';
-
-//for文のネスト
+  $table .= '<tr>';
 
   for ($j = 1; $j <= 9; $j++) {
 
-      $result = $i * $j ;
+    $result = $i * $j ;
 
-      echo '<td>' .$i. ' * ' .$j. ' = ' .$result. '</td>';
+    $table .= '<td>' .$i. ' * ' .$j. ' = ' .$result. '</td>';
     
   }
 
-  //echo '<br>';
-  echo '</tr>';
-  echo '</table>';
+  $table .= '</tr>';
 
 }
 
-
-
+$table .= '</table>';
 
 ?>
 
@@ -38,27 +34,29 @@ for ($i = 1; $i <= 9; $i++) {
 
   <style type="text/css">
 
-    body{
-      width :1200px;
-    }
+  body{
+    width :1200px;
+  }
 
-    table {
-      margin: 0 auto;
-     margin-top :4px;
-    }
-      
-      td {
-        width: 88px;
-        text-align: center;
-      }
+  table {
+    margin: 0 auto;
+    margin-top :4px;
+  }
+    
+  td {
+    width: 88px;
+    text-align: center;
+  }
 
-      td:nth-child(odd) {
-        background: #ccc;
-      }
+  td:nth-child(odd) {
+    background: #ccc;
+  }
 
   </style>
 </head>
 <body>
+
+  <?php echo $table ?>
   
 </body>
 </html>
