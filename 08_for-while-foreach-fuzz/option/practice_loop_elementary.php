@@ -18,22 +18,27 @@ for ($i = 1; $i <= $set; $i++) {
 
 }
 
-  var_dump($arrayInit);
+  //var_dump($arrayInit);
 
   //配列のキーが1のときのインデックスを取得
 
   //不明点は、このインデックスがなんこあるか数える事。
 
+  $omote = '';
+  $ura = '';
+
   for ($i = 1; $i <= $set; $i++) {
 
       if($arrayInit[$i] == 1){
 
-          var_dump($i);
+          $omote += $arrayInit[$i];
 
       }
 
   }
-  
+
+  $ura = $set - $omote;
+
 } 
 
 ?>
@@ -50,8 +55,8 @@ for ($i = 1; $i <= $set; $i++) {
   
     <article id="wrap">
         <section>
-            <p>表: 回</p>
-            <p>裏: 回</p>
+            <p>表: <?php echo $omote ?>回</p>
+            <p>裏: <?php echo $ura ?>回</p>
         </section>
         <form method="post">
             <select name="number">

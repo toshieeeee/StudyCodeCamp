@@ -12,7 +12,7 @@ for ($i = 1; $i <= 9; $i++) {
 
     $result = $i * $j ;
 
-    $table .= '<td>' .$i. ' * ' .$j. ' = ' .$result. '</td>';
+    $table .= '<td>' .$j. ' * ' .$i. ' = ' .$result. '</td>';
     
   }
 
@@ -23,8 +23,6 @@ for ($i = 1; $i <= 9; $i++) {
 $table .= '</table>';
 
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
