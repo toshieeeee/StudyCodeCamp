@@ -4,39 +4,46 @@ setlocale(LC_ALL, 'ja_JP.UTF-8');
 
 $csv = array();
 $file = 'iwate.csv';
-/*
-$data = file_get_contents($file); // ファイルの内容をすべて文字列として読み込む
-$data = mb_convert_encoding($data, 'UTF-8');
-*/
-$fp = fopen($file,'r');
+
+//エンコーディング処理
+
+$data = file_get_contents($file); // string型に変更
+$data = mb_convert_encoding($data, 'UTF-8', 'sjis-win'); //この関数を通すことで文字化けが解消される
+
+//初期化・一時ファイル作成
+
+$temp = tmpfile(); 
+$csv  = array();
+
+fwrite($temp, $data); //$tempファイルに、$dataの内容を書き込む。
+rewind($temp); //ファイルポインタを先頭の位置に戻す
 
 
-while(($data = fgetcsv($fp, 0, ",")) !== FALSE){
+while (($data = fgetcsv($temp, 0, ",")) !== FALSE) {
 
-  $csv[] = $data;
+$data = implode(",", $data); //一行づつ、配列を","で連結して、文字列として返す
+$csv[] = htmlentities($data);
 
 }
 
-fclose($fp);
 
-$csv = mb_convert_variables("UTF-8","SJIS",$data);
+$result = array(); //多次元配列を実現して、必要なデータだけを取り出せる形にする
 
-var_dump($csv[0][3]);
+for ($i=0; $i <10 ; $i++) { 
+
+  $result[$i] = explode(",", $csv[$i]); 
+
+}
+ 
+var_dump($result);
+
+//多次元配列からデータを取り出す（ここができない）
+//$result[$i] [2 ~ 4] -こんなイメージ
 
 
+fclose($temp);
 
 
-
-
-//fgetcsvでCSVファイルの出力はできた。
-
-//CSVが文字化けして見れない。
-
-// mb_convert_encoding - 配列ではなく、文字列が対象。
-// fgetscsv()では、配列が返ってくるので、ダメだ~!!!!
-
-//そこで、mb_convert_variables ()
-//配列を含めて、変数のエンコーディングを行う
 
 
 
