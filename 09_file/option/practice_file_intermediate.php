@@ -10,10 +10,9 @@ $file = 'iwate.csv';
 $data = file_get_contents($file); // string型に変更
 $data = mb_convert_encoding($data, 'UTF-8', 'sjis-win'); //この関数を通すことで文字化けが解消される
 
-//初期化・一時ファイル作成
+//一時ファイル作成
 
 $temp = tmpfile(); 
-$csv  = array();
 
 fwrite($temp, $data); //$tempファイルに、$dataの内容を書き込む。
 rewind($temp); //ファイルポインタを先頭の位置に戻す
@@ -28,9 +27,9 @@ $csv[] = htmlentities($data);
 $result = array(); //多次元配列を実現して、必要なデータだけを取り出せる形にする
 $table = '';
 
-for ($i = 0; $i < 30; $i++){ //表示件数を指定
+for ($i = 0; $i < 200; $i++){ //表示件数を指定
 
-  $result[$i] = explode(",", $csv[$i]); 
+  $result[$i] = explode(",", $csv[$i]); //多次元配列に変換
 
   $table .= '<tr>';
 
@@ -38,9 +37,7 @@ for ($i = 0; $i < 30; $i++){ //表示件数を指定
 
   for ($k = 6; $k <= 8; $k++){
 
-    $village[$i][$k] =  $result[$i][$k]; //住所情報を格納
-
-    $table .= '<td>' .$village[$i][$k]. '</td>';
+    $table .= '<td>' .$result[$i][$k]. '</td>'; //住所情報を格納
 
   }
 
