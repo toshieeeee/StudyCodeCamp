@@ -1,10 +1,11 @@
 <?php
 
 $filename = './codeCamp.txt';
-
 $error = array();
 $data = array();
 $comment = '';
+
+
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
@@ -20,11 +21,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
   //名前のエラー文章
 
+ // echo mb_strlen($_POST['user_name']);
+
   if(isset($_POST['user_name']) !== TRUE || mb_strlen($_POST['user_name']) === 0){
 
     $error['user_name'] = '名前を入力してください';
 
-  } else if(mb_strlen(($_POST['user_name']) > 20)){
+  } else if(mb_strlen($_POST['user_name']) > 20){
 
     $error['user_name'] = '名前は20文字以内で入力してください';
 
@@ -46,7 +49,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     $error['user_comment'] = 'コメントを入力してください';
 
-  } else if(mb_strlen(($_POST['user_comment']) > 100)){
+  } else if(mb_strlen($_POST['user_comment']) > 100){
 
     $error['user_comment'] = 'コメントは100文字以内で入力してください';
 
@@ -118,6 +121,11 @@ if(is_readable($filename) === TRUE) {
 
 //ここまで、ブラウザ出力用に、データを適切な形で配列に入れる処理
 
+//20文字 mb_strlen('なまえなまえなまえなまえなまえなまえなま');
+//100文字 mb_strlen('コメントコメントコメントコメントコメントコメントコメントコメントコメントコメントコメントコメントコメントコメントコメントコメントコメントコメントコメントコメントコメントコメントコメントコメントコメント');
+
+
+
 ?>
 
 
@@ -131,7 +139,7 @@ if(is_readable($filename) === TRUE) {
   
   <h1>課題</h1>
    
-  <form action="codeCampCopy.php" method="post">
+  <form action="bbs.php" method="post">
 
     <?php if(count($error) > 0){ ?>
 

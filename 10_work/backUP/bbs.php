@@ -40,6 +40,12 @@ Null → false
 →今の実装だと、一つ条件を増やすだけで、さらに分岐をさせなければいけないので、あまり良い実装とは言えないのかもしれない。
 
 
+
+------------------------------------------
+7/6 
+ゼロの追加実装できました。
+
+
 */
 
 
@@ -47,7 +53,7 @@ $filename = './challenge_log.txt';
 
 //ファイルの書き込み処理
 
-var_dump($_POST);
+//var_dump($_POST);
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){ 
 
@@ -74,11 +80,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     echo "<p>名前が未入力です</p>"; 
     echo "<p>コメントは100文字以内で入力してください</p>";
 
-  } /*else if (preg_match ('/^\s$|[\s　]/',$_POST['name']) || preg_match ('/^\s$|[\s　]/',$_POST['comment'])){
+  } else if (preg_match ('/^\s*$|^　$/',$_POST['name']) || preg_match ('/^\s$|[\s　]/',$_POST['comment'])){
 
     echo "<p>半角・全角スペースのみでの登録はできません</p>"; 
 
-  } */else if($_POST['name'] === ''){
+  } else if($_POST['name'] === ''){
 
     echo "<p>名前が未入力です";    
 

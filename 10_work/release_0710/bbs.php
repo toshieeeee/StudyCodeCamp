@@ -131,7 +131,7 @@ if(is_readable($filename) === TRUE) {
   
   <h1>課題</h1>
    
-  <form action="codeCampCopy.php" method="post">
+  <form action="bbs.php" method="post">
 
     <?php if(count($error) > 0){ ?>
 
