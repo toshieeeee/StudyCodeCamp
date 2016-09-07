@@ -1,0 +1,123 @@
+--------------------------------------
+1.顧客毎の発注回数を取得し、名前と合わせて表示
+
+発注回数 = order_tableに出てくるcustomer_idのレコードの行数を計算する。
+
+--------------------------------------
+
+SELECT 
+
+customer_table.customer_name,
+COUNT(order_table.customer_id) AS '発注回数' 
+
+FROM 
+
+order_table
+
+JOIN 
+customer_table
+ON
+order_table.customer_id = customer_table.customer_id
+
+GROUP BY
+order_table.customer_id 
+
+
+--------------------------------------
+2.値段が100円の商品に関して商品毎の売上数量を取得し、商品名と合わせて表示
+
+売り上げ総量 = goods_detail_tableのgoods_idのレコードの行数を計算
+
+→ WHERE句 → GROUP BYの順にクエリを組み立てたらうまくいった
+
+--------------------------------------
+
+SELECT 
+goods_table.goods_name,
+COUNT(order_detail_table.goods_id) AS '売り上げ総量' 
+FROM 
+order_detail_table
+JOIN 
+goods_table
+ON 
+order_detail_table.goods_id = goods_table.goods_id 
+
+WHERE 
+goods_table.price = 100
+
+GROUP BY 
+order_detail_table.goods_id
+
+
+--------------------------------------
+3.顧客毎の発注した全商品の合計金額を取得し、名前と合わせて表示
+
+
+商品の売り上げ合計額 =
+
+COUNT(order_detail_table.goods_id) * goods_table.price AS "合計金額"
+
+goods_id.price * quantity = 合計金額
+
+
+--------------------------------------
+
+SELECT 
+customer_table.customer_name,
+SUM(goods_table.price * order_detail_table.quantity) AS "合計"
+
+FROM 
+
+order_table
+
+JOIN 
+customer_table
+ON
+order_table.customer_id = customer_table.customer_id 
+JOIN 
+order_detail_table
+ON
+order_table.order_id = order_detail_table.order_id
+JOIN 
+goods_table
+ON 
+order_detail_table.goods_id = goods_table.goods_id 
+
+GROUP BY 
+customer_table.customer_id 
+
+
+
+---------------------
+処理の流れ
+---------------------
+
+customer_idが 1 の時の order_idを取得する
+
+customer_idが1の時のorder_idの、goods_idを取得する
+
+取得したgoods_id の priceを取得する
+
+取得したprice を quantityにかけて、合計値を返す
+
+
+----------------------------
+
+それぞれのcusotmer_idを取得
+それぞれのcutstomer_idのgoods_idを取得
+goods_idのpriceを取得
+price * quantityの合計値を返す
+
+
+
+--------------------------------------
+TIPS
+--------------------------------------
+
+
+＊COUNT 
+
+任意のカラムに、その値が、出てくる回数を返す？
+→行数をカウントする 、　レコードの行数を取得
+
+SUMは、カラムの合計値を返す
