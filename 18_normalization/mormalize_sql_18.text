@@ -102,7 +102,7 @@ order_detail_table.quantity DESC
 
 
 --------------------
-NULLの値も表示する
+NULLの値も表示する（外部結合）
 --------------------
 
 SELECT 
@@ -112,18 +112,14 @@ order_detail_table.quantity,
 order_table.order_date
 FROM 
 goods_table
-
-LEFTJOIN 
-
-order_table
-JOIN 
+LEFT JOIN 
 order_detail_table
 ON
-order_table.order_id = order_detail_table.order_id
-JOIN
-goods_table
-ON
-order_detail_table.goods_id = goods_table.goods_id
+goods_table.goods_id = order_detail_table.goods_id
+LEFT JOIN 
+order_table
+ON 
+order_detail_table.order_id = order_table.order_id
 
 ORDER BY
 order_detail_table.quantity DESC

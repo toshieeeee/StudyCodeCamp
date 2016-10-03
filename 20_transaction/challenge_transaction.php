@@ -43,6 +43,8 @@ if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
 
    /***********************************
   　ここから、課題の処理
+
+  [Must]  - クエリの実行判定の書き換え。今は、issetで判定しているため、クエリがミスってても、falseにならない、  
    *************************************/
 
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -61,7 +63,17 @@ if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
 
     $sql = 'SELECT name,point FROM point_gift_table WHERE point_gift_id = '.$point_gift_id;
 
-    if ($result = mysqli_query($link, $sql)) {
+    if ($result = mysqli_query($link, $sql)) { 
+
+  　/*************************************
+    重要修正POINT 
+    **************************************/
+
+    // [MUST]このSELECTのIF文が実行されなかったら、INSERTもUPDATEもできないように書き換える
+    // いまの書き方だと、SELECTがFALSEでもINSERTが実行されてしまうかき方になっている
+
+    // トランザクションの成否判定は、トランザクションを開始している階層と、同じ階層で実行すべき
+    // 今回は、上記と同様で、SELECTのIF文の中で、トランザクションの成否判定をすべき（いまは独立した成否判定IF文になっている）
         
       $row = mysqli_fetch_assoc($result);
         
@@ -73,13 +85,17 @@ if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
         保有ポイントをアップデート（UPDATE）
         **************************************/
 
+        // DBの変更を加える - auto commit 
+
         $updatePoint = $point - $gift_point; // 現在のポイント - 購入商品のポイント
 
         $updateSql =  'UPDATE point_customer_table SET point='.$updatePoint.' WHERE customer_id='.$customer_id;
 
-        if(isset($link,$updateSql) === TRUE){
+        if(isset($link,$updateSql) === TRUE){ //＜修正＞ IF文の中でクエリを実行
 
-          mysqli_query($link, $updateSql);
+          mysqli_query($link, $updateSql); // これをIF文の中に持ってって、処理は空欄でも問題ない。
+
+          //＜修正＞UPDATEの処理の中に INSERTもネストして、入れる
 
         } else {
 
@@ -116,7 +132,7 @@ if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
     }
 
     /************************************
-    トランザクションの成否判定
+    [修正]トランザクションの成否判定 
     *************************************/
 
     if (count($err_msg) === 0) {
@@ -160,7 +176,7 @@ if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
 } else {
    $err_msg[] = 'error: ' . mysqli_connect_error();
 }
-var_dump($err_msg); // エラーの確認が必要ならばコメントを外す
+//var_dump($err_msg); // エラーの確認が必要ならばコメントを外す
 
 ?>
 <!DOCTYPE HTML>

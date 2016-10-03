@@ -34,7 +34,7 @@ order_table.customer_id
 
 SELECT 
 goods_table.goods_name,
-COUNT(order_detail_table.goods_id) AS '売り上げ総量' 
+SUM(order_detail_table.quantity) AS '売り上げ総量' 
 FROM 
 order_detail_table
 JOIN 
