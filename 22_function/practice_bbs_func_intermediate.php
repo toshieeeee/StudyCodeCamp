@@ -35,8 +35,10 @@ close_db_connect($link); // DBを切断
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
- $name = str_validation('pro_name'); // Name属性を引数に渡す
- echo $name;
+  $name = str_validation('pro_name'); // Name属性を引数に渡す
+  echo $name;
+  $price = num_validation('pro_price');
+  echo $price;
  
 }
 
@@ -157,7 +159,6 @@ function get_goods_table_list($link) {
 * @param str name属性
 * @return 成功 : 入力データ 失敗 : $errorに、入力した文字列を格納したデータ
 
-
 ************************************/
 
 function str_validation($str){
@@ -187,6 +188,48 @@ function str_validation($str){
     }
 
 }
+
+/***********************************
+
+▼整数をバリデーションする関数
+
+* @param str name属性
+* @return 成功 : 入力データ 失敗 : $errorに、入力した文字列を格納したデータ
+
+************************************/
+
+function num_validation($num){
+
+    global $error;
+
+    $temp = $num; // 属性名を受け取る
+    $num = $_POST[$num]; //属性の値を受け取る
+    $attr = $temp;
+
+    if(isset($num) !== TRUE || mb_strlen($num) === 0){
+
+      $error[$attr] = '価格を入力してください';
+
+    } else if(mb_strlen($num) > 5){
+
+      $error[$attr] = '価格は5桁以内で入力してください';
+
+    } else if(preg_match('/^\s*$|^　*$/',$num)){ 
+
+      $error[$attr] = '価格は半角、または全角スペースだけでは登録できません';
+
+    } else if (!preg_match('/^[0-9]+$/',$num)){
+
+      $error[$attr] = '価格は正数値のみ入力可能です';
+
+    } else {
+
+      return $num;
+
+    }
+
+}
+
 
 
 /***********************************
