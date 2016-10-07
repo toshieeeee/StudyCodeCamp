@@ -5,7 +5,9 @@
 
 
 /***********************************
+
 ▼DB Access INFO - 定数
+
 ************************************/
 
 date_default_timezone_set('Asia/Tokyo');
@@ -16,10 +18,34 @@ define('DB_PASSWD','root');
 define('HTML_CHARACTER_SET','UTF-8');  // HTML文字エンコーディング
 define('DB_CHARACTER_SET','SET NAMES utf8'); 
 
+$error = array();
+
+/*************************************************************
+
+▼関数を実行
+
+**************************************************************/
 
 $link = get_db_connect(); // DBに接続する関数 [返り値] : PDOオブジェクト
 
-$data = get_goods_table_list($link); // SQLを実行して、連想配列として格納
+$data = get_goods_table_list($link); // SQLを実行して、結果セットを取得。連想配列として格納
+
+close_db_connect($link); // DBを切断
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+ $name = str_validation('pro_name'); // Name属性を引数に渡す
+ echo $name;
+ 
+}
+
+
+/*************************************************************
+
+▼関数を定義
+
+**************************************************************/
 
 
 /***********************************
@@ -53,6 +79,16 @@ function get_db_connect(){
       exit();
 
   }
+}
+
+/***********************************
+▼DBを切断
+************************************/
+
+function close_db_connect($link) {
+
+    $link = null; // 接続を閉じる
+
 }
 
 /***********************************
@@ -107,17 +143,72 @@ function get_as_array($link,$sql){
 
 function get_goods_table_list($link) {
   
-  // SQL生成
-  $sql = 'SELECT pro_id,pro_name FROM pro_info_table';
+  $sql = 'SELECT pro_id,pro_name,pro_price,pro_status FROM pro_info_table'; // SQL生成
 
-  return get_as_array($link, $sql);
+  return get_as_array($link, $sql); //SQL実行 
 
 }
 
 
 /***********************************
-▼例外サブクラスの定義
+
+▼文字列をバリデーション
+
+* @param str name属性
+* @return 成功 : 入力データ 失敗 : $errorに、入力した文字列を格納したデータ
+
+
 ************************************/
+
+function str_validation($str){
+
+    global $error;
+
+    $temp = $str; // 属性名を受け取る
+    $str = $_POST[$str]; //属性の値を受け取る
+    $attr = $temp;
+
+    if(isset($str) !== TRUE || mb_strlen($str) === 0){
+
+      $error[$attr] = $attr.'を入力してください';
+
+    } else if(mb_strlen($str) > 20){
+
+      $error[$attr] = $attr.'は20文字以内で入力してください';
+
+    } else if(preg_match ('/^\s*$|^　*$/',$str)){
+
+      $error[$attr] = $attr.'は半角、または全角スペースだけでは登録できません';
+
+    } else {
+
+      return $str;
+
+    }
+
+}
+
+
+/***********************************
+* サニタイズ
+*
+* @param str エスケープする文字列
+* @return エスケープした文字列
+************************************/
+
+
+function sanitize($str) {
+
+    return htmlspecialchars($str, ENT_QUOTES, HTML_CHARACTER_SET);
+
+}
+
+
+/*************************************************************
+
+▼例外サブクラスの定義
+
+**************************************************************/
 
 //オブジェクトにしておいたほうが、後の更に強い。
 //複雑なエラーを追加したいような場合にも対応できるから。
@@ -150,34 +241,102 @@ class QueryException extends Exception{
 <head>
   <meta charset="UTF-8">
   <title>掲示板 - 課題</title>
+
+  <style type="text/css">
+    
+  table,td,th {
+    border: solid black 1px;
+    /*margin : auto;*/
+  }
+
+  td,th {
+    min-width: 120px;
+
+    text-align: left;
+    padding-left: 8px;
+
+  }
+
+  table {
+      width: 350px;
+      margin-top: 10px;
+  }
+
+  img {
+    width: 480px;
+  }
+
+  .open {
+    background: #fff;
+  }
+
+  .close {
+    background: #ccc;
+  }
+
+  </style>
+
 </head>
 <body>
-  
-  <h1>課題</h1>
-   
-  <form action="bbs.php" method="post">
 
-        
-    <p>名前 : <input type="text" name="user_name"></p>
-
-    コメント : <input type="text" name="user_comment" size="60">
-
-    <p><input type="submit" name="submit" value="送信"></p>
-      
-    </form>
-
-    <p>発言一覧</p>
 
     <ul>
 
-      <?php foreach ($data as $data_text) { ?>
+      <?php foreach ($error as $error_text) { ?>
 
-      <li><?php echo $data_text["pro_name"] ?></li>
-      <li><?php echo $data_text["pro_id"] ?></li>
+      <li><?php echo $error_text ?></li>
 
       <?php } ?>
 
     </ul>
+
+
+  
+  <h1>課題</h1>
+   
+  <form action="practice_bbs_func_intermediate.php" method="post">
+
+        
+    <p>名前 : <input type="text" name="pro_name"></p>
+
+    コメント : <input type="text" name="pro_price" size="60">
+
+    <p><input type="submit" name="submit" value="送信"></p>
+      
+  </form>
+
+  <p>発言一覧</p>
+
+  <table>
+
+    <p>▼商品一覧</p>
+
+    <tbody>
+
+      <tr>
+          <th>商品名</th>
+          <th>価格</th>
+          <th>ステータス</th>
+      </tr>
+
+      <!--ここにPHPのコードを書きます-->
+
+      
+
+      <?php foreach ($data as $data_text) { ?>
+
+        <tr>
+          <td><?php echo sanitize(($data_text["pro_name"])) ?></td>
+          <td><?php echo sanitize(($data_text["pro_price"])) ?></td>
+          <td><?php echo sanitize(($data_text["pro_status"])) ?></td>
+        </tr>
+
+      <?php } ?>
+
+
+    </tbody>
+
+  </table>
 
 </body>
 </html>
