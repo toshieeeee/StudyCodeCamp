@@ -1,135 +1,116 @@
-<?php
+<?php 
 
 /*
 
 ーーーーーーーーーーーーーーーーーー
-＊ 機能
+＊ 大まかな流れ
 ーーーーーーーーーーーーーーーーーー
 
-・「アクセスした回数」を表示
+▼ GETの場合
 
-・「現在日時」を表示
-・「前回アクセスした日時」を表示
+１、セッションに、「訪問回数」と「現在時刻」の２つをセットする
+２、変数に、セッションの値を保存する
+３、HTMLで出力する
 
+▼ POSTの場合
 
-▼変数
-
-初回のユーザー　= セッション変数X,Yは、空
-
-２回目のユーザー　= セッション変数Xは現在日時、セッション変数Yは空
-
-３回目のユーザー　= セッション変数Xは、現在日時、セッション変数Yは、過去アクセス日時
-
-
-▼処理
-
-初回の場合
-
-条件 : セッション変数X,Y = 空
-処理 : セッション変数Xに、現在日時をセット
-
-
-２回目
-
-条件 : セッション変数X = 現在日時 , セッション変数Y = 空
-処理 : セッション変数Yに、セッション変数Xの値をセット
-       セッション変数Xに、現在日時をセット
-
-３回目
-
-条件 : セッション変数X = 現在日時 , セッション変数Y = セッション変数X'の値
-処理 : セッション変数Yに、セッション変数Xの値をセット
-       セッション変数Xに、現在日時をセット
-
-
-
-共通点
-
-・セッション変数Xには、常に現在日時がセットされる
-・セッション変数Yには、常に、セッション変数Xの値がコピーされる
-・２回目以降の、処理は同じ処理が走る（2回目のみ条件が異なる）
-
-・アクセス履歴を削除
-
-
-ーーーーーーーーーーーーーーーーーー
-＊ 「アクセスした回数」を表示
-ーーーーーーーーーーーーーーーーーー
-
-初めてのユーザー or x回アクセスのユーザー
-
-ーーーーーーーーーーーーーーーーーー
-＊ 
-ーーーーーーーーーーーーーーーーーー
-
-ーーーーーーーーーーーーーーーーーー
-＊ 手順
-ーーーーーーーーーーーーーーーーーー
-
-・アクセス回数を表示する機能
-・現在日時を表示
-・前回のアクセス日時を取得
-（クッキーに前回のアクセス日時を保zんしておけばいいんじゃないか？）
-
-・クッキーを削除する
+クッキーの値を削除　→ リダイレクト →　GETの処理が走る
 
 
 */
 
 
+session_start(); // セッション開始
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
-  if (isset($_COOKIE['visited']) === TRUE) {
-     $count = $_COOKIE['visited'] + 1;
+  /********************************
+  ▼ 訪問回数をセッションに保存する
+  *********************************/
+
+  if (isset($_SESSION['count']) === TRUE) {
+
+     $_SESSION['count']++;
+
   } else {
-     $count = 1;
+
+     $_SESSION['count'] = 1;
   }
-  setcookie('visited', $count, time() + 60 * 60 * 24 * 365);
-  $msg =  $count . '回目の訪問です';
 
+  $count = $_SESSION['count'].'回目の訪問です';
 
-
-  //時刻設定
+  /********************************
+  ▼ 時刻をセッションに保存する
+  *********************************/
 
   date_default_timezone_set('Asia/Tokyo');
+
   $now = date('Y/m/d H:i:s');
 
+  if (isset($_SESSION['visited_time']) === TRUE) {
 
+    // ２回目以降の処理
 
-  if (isset($_COOKIE['visited_time']) === TRUE) {
+    $y = '前回アクセス : '.$_SESSION['visited_time']; // Xの値をコピーする
 
-    //２回目以降の処理
-
-    $y = '前回アクセス : '.$_COOKIE['visited_time']; // Xの値をコピーする
-
-    setcookie('visited_time', $now, time() + 60 * 60 * 24 * 365); // 現在時刻を、クッキーに指定
+    $_SESSION['visited_time'] = $now; // セッションに、現在時刻を保存
 
     $x = '現在時刻 : '.$now;
      
   } else {
 
-    setcookie('visited_time', $now, time() + 60 * 60 * 24 * 365);
+    // 初回の処理
 
-    $x = '現在時刻 : '.$now;
+    $_SESSION['visited_time'] = $now; // セッションに、現在時刻を保存
+
+    $x = '現在時刻 : '.$now; 
+
     $y = '';
 
   }
 
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST'){ // クッキーを削除する処理
+/********************************
 
-  // クッキ削除 → ブラウザリダイレクト（GETの処理を走らせる）
+▼ セッション削除
 
-  $now = date('Y/m/d H:i:s');
+*********************************/
 
-  setcookie('visited', '', $now - 3600);
-  setcookie('visited_time' , '', $now - 3600);
+if ($_SERVER['REQUEST_METHOD'] === 'POST'){ 
+
+  $session_name = session_name(); // セッション名取得 
+
+  $_SESSION = array(); // 「セッション変数」を削除
+
+  if (isset($_COOKIE[$session_name])) { // ユーザの「Cookie」に保存されているセッションIDを削除
+
+    setcookie($session_name, '', time() - 42000);
+
+  }
+
+  session_destroy(); // セッションIDを無効化
 
   header('Location: http://'. $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); // ブラウザをリダイレクト
 
 }
 
+// 重要な情報 = session
+// session - DBに保存してある。サーバーのメモリが占有。
+//IDトPASSは、サーバー上に、すでに保存してる。確かに。
+
+// 例 :ECサイト 
+
+// 購入商品 / 発送先 / 値段 / 決済方法 / 
+// 共通点 = 複数ページに、またがる必要性がある情報（データの受け渡しは、POSTではなく、セッションで管理する）
+// なぜ、クッキーではいけないのか？
+// ユーザーの環境に依存するから。
+
+// よって、特に理由がなければ、セッションの方が良い？ 
+
+// セッションの負荷が高い？ → クッキー（クライアント）に、負荷を分散させる 
+
+// 通信を避ける - クッキーに、保存する。ローカルで、いろいろやる？ Ajax ? 
 
 
 
@@ -143,23 +124,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){ // クッキーを削除する処理
 </head>
 <body>
 
+  <?php echo $count ?>
+
+  <div></div>
+
+  <p><?php echo $x ?></p>
+  <p><?php echo $y ?></p>
 
 
-<?php echo $msg ?>
+  <form action="challenge_session.php" method="post">
 
-<div></div>
-<div></div>
+    <input type="submit" value="履歴削除">
 
-<p><?php echo $x ?></p>
-<p><?php echo $y ?></p>
+  </form>
 
-
-   <form action="challenge_session.php" method="post">
-       <input type="submit" value="履歴削除">
-   </form>
-
-
-  
 </body>
 </html>
-
