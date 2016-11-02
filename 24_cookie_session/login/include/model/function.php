@@ -263,6 +263,34 @@ function get_as_array($link,$sql){
 
 
 /***********************************
+* ユーザー名が存在するかどうか確認する
+*
+* @param obj $link DBハンドル
+* @return str 入力に一致したユーザー名
+************************************/
+
+function confirm_name_exist($link,$name) {
+
+  global $error;
+  
+  $sql = 'SELECT user_name FROM login_table WHERE user_name = "'.$name.'"';
+
+  $user_name = get_as_array($link, $sql); //SQL実行 
+
+  if(!$user_name){
+
+    return $user_name;
+
+  } else {
+
+    $error['user_name'] = $name.'は既に登録されているユーザー名です';
+
+  }
+
+}
+
+
+/***********************************
 * アドレスが存在するかどうか確認する
 *
 * @param obj $link DBハンドル
@@ -270,10 +298,22 @@ function get_as_array($link,$sql){
 ************************************/
 
 function confirm_address_exist($link,$address) {
+
+  global $error;
   
   $sql = 'SELECT user_address FROM login_table WHERE user_address = "'.$address.'"';
 
-  return get_as_array($link, $sql); //SQL実行 
+  $user_address = get_as_array($link, $sql); //SQL実行 
+
+  if(!$user_address){
+
+    return $user_address;
+
+  } else {
+
+    $error['user_address'] = $address.'は既に登録されているアドレスです';
+
+  }
 
 }
 
@@ -286,15 +326,16 @@ function confirm_address_exist($link,$address) {
 * @return TRUE / FALSE
 ***********************************/
 
-function insert_table($link,$param1,$param2){
+function insert_table($link,$param1,$param2,$param3){
 
   try{
 
-    $sql_info = 'INSERT INTO login_table(user_address,user_pass,user_date) VALUES (?,?,?)';
+    $sql_info = 'INSERT INTO login_table(user_name,user_address,user_pass,user_date) VALUES (?,?,?,?)';
     $stmt = $link->prepare($sql_info); 
 
     $data[] = $param1;
     $data[] = $param2;
+    $data[] = $param3;
     $data[] = date('Y-m-d H:i:s');
   
     if(!$stmt->execute($data)){ // SQLの判定 / 実行

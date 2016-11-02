@@ -1,5 +1,7 @@
 <?
 
+session_start(); 
+
 /*************************************************************
 
 ▼全体の処理の流れ [ログイン]
@@ -61,7 +63,6 @@ require_once '../include/model/function.php';
 
 $error = array();
 
-
 /*************************************************************
 
 ▼関数を実行
@@ -73,6 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
   // バリデーション
 
+  $name = str_validation('name'); 
   $mail = mail_validation('email'); 
   $passwd = str_validation('passwd'); 
   $passwd = md5($passwd); // 暗号化
@@ -81,21 +83,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     $link = get_db_connect();
 
-    $address_exist = confirm_address_exist($link,$mail); // アドレスが存在するか確認
+    // 重複の確認
 
-    if(!$address_exist){ //アドレスに重複がなければ、INSERTを実行
+    confirm_name_exist($link,$name); // ユーザー名が重複してるかどうか確認
+    confirm_address_exist($link,$mail); // アドレスが重複してるかどうか確認
 
-      insert_table($link,$mail,$passwd);
+    if(count($error) === 0){
+
+      $_SESSION['login'] = TRUE;
+      $_SESSION['name'] = $name; // セッションにユーザー名を保存
+
+      insert_table($link,$name,$mail,$passwd); // クエリ実行
 
       // ログイン済みページへリダイレクト
 
       header('Location: http://'. $_SERVER['HTTP_HOST'] .'/24_cookie_session/login/htdocs/home.php'); 
 
-    } else {
-
-      $error[$mail] = $mail."は既に登録されているアドレスです";
-
-    }
+    } 
 
   }
 
