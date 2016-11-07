@@ -259,12 +259,23 @@ function get_user_tweet_list($link) {
   
   $sql = 'SELECT tweet_table.user_id,user_table.user_name,tweet_table.user_tweet_str,tweet_table.user_tweet_time FROM tweet_table JOIN user_table ON tweet_table.user_id = user_table.user_id'; // SQL生成
 
-  
-
   return get_as_array($link, $sql); //SQL実行 
 
 }
 
+/***********************************
+* 自分のツイートを取得
+************************************/
+
+
+function get_my_tweet_list($link,$user_id) {
+  
+  $sql = 'SELECT tweet_table.user_id,user_table.user_name,tweet_table.user_tweet_str,tweet_table.user_tweet_time FROM tweet_table JOIN user_table ON tweet_table.user_id = user_table.user_id  WHERE tweet_table.user_id = '.$user_id; 
+
+
+  return get_as_array($link, $sql); //SQL実行 
+
+}
 
 
 /***********************************

@@ -189,3 +189,69 @@ body{
   color: #fff;
   }
 
+/*************************************************************
+▼ おすすめユーザー表示
+**************************************************************/
+
+
+.section_user_recommend_wrapper{
+  width :260px;
+  height: 300px;
+  position: absolute;
+  top: 300px;
+  background: #fff;
+  border-radius: 4px 4px 0 0;
+  border: 1px solid #e1e8ed;
+  padding: 15px;
+}
+
+.user_recommend_wrapper{
+  width :100%;
+  height: 100px;
+  position: relative;
+}
+
+.user_recommend_text{
+
+  font-size: 18px;
+  color: #66757f;
+}
+
+.section_profile_recommend_image{
+  margin-top: 12px;
+  border-radius: 7px;
+  height: 72px;
+  width: 72px;
+  border: 2px solid #fff;
+  box-sizing: border-box;
+  background-color: #ccc;
+  float: left;
+
+}
+
+.user_recommend_name{
+  float: left;
+  margin-top: 12px;
+  margin-left: 12px;
+  font-size:12px;
+  font-weight: bold;
+
+}
+
+/*************************************************************
+▼ フォローボタン
+**************************************************************/
+
+.follow_btn{
+  background: #fff;
+  border-radius: 4px;
+  position: absolute;
+  top: 45px;
+  left: 82px;
+  width: 120px;
+  height: 37px;
+  /*font-weight: bold;*/
+  color: #000;
+  border: 1px solid #e1e8ed;
+}
+

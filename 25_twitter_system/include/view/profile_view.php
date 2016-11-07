@@ -24,7 +24,7 @@
   <header>
   <div class="header">
 
-  <h1 class="h_text">Twitter</h1>
+  <a href="./"><h1 class="h_text">Twitter</h1></a>
 
 
   </div>
@@ -35,7 +35,7 @@
   <div class="section_whole_contents_wrapper">
 
     <div class="section_profile_wrapper">
-      
+
       <div class="section_profile_header_image"></div>
 
       <a href="./profile.php"><div class="section_profile_image"></div></a>
@@ -60,70 +60,15 @@
 
       </form>
 
-    </div>
-
-    <div class="section_user_recommend_wrapper">
-
-      <p class="user_recommend_text">おすすめユーザー</p>
-
-      <div class ="user_recommend_wrapper">
-
-        <div class="section_profile_recommend_image"></div>
-
-        <p class="user_recommend_name"><?php echo $user_name ?></p>
-
-        <form action="follow.php" method="post" name="follow_btn">
-
-            <input type="submit" value="フォローする" class="follow_btn">
-
-        </form>
-
-      </div>
-
-      <div class ="user_recommend_wrapper">
-
-        <div class="section_profile_recommend_image"></div>
-
-        <p class="user_recommend_name"><?php echo $user_name ?></p>
-
-        <form action="follow.php" method="post" name="follow_btn">
-
-            <input type="submit" value="フォローする" class="follow_btn">
-
-        </form>
-
-      </div>
-
-      <div class ="user_recommend_wrapper">
-
-        <div class="section_profile_recommend_image"></div>
-
-        <p class="user_recommend_name"><?php echo $user_name ?></p>
-
-      </div>
-
-
 
     </div>
 
     <div class="section_tweet_wrapper">
 
-      <div class="tweet_box_wrapper">
-
-        <form action="home.php" method="post" name="tweet">
-
-          <input type="text" name="user_tweet_str" class="tweer_form_wrapper">
-
-          <input type="submit" value="つぶやく" class="tweet_btn">
-
-        </form>
-
-      </div>
-
       <?php foreach ($data as $data_text) { ?>
 
         <div class="tweet_str_wrapper">
-        
+
             <div class="tweet_user_image"></div> 
 
             <div class="tweet_str_inner_wrapper">         
