@@ -1,0 +1,191 @@
+/*************************************************************
+▼ 全体共通CSS
+**************************************************************/
+
+
+body{
+  background: #f5f8fa;
+}
+
+/*************************************************************
+▼ ヘッダー / ナビゲーション
+**************************************************************/
+
+.header {
+  height: 46px;
+  width : 100%;
+  background : #fff;
+  border-bottom: 1px solid rgba(0,0,0,0.15);
+  position: absolute;
+  top:0;
+  position: fixed;
+  z-index: 100;
+}
+
+.h_text{
+  color: #1da1f2;
+  text-align: center;
+  line-height: 46px;
+}
+
+/*************************************************************
+▼ セクション全体
+**************************************************************/
+
+
+.section_whole_contents_wrapper {
+  margin: 0 auto;
+  margin-top:72px;
+  width: 890px;
+}
+
+.section_profile_wrapper {
+  width :290px;
+  height: 180px;
+  float: left;
+  background: #fff;
+  border-radius: 4px 4px 0 0;
+  border: 1px solid #e1e8ed;
+  position: relative;
+
+}
+
+/*************************************************************
+▼ プロフィール
+**************************************************************/
+
+
+.section_profile_header_image{
+  background-size: 100%;
+  border-bottom: 1px solid #e1e8ed;
+  height: 95px;
+  border-radius: 4px 4px 0 0;
+  background-position: 0 50%;
+  background: #0099CC;
+}
+
+.profile_sum_wrapper{
+  width: 33.333333%;
+  float: left;
+  text-align: center;
+  margin-top: 4px;
+}
+
+
+.user_name{
+  font-weight: bold;
+  font-size: 18px;
+  position: absolute;
+  left: 90px;
+  top: 100px;
+}
+
+.sum_common_text {
+  color: #8899a6;
+  font-size: 10px;
+  letter-spacing: .02em;
+}
+
+.section_profile_image{
+  border-radius: 7px;
+  height: 72px;
+  width: 72px;
+  border: 2px solid #fff;
+  box-sizing: border-box;
+  background-color: #ccc;
+  margin-top: -35px;
+  margin-left: 8px;
+}
+
+/*************************************************************
+▼ ツイート - つぶやき投稿
+**************************************************************/
+
+.section_tweet_wrapper {
+  
+  width: 590px;
+  float: right;
+  background: #fff;
+  border-radius: 4px 4px 0 0;
+  border: 1px solid #e1e8ed;
+
+}
+
+.tweet_box_wrapper{
+  position: relative;
+  height: 180px;
+}
+
+.tweer_form_wrapper {
+
+  border: 1px solid #e1e8ed;
+  border-radius: 3px;
+  width: 506px;
+  height: 80px;
+  margin-top: 12px;
+  margin-left: 70px;
+
+}
+
+.tweet_btn{
+  
+  background: #0099CC;
+  border-radius: 4px;
+  margin-top: 18px;
+  margin-right: 12px;
+  float: right;
+  width: 94px;
+  height: 37px;
+  font-weight: bold;
+  color :#fff;
+}
+
+/*************************************************************
+▼ ツイート - コンテンツ観覧
+**************************************************************/
+
+
+.tweet_str_wrapper{
+  min-height : 64px;
+  border-bottom: 1px solid #e1e8ed;
+}
+
+.tweet_user_image{
+  margin-top : 8px;
+  margin-left : 8px;
+  width: 48px;
+  height: 48px;
+  border-radius: 5px;
+  background: #ccc;
+  float: left;
+}
+
+.tweet_str_inner_wrapper{
+  float: left;
+  margin-top : 12px;
+  margin-left : 8px;
+}
+
+.tweet_user{
+  font-weight: bold;
+}
+
+.tweet_str{
+
+  font-size: 14px;
+  line-height: 18px;
+
+}
+
+.logout_btn{
+  background: #0099CC;
+  border-radius: 4px;
+  margin-top: 18px;
+  margin-right: 12px;
+  float: right;
+  width: 94px;
+  height: 37px;
+  font-weight: bold;
+  color: #fff;
+  }
+
