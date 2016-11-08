@@ -17,7 +17,7 @@ require_once '../include/conf/const.php';
 
 **************************************************************/
 
-require_once '../include/model/home_function.php'; 
+require_once '../include/model/follow_function.php'; 
 
 /*************************************************************
 
@@ -65,6 +65,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
   $other_user = get_user_id_name_list($link,$user_id); // フォローするユーザーIDを取得
 
+  /***********************************
+  ▼ フォロしているユーザー取得
+  ************************************/ 
+
+  $follow_id_list = get_follow_id($link,$user_id); //　自分がフォローしている人のユーザーIDを"文字列"で取得
+
+  $follow_user = get_follow_user($link, $follow_id_list);
+
 }
 
 /*************************************************************
@@ -107,8 +115,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
   }
 
 
-  
-
 }
 
 
@@ -119,4 +125,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
 **************************************************************/
 
-include_once '../include/view/home_view.php';
+include_once '../include/view/follow_view.php';

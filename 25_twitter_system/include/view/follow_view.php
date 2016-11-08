@@ -73,10 +73,6 @@
 
       <p class="user_recommend_text">おすすめユーザー</p>
 
-      <!--*****おすすめ繰り返し（3回回ったら、forループを抜けたい）*****-->
-
-      <!--foreach - 連想配列を、全部取りだす-->
-
       <?php foreach ($other_user as $other_user_info) { ?>
 
       <div class ="user_recommend_wrapper">
@@ -103,40 +99,30 @@
 
     </div>
 
-    <div class="section_tweet_wrapper">
+  
 
-      <div class="tweet_box_wrapper">
+    <ul class="section_follow_parents_wrapper">
 
-        <form action="home.php" method="post">
+    <?php foreach($follow_user as $follow_user_list) { ?>
+          
+      <li class="section_follow_wrapper">
+      
+        <div class="section_follow_header_image"></div>
 
-          <input type="text" name="user_tweet_str" class="tweer_form_wrapper">
+        <div class="section_profile_image"></div>
 
-          <input type="submit" value="つぶやく" class="tweet_btn" name="tweet">
+        <p class="section_profile_user_name"><?php echo $follow_user_list['user_name'] ?></p>
 
-        </form>
+        <p class="section_profile_user_account_name">@komuro</p>
 
-      </div>
+        <p class="section_profile_text">I am japanese in asia who is musician, producer,composer,keyboard player(piano organ synthesizer) PLS find out by WIKI or QWIKI! sizer)</p>
 
-      <?php foreach ($data as $data_text) { ?>
+      </li>
 
-        <div class="tweet_str_wrapper">
-        
-            <div class="tweet_user_image"></div> 
-
-            <div class="tweet_str_inner_wrapper">         
-
-            <p class="tweet_user"><?php echo sanitize(($data_text["user_name"])) ?></p>
-            <p class="tweet_str"><?php echo sanitize(($data_text["user_tweet_str"])) ?></p>
-
-          </div>
-
-        </div>
-    
-      <?php } ?>
+    <?php } ?>
 
 
-
-    </div>
+    </ul>
 
   </div>
   </section>
