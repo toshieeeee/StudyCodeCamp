@@ -73,6 +73,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
   $follow_user = get_follow_user($link, $follow_id_list);
 
+  $follow_user_num = count($follow_user); // フォロー数取得
+
 }
 
 /*************************************************************
@@ -110,10 +112,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     insert_follow_table($link,$user_id,$follow_id);
 
-    header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/home.php'); 
+    header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/follow.php'); 
     
   }
 
+  /***********************************
+  ▼ フォロー解除
+  ************************************/ 
+
+  if(isset($_POST['follow_remove_btn']) === TRUE){
+
+    $link = get_db_connect();
+    $follow_id = $_POST['follow_id'];
+
+    delete_follow_user($link,$user_id,$follow_id);
+
+    header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/follow.php'); 
+
+  }
 
 }
 

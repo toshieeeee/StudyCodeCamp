@@ -363,8 +363,6 @@ function insert_follow_table($link,$param1,$param2){
 
 /***********************************
 * フォローIDを取得
-
-* 
 ***********************************/
 
 //フォローIDをget_follow_userに、カンマ区切りで渡す事、
@@ -391,19 +389,30 @@ function get_follow_id($link,$user_id) {
 
 }
 
-
-
 function get_follow_user($link, $follow_id_list) {
 
-  $sql = 'SELECT user_name FROM user_table WHERE user_id IN ('.$follow_id_list.')';
-  var_dump($sql);
+  $sql = 'SELECT user_id,user_name FROM user_table WHERE user_id IN ('.$follow_id_list.')';
 
-  return get_as_array($link, $sql); //SQL実行 
+  $follow_user = get_as_array($link, $sql); //SQL実行 
 
+  //return array_reverse($follow_user);
+  return $follow_user;
 
 }
 
 
+/***********************************
+* フォローを解除
+***********************************/
+
+function delete_follow_user($link,$user_id,$follow_id) {
+
+  $sql = 'DELETE FROM follow_table WHERE user_id = '.$user_id.' AND follow_id = '.$follow_id;
+
+
+  $link->query($sql);
+
+}
 
 /*************************************************************
 

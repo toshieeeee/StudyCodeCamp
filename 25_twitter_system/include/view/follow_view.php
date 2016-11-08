@@ -51,7 +51,7 @@
       <div class="profile_sum_wrapper">
         <a href="follow.php">
           <p class="sum_common_text follow_sum">フォロー</p>
-          <p class="sum_common_num_text">100</p>
+          <p class="sum_common_num_text"><?php echo $follow_user_num?></p>
         </a>
       </div>
 
@@ -75,23 +75,20 @@
 
       <?php foreach ($other_user as $other_user_info) { ?>
 
-      <div class ="user_recommend_wrapper">
+      <form action="follow.php" method="post">
 
-        <div class="section_profile_recommend_image"></div>
+        <div class ="user_recommend_wrapper">
 
-        <p class="user_recommend_name"><?php echo sanitize(($other_user_info["user_name"])) ?></p>
+          <div class="section_profile_recommend_image"></div>
 
-        <form action="home.php" method="post">
+          <p class="user_recommend_name"><?php echo sanitize(($other_user_info["user_name"])) ?></p>
 
-          <!--VALUEに$user_id-->
+            <input type="hidden" name="follow_id" value="<?php echo sanitize(($other_user_info["user_id"])) ?>">
+            <input type="submit" value="フォローする" class="follow_btn" name="follow_btn">
 
-          <input type="hidden" name="follow_id" value="<?php echo sanitize(($other_user_info["user_id"])) ?>">
-          <input type="submit" value="フォローする" class="follow_btn" name="follow_btn">
+        </div>
 
-
-        </form>
-
-      </div>
+      </form>
 
       <?php } ?>
 
@@ -104,23 +101,29 @@
     <ul class="section_follow_parents_wrapper">
 
     <?php foreach($follow_user as $follow_user_list) { ?>
-          
-      <li class="section_follow_wrapper">
       
-        <div class="section_follow_header_image"></div>
+      <form action="follow.php" method="post" class="form_follow">
 
-        <div class="section_profile_image"></div>
+        <li class="section_follow_wrapper">
+        
+          <div class="section_follow_header_image"></div>
 
-        <p class="section_profile_user_name"><?php echo $follow_user_list['user_name'] ?></p>
+          <div class="section_profile_image"></div>
 
-        <p class="section_profile_user_account_name">@komuro</p>
+          <p class="section_profile_user_name"><?php echo $follow_user_list['user_name'] ?></p>
 
-        <p class="section_profile_text">I am japanese in asia who is musician, producer,composer,keyboard player(piano organ synthesizer) PLS find out by WIKI or QWIKI! sizer)</p>
+          <p class="section_profile_user_account_name">@komuro</p>
 
-      </li>
+          <p class="section_profile_text">I am japanese in asia who is musician, producer,composer,keyboard player(piano organ synthesizer) PLS find out by WIKI or QWIKI! sizer)</p>
+          
+          <input type="hidden" name="follow_id" value= <?php echo sanitize(($follow_user_list["user_id"])) ?>>
+          <input type="submit" value="フォロー中" class="section_follow_follow_btn" name="follow_remove_btn">
+
+        </li>
+
+      </form>
 
     <?php } ?>
-
 
     </ul>
 
