@@ -66,43 +66,33 @@
 
       <p class="user_recommend_text">おすすめユーザー</p>
 
+      <!--*****おすすめ繰り返し（3回回ったら、forループを抜けたい）*****-->
+
+      <!--foreach - 連想配列を、全部取りだす-->
+
+      <?php foreach ($other_user as $other_user_info) { ?>
+
       <div class ="user_recommend_wrapper">
 
         <div class="section_profile_recommend_image"></div>
 
-        <p class="user_recommend_name"><?php echo $user_name ?></p>
+        <p class="user_recommend_name"><?php echo sanitize(($other_user_info["user_name"])) ?></p>
 
-        <form action="follow.php" method="post" name="follow_btn">
+        <form action="home.php" method="post">
 
-            <input type="submit" value="フォローする" class="follow_btn">
+          <!--VALUEに$user_id-->
+
+          <input type="hidden" name="follow_id" value="<?php echo sanitize(($other_user_info["user_id"])) ?>">
+          <input type="submit" value="フォローする" class="follow_btn" name="follow_btn">
+
 
         </form>
 
       </div>
 
-      <div class ="user_recommend_wrapper">
+      <?php } ?>
 
-        <div class="section_profile_recommend_image"></div>
-
-        <p class="user_recommend_name"><?php echo $user_name ?></p>
-
-        <form action="follow.php" method="post" name="follow_btn">
-
-            <input type="submit" value="フォローする" class="follow_btn">
-
-        </form>
-
-      </div>
-
-      <div class ="user_recommend_wrapper">
-
-        <div class="section_profile_recommend_image"></div>
-
-        <p class="user_recommend_name"><?php echo $user_name ?></p>
-
-      </div>
-
-
+      <!--*****おすすめ繰り返し*****-->
 
     </div>
 
@@ -110,11 +100,11 @@
 
       <div class="tweet_box_wrapper">
 
-        <form action="home.php" method="post" name="tweet">
+        <form action="home.php" method="post">
 
           <input type="text" name="user_tweet_str" class="tweer_form_wrapper">
 
-          <input type="submit" value="つぶやく" class="tweet_btn">
+          <input type="submit" value="つぶやく" class="tweet_btn" name="tweet">
 
         </form>
 

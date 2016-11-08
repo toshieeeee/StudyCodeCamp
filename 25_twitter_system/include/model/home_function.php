@@ -139,37 +139,26 @@ function mail_validation($str){
 
 
 /***********************************
-* ユーザーIDを取得する関数
+* すべてのユーザー名/ユーザーIDを取得する
 
 * @param DBハンドラ,ユーザーから受け取るID,ユーザーから受け取る整数 
 * @return ユーザーID / エラー文章
 ************************************/
 
-function get_user_id($link,$mail,$passwd){ //$link = PDOオブジェクト
+// 取得レコードのリミットを指定
+// 自分以外のIDを取得
 
-  global $error;
+function get_user_id_name_list($link,$user_id) {
 
-  $sql = 'SELECT user_id FROM login_table WHERE user_address = "' .$user_mail. '" AND user_pass = "'.$user_passwd .'"';
+  //$sql = 'SELECT user_id,user_name FROM user_table WHERE user_id != '.$user_id; // 自分のID以外を取得
 
-  $data = $link->query($sql);
+  //$sql = 'SELECT user_id,user_name FROM user_table ORDER BY RAND() LIMIT 3'; // 開始位置ランダム ~ 3レコード取得
 
-  $data = $data->fetch(PDO::FETCH_ASSOC); 
-
-  if(!$data){ // ユーザーIDが返ってきたら処理を実行
-
-    $error[] = 'メールアドレス、またはパスワードが一致しません';
-
-  } else {
-
-    $user_id = $data['user_id'];
-
-
-    return $user_id;
-
-  }  
+  $sql = 'SELECT user_id,user_name FROM user_table WHERE user_id != '.$user_id.' ORDER BY RAND() LIMIT 3';
+  
+  return get_as_array($link, $sql); //SQL実行 
 
 }
-
 
 /***********************************
 * ユーザー名を取得する関数
@@ -297,6 +286,43 @@ function insert_table($link,$param1,$param2){
   try{
 
     $sql_info = 'INSERT INTO tweet_table(user_id,user_tweet_str,user_tweet_time) VALUES (?,?,?)';
+    $stmt = $link->prepare($sql_info); 
+
+    $data[] = $param1;
+    $data[] = $param2;
+    $data[] = date('Y-m-d H:i:s');
+  
+    if(!$stmt->execute($data)){ // SQLの判定 / 実行
+
+      throw new QueryException();
+
+    }
+
+  } catch (QueryException $e){
+
+    echo 'Fatal Error : '.$e->getMessage().'<br>';
+    echo $e->getFile().'<br>';
+    echo $e->getLine().'<br>';
+
+  }
+  
+}
+
+/***********************************
+* INSERTの実行 / フォロー機能
+*
+* @param0 - DBハンドラ
+* @param1 - ユーザーID
+* @param2 - フォローID
+*
+* @return TRUE / FALSE
+***********************************/
+
+function insert_follow_table($link,$param1,$param2){
+
+  try{
+
+    $sql_info = 'INSERT INTO follow_table(user_id,follow_id,follow_time) VALUES (?,?,?)';
     $stmt = $link->prepare($sql_info); 
 
     $data[] = $param1;

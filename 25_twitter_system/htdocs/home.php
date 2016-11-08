@@ -66,7 +66,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
   $data = get_user_tweet_list($link);
 
-
+  $other_user = get_user_id_name_list($link,$user_id); // フォローするユーザーIDを取得
+  
 }
 
 /*************************************************************
@@ -76,7 +77,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){ 
 
-  //if(isset($_POST['tweet']) === TRUE){
+  /***********************************
+  ▼ つぶやきリクエスト
+  ************************************/ 
+
+  if(isset($_POST['tweet']) === TRUE){
 
   $link = get_db_connect();
   
@@ -86,9 +91,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
   header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/home.php'); 
 
-  //}
+  }
+
+  /***********************************
+  ▼ フォローリクエスト
+  ************************************/ 
+
+  if(isset($_POST['follow_btn']) === TRUE){
+
+    $link = get_db_connect();
+
+    $follow_id = $_POST['follow_id'];
+
+    insert_follow_table($link,$user_id,$follow_id);
+
+    header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/home.php'); 
+    
+  }
+
+
+  
 
 }
+
+
+
+
+
 
 
 /*************************************************************
