@@ -2,7 +2,6 @@
 
 session_start(); 
 
-
 /*************************************************************
 
 ▼設定ファイル読み込み
@@ -17,6 +16,7 @@ require_once '../include/conf/const.php';
 
 **************************************************************/
 
+require_once '../include/model/common_function.php';
 require_once '../include/model/follow_function.php'; 
 
 /*************************************************************

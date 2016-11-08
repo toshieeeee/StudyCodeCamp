@@ -2,10 +2,6 @@
 
 session_start(); 
 
-// 命名規則
-
-// $user_xxx で統一
-
 /*************************************************************
 
 ▼全体の処理のロジック[ユーザー登録]
@@ -42,6 +38,7 @@ require_once '../include/conf/const.php';
 
 **************************************************************/
 
+require_once '../include/model/common_function.php'; 
 require_once '../include/model/top_function.php'; 
 
 /*************************************************************
@@ -89,11 +86,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     if(count($error) === 0){ 
 
       $_SESSION['login'] = TRUE; // セッションにフラグを立てる。
-
       $_SESSION['user_name'] = $user_name; // [修正] - クッキーに保存するようにする。
       $_SESSION['user_address'] = $user_address; // [修正] - クッキーに保存するようにする。
 
       insert_table($link,$user_name,$user_address,$user_passwd); // クエリ実行
+
+      $user_id = get_user_id($link,$user_address);
+
+      $_SESSION['user_id'] = $user_id;
+
+
 
       // ログイン済みページへリダイレクト
 

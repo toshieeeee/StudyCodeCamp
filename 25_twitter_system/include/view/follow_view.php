@@ -24,7 +24,7 @@
   <header>
   <div class="header">
 
-  <h1 class="h_text">Twitter</h1>
+  <a href="home.php"><h1 class="h_text">Twitter</h1></a>
 
 
   </div>

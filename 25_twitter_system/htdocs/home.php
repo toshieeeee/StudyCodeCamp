@@ -17,6 +17,7 @@ require_once '../include/conf/const.php';
 
 **************************************************************/
 
+require_once '../include/model/common_function.php';
 require_once '../include/model/home_function.php'; 
 
 /*************************************************************
@@ -48,7 +49,8 @@ if(isset($_SESSION['login'])){ // ログインしていたら、セッション�
 } else{
 
   $error[] .= '<p>ログインされていません</p>';
-  $error[] .= '<p><a href="./">ログイン画面へ</a></p>';
+  $error[] .= '<p><a href="login.php">ログイン画面へ</a></p>';
+  $_SESSION = array(); 
 
 }
 
@@ -62,6 +64,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
   $link = get_db_connect();
 
   $data = get_user_tweet_list($link);
+
+  $user_id = $user_id[0]['user_id'];
 
   $other_user = get_user_id_name_list($link,$user_id); // フォローするユーザーIDを取得
 
@@ -105,13 +109,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/home.php'); 
     
   }
-
-
   
-
 }
-
-
 
 /*************************************************************
 
