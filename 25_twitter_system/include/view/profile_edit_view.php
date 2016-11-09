@@ -22,6 +22,7 @@
 <?php } else { ?>
 
   <header>
+
   <div class="header">
 
   <a href="./"><h1 class="h_text">Twitter</h1></a>
@@ -30,20 +31,6 @@
   </div>
 
   <div class="header_profile_image"></div>
-
-  <ul class="header_profile_list_wrapper">
-
-    <div class="header_profile_list_box">
-
-      <li class="header_profile_list">ツイート <p class="header_profile_list_num">12</p></li>
-      <li class="header_profile_list">フォロー <p class="header_profile_list_num">100</p></li>
-      <li class="header_profile_list">フォロワー <p class="header_profile_list_num">249</p></li>
-
-    </div>
-
-    <a href="profile_edit.php"><li class="header_profile_edit_btn">プロフィールを編集</li></a>
-
-  </ul>
 
   </header>
 
@@ -74,27 +61,50 @@
 
     </div>
 
-    <div class="section_tweet_wrapper">
+    <div class="section_profile_edit_wrapper">
 
-      <?php foreach ($data as $data_text) { ?>
+        <div class="section_profile_edit_header_text">
 
-        <div class="tweet_str_wrapper">
-
-            <div class="tweet_user_image"></div> 
-
-            <div class="tweet_str_inner_wrapper">         
-
-            <p class="tweet_user"><?php echo sanitize(($data_text["user_name"])) ?></p>
-            <p class="tweet_str"><?php echo sanitize(($data_text["user_tweet_str"])) ?></p>
-
-          </div>
+          <p class="profile_edit_header_text">ユーザー情報</p>
+          <p class="profile_edit_header_sub_text">アカウント情報と言語設定を変更します</p>
 
         </div>
-    
-      <?php } ?>
+
+        <form class="use_profile_edit_form">
+
+        <div class="profile_edit_list_wrapper">
+
+          <p class="user_name_edit_text edit_text">ユーザー名</p>
+
+          <input class="user_name_edit" maxlength="15" name="user_name" type="text" value="toshieeeeeee">
+          
+        </div>
+
+        <div class="profile_edit_list_wrapper">
+
+          <p class="edit_text">メールアドレス</p>
+
+          <input class="user_address_edit" maxlength="15" name="user_address" type="text" value="mac@gmail.com">
+          
+        </div>
+
+        <div class="profile_edit_list_wrapper">
+
+          <p class="edit_text">プロフィール画像</p>
+          
+        </div>
+
+        <div class="profile_edit_list_wrapper">
+
+          <p class="edit_text">場所</p>
+          
+        </div>
+
+        <input type="submit" value="保存する" class="profile_edit_complete_btn">
 
 
-
+        </form>
+        
     </div>
 
   </div>
