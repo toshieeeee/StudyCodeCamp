@@ -26,6 +26,13 @@
 
   <h1 class="h_text">Twitter</h1>
 
+  <ul>
+  
+    <a href="profile.php"><li class="h_profile_btn"></li></a>
+    <li class="h_tweet_btn"></li>
+
+  </ul>
+
 
   </div>
   </header>

@@ -22,43 +22,55 @@
 <?php } else { ?>
 
   <header>
+
   <div class="header">
 
   <a href="./"><h1 class="h_text">Twitter</h1></a>
 
 
   </div>
+
+  <div class="header_profile_image"></div>
+
+  <ul class="header_profile_list_wrapper">
+
+    <div class="header_profile_list_box">
+
+      <li class="header_profile_list">ツイート <p class="header_profile_list_num">12</p></li>
+      <li class="header_profile_list">フォロー <p class="header_profile_list_num">100</p></li>
+      <li class="header_profile_list">フォロワー <p class="header_profile_list_num">249</p></li>
+
+    </div>
+
+    <a href="profie_edit.php"><li class="header_profile_edit_btn">プロフィールを編集</li></a>
+
+  </ul>
+
   </header>
 
   <section>
 
-  <div class="section_whole_contents_wrapper">
+  <div class="section_whole_contents_wrapper_profile_page">
 
-    <div class="section_profile_wrapper">
+    <div class="section_profile_wrapper_profile_page">
 
-      <div class="section_profile_header_image"></div>
+      <a href="./profile.php"><div class="section_profile_image_profile_page"></div></a>
 
-      <a href="./profile.php"><div class="section_profile_image"></div></a>
-      <p class="user_name"><?php echo $user_name ?></p>
+      <p class="user_name_profile_page"><?php echo $user_name ?></p>
 
-      <div class="profile_sum_wrapper profile_sum_wrapper_first">
-        <p class="sum_common_text tweet_sum">ツイート</p>
-      </div>
+      <p class="user_account_name_profile_page">@toshieee</p>
 
-      <div class="profile_sum_wrapper">
-        <p class="sum_common_text follow_sum">フォロー</p>
-      </div>
+      <p class="user_profile_text_profile_page">渋谷で働くWEBクリエイター。デザインとプログラミングを勉強してます。読書と音楽が好き。英語:金融の勉強も好き。</p>
 
-      <div class="profile_sum_wrapper">
-        <p class="sum_common_text follower_sum">フォロワー</p>
+      <p class="user_place_profile_page">Tokyo</p>
 
-      </div>
-
+      <!--
       <form action="logout.php" method="post" name="edit_profile">
 
           <input type="submit" value="ログアウト" class="logout_btn">
 
       </form>
+      -->
 
 
     </div>

@@ -65,8 +65,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
   $data = get_user_tweet_list($link);
 
-  $user_id = $user_id[0]['user_id'];
-
   $other_user = get_user_id_name_list($link,$user_id); // フォローするユーザーIDを取得
 
 }
@@ -77,6 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){ 
+
+  //$user_id = $user_id[0]['user_id'];
 
   /***********************************
   ▼ つぶやきリクエスト

@@ -176,13 +176,32 @@ function insert_table($link,$param1,$param2,$param3){
   
 }
 
-function get_user_id($link,$user_address){
+/***********************************
 
-  $sql = 'SELECT user_id FROM user_table WHERE user_address LIKE "'.$user_address.'"';
+* ユーザーIDを取得する関数（アドレスと、パスワードを条件）
 
-  $user_id = get_as_array($link, $sql); //SQL実行 
+************************************/
 
-  return $user_id;
+function get_user_id($link,$user_address,$user_passwd){ //$link = PDOオブジェクト
+
+  global $error;
+
+  $sql = 'SELECT user_id FROM user_table WHERE user_address = "' .$user_address. '" AND user_passwd = "'.$user_passwd .'"';
+
+  $data = $link->query($sql);
+
+  $data = $data->fetch(PDO::FETCH_ASSOC); 
+
+  if(!$data){ // ユーザーIDが返ってきたら処理を実行
+
+    $error[] = 'メールアドレス、またはパスワードが一致しません';
+
+  } else {
+
+    $user_id = $data['user_id'];
+
+    return $user_id;
+
+  }  
 
 }
-

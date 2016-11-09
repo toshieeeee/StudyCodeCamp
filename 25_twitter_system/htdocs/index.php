@@ -91,11 +91,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
       insert_table($link,$user_name,$user_address,$user_passwd); // クエリ実行
 
-      $user_id = get_user_id($link,$user_address);
+      $user_id = get_user_id($link,$user_address,$user_passwd);
 
-      $_SESSION['user_id'] = $user_id;
-
-
+      $_SESSION['user_id'] = $user_id; // セッションに、ユーザーIDを保存
 
       // ログイン済みページへリダイレクト
 
