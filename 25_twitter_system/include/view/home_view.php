@@ -65,8 +65,10 @@
       </div>
 
       <div class="profile_sum_wrapper">
-        <p class="sum_common_text follower_sum">フォロワー</p>
-        <p class="sum_common_num_text">100</p>
+        <a href="follower.php">
+          <p class="sum_common_text follower_sum">フォロワー</p>
+          <p class="sum_common_num_text">100</p>
+        </a>
 
       </div>
 
