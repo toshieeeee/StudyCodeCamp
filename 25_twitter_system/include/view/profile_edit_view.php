@@ -40,15 +40,15 @@
 
     <div class="section_profile_wrapper_profile_page">
 
-      <a href="./profile.php"><div class="section_profile_image_profile_page"></div></a>
+      <a href="./profile.php"><div class="section_profile_image_profile_page">
+        <img class="section_profile_image_tag" src=./image/<?php echo sanitize($user_image) ?>>
+      </div></a>
 
-      <p class="user_name_profile_page"><?php echo $user_name ?></p>
+      <p class="user_name_profile_page">@<?php echo $user_name ?></p>
 
-      <p class="user_account_name_profile_page">@toshieee</p>
+      <p class="user_profile_text_profile_page"><?php echo sanitize($user_profile_text) ?></p>
 
-      <p class="user_profile_text_profile_page">渋谷で働くWEBクリエイター。デザインとプログラミングを勉強してます。読書と音楽が好き。英語:金融の勉強も好き。</p>
-
-      <p class="user_place_profile_page">Tokyo</p>
+      <p class="user_place_profile_page"><?php echo sanitize($user_place) ?></p>
 
       <!--
       <form action="logout.php" method="post" name="edit_profile">

@@ -61,6 +61,26 @@ if(isset($_SESSION['login'])){ // ログインしていたら、セッション�
   $user_id = $_SESSION['user_id']; // セッションにユーザーIDを保存
   $user_name = $_SESSION['user_name']; // セッションにユーザー名を保存
 
+
+
+  if(isset($_SESSION['user_profile_text'])){
+
+    $user_profile_text = $_SESSION['user_profile_text']; // セッションにプロフィールの文章を保存
+
+  }
+
+  if(isset($_SESSION['user_image'])){
+
+    $user_image = $_SESSION['user_image']; // セッションに画像を保存
+
+  }
+
+  if(isset($_SESSION['user_place'])){
+
+    $user_place = $_SESSION['user_place']; // セッションに場所を保存
+
+  }
+
 } else{
 
   $error[] .= '<p>ログインされていません</p>';
@@ -77,8 +97,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
   $link = get_db_connect();
 
-  //$data = get_my_tweet_list($link,$user_id);
-
 }
 
 /*************************************************************
@@ -87,8 +105,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){ 
-
-  //if(isset($_POST['tweet']) === TRUE){
 
   $link = get_db_connect();
 
@@ -101,16 +117,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
   $user_place_edit = str_validation('user_place_edit'); // 場所
 
   if(count($error_text) === 0){
+
+  // UPDATE実行
   
   update_profile_table($link,$user_id,$user_name_edit,$user_profile_text_edit,$user_image_edit,$user_place_edit);
 
-  //update_profile_table($link,$user_id,$user_name_edit,$user_profile_text_edit,$user_place_edit);
+  // セッションに、変更情報を保存
+  $_SESSION['user_name'] = $user_name_edit;
+  $_SESSION['user_profile_text'] = $user_profile_text_edit;
+  $_SESSION['user_image'] = $user_image_edit;
+  $_SESSION['user_place'] = $user_place_edit;
+
 
   header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/profile_edit.php'); 
 
   }
-
-  //}
 
 }
 

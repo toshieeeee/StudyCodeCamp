@@ -111,6 +111,7 @@ body{
   letter-spacing: .02em;
 }
 
+
 .section_profile_image{
   border-radius: 7px;
   height: 72px;
@@ -505,8 +506,6 @@ body{
 }
 
 
-
-
 .section_whole_contents_wrapper_profile_page {
     margin: 0 auto;
     margin-top: 12px;
@@ -523,6 +522,13 @@ body{
   margin-top: -155px;
   margin-left: 0px;
   position: absolute;
+}
+
+.section_profile_image_tag{
+  width: 196px;
+  height: 196px;
+  box-sizing: border-box;
+  border-radius: 7px;
 }
 
 .section_profile_wrapper_profile_page{
