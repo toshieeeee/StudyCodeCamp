@@ -2,9 +2,79 @@
 
 /*************************************************************
 
-▼関数を定義
+▼ 関数を定義
 
 **************************************************************/
+
+
+/*************************************************************
+▼ バリデーション関連
+**************************************************************/
+
+
+/***********************************
+* 文字列のバリデーション（パスワード含む）
+*
+* @param str name属性
+* @return 成功 : 入力データ 失敗 : $error_textに、入力した文字列を格納したデータ
+************************************/
+
+function str_validation($str){
+
+  global $error_text;
+
+  $temp = $str; // 属性名を受け取る
+  $str = $_POST[$str]; //属性の値を受け取る
+  $attr = $temp;
+
+  if(isset($str) !== TRUE || mb_strlen($str) === 0){
+
+    $error_text[$attr] = $attr.'を入力してください';
+
+  } else if(mb_strlen($str) > 20){
+
+    $error_text[$attr] = $attr.'は20文字以内で入力してください';
+
+  } else if(preg_match ('/^\s*$|^　*$/',$str)){
+
+    $error_text[$attr] = $attr.'は半角、または全角スペースだけでは登録できません';
+
+  } else {
+
+    return $str;
+
+  }
+
+}
+
+function str_long_validation($str){
+
+  global $error_text;
+
+  $temp = $str; // 属性名を受け取る
+  $str = $_POST[$str]; //属性の値を受け取る
+  $attr = $temp;
+
+  if(isset($str) !== TRUE || mb_strlen($str) === 0){
+
+    $error_text[$attr] = $attr.'を入力してください';
+
+  } else if(mb_strlen($str) > 150){
+
+    $error_text[$attr] = $attr.'は150文字以内で入力してください';
+
+  } else if(preg_match ('/^\s*$|^　*$/',$str)){
+
+    $error_text[$attr] = $attr.'は半角、または全角スペースだけでは登録できません';
+
+  } else {
+
+    return $str;
+
+  }
+
+}
+
 
 /***********************************
 * すべてのユーザー名/ユーザーIDを取得する
@@ -32,7 +102,7 @@ function get_user_id_name_list($link,$user_id) {
 
 function get_user_name($link,$mail,$passwd){ //$link = PDOオブジェクト
 
-  global $error;
+  global $error_text;
 
   $sql = 'SELECT user_name FROM login_table WHERE user_address = "' .$mail. '" AND user_pass = "'.$passwd .'"';
 
@@ -42,7 +112,7 @@ function get_user_name($link,$mail,$passwd){ //$link = PDOオブジェクト
 
   if(!$data){ // ユーザーIDが返ってきたら処理を実行
 
-    $error[] = 'メールアドレス、またはパスワードが一致しません';
+    $error_text[] = 'メールアドレス、またはパスワードが一致しません';
 
   } else {
 
@@ -70,24 +140,29 @@ function get_user_tweet_list($link) {
 }
 
 /***********************************
-* INSERTの実行 / フォロー機能
+* UPDATEの実行 
 *
 * @param0 - DBハンドラ
 * @param1 - ユーザーID
-* @param2 - フォローID
 *
 * @return TRUE / FALSE
 ***********************************/
-
-function insert_follow_table($link,$param1,$param2){
+/*画像あり
+function update_profile_table($link,$user_id,$param1,$param2,$param3,$param4){
 
   try{
 
-    $sql_info = 'INSERT INTO follow_table(user_id,follow_id,follow_time) VALUES (?,?,?)';
+
+    $sql_info = 'UPDATE user_table SET user_name,user_profile_text,user_image,user_place,user_update_date = (?,?,?,?,?) WHERE user_id = '.$user_id; 
+
+    var_dump($sql_info);
+
     $stmt = $link->prepare($sql_info); 
 
-    $data[] = $param1;
-    $data[] = $param2;
+    $data[] = $param1; // name
+    $data[] = $param2; // profile_text
+    $data[] = $param3; // profile_image
+    $data[] = $param4; // profile_place
     $data[] = date('Y-m-d H:i:s');
   
     if(!$stmt->execute($data)){ // SQLの判定 / 実行
@@ -105,53 +180,100 @@ function insert_follow_table($link,$param1,$param2){
   }
   
 }
+*/
+
+//画像なし
+
+function update_profile_table($link,$user_id,$param1,$param2,$param3,$param4){
+
+  try{
+
+
+    //$sql_info = 'UPDATE user_table SET (user_name,user_profile_text,user_place,user_update_date) = (?,?,?,?) WHERE user_id = '.$user_id; 
+
+    //$sql_info = 'UPDATE user_table SET user_name=?,user_profile_text=?,user_place=?,user_update_date=? WHERE user_id = '.$user_id; 
+
+    $sql_info = 'UPDATE user_table SET user_name=?,user_profile_text=?,user_image=?,user_place=?,user_update_date=? WHERE user_id = '.$user_id; 
+
+    $stmt = $link->prepare($sql_info); 
+
+    $data[] = $param1; // name
+    $data[] = $param2; // profile_text
+    $data[] = $param3; // profile_image
+    $data[] = $param4; // profile_place
+    $data[] = date('Y-m-d H:i:s');
+    
+    if(!$stmt->execute($data)){ // SQLの判定 / 実行
+
+      throw new QueryException();
+
+    }
+
+  } catch (QueryException $e){
+
+    echo 'Fatal Error : '.$e->getMessage().'<br>';
+    echo $e->getFile().'<br>';
+    echo $e->getLine().'<br>';
+
+  }
+  
+}
+
+
 
 /***********************************
-* フォローIDを取得
-***********************************/
+* 画像の取得 + バリデーション
+*
+* @param str name属性
+* @return 成功 : 画像名を返す？
+************************************/
 
-function get_follow_id($link,$user_id){
+function upload_image($image){
 
-  $sql = 'SELECT follow_id FROM follow_table WHERE user_id ='.$user_id;
-  
-  $list = ''; // 保存用
+  global $error_text;
 
-  $follow_id = get_as_array($link, $sql); 
+  $img_dir = './image/';
 
-  foreach($follow_id as $follow_id_list) {
-        
-    $list .= $follow_id_list['follow_id'].',';
+  if (is_uploaded_file($_FILES[$image]['tmp_name']) === TRUE) {
+
+    $pro_image = $_FILES[$image]['name']; 
+    
+    $extension = pathinfo($pro_image, PATHINFO_EXTENSION); // 拡張子チェック
+
+    if ($extension === 'jpg' || $extension === 'jpeg' || $extension === 'JPG' || $extension === 'png') {  
+
+      $pro_image = md5(uniqid(mt_rand(), true)) . '.' . $extension; 
+    
+        if (is_file($img_dir . $pro_image) !== TRUE) { 
+
+          if (move_uploaded_file($_FILES[$image]['tmp_name'], $img_dir . $pro_image) !== TRUE) {
+
+              $error_text[] = 'ファイルアップロードに失敗しました';
+
+          } 
+          
+        } else {  
+
+          $error_text[] = 'ファイルアップロードに失敗しました。再度お試しください。';
+        }
+
+      } else { 
+
+        $error_text[] = 'ファイル形式が異なります。画像ファイルはJPEG又はPNGのみ利用可能です。';
+
+      }     
+
+  } else {
+
+    $error_text[] = 'ファイルを選択してください';
 
   }
 
-  $list = rtrim($list,',');
+  if(isset($pro_image)){
 
-  return $list;
+    return $pro_image;
 
-}
-
-/***********************************
-* フォローするユーザー情報を取得
-***********************************/
-
-function get_follow_user($link, $follow_id_list){
-
-  $sql = 'SELECT user_id,user_name FROM user_table WHERE user_id IN ('.$follow_id_list.')';
-
-  $follow_user = get_as_array($link, $sql); //SQL実行 
-
-  return $follow_user;
+  }
 
 }
 
-/***********************************
-* フォローを解除
-***********************************/
-
-function delete_follow_user($link,$user_id,$follow_id){
-
-  $sql = 'DELETE FROM follow_table WHERE user_id = '.$user_id.' AND follow_id = '.$follow_id;
-
-  $link->query($sql);
-
-}

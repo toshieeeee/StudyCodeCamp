@@ -2,6 +2,21 @@
 
 session_start(); 
 
+
+/*************************************************************
+▼処理の流れ
+**************************************************************/
+/*
+
+POSTでデータを受け取る
+↓
+バリデーション
+↓
+INSERT or UPDATEを実行（データがなければINSERT / データがあったらUPDATE ）
+↓
+リダイレクト
+
+*/
 /*************************************************************
 
 ▼設定ファイル読み込み
@@ -26,6 +41,7 @@ require_once '../include/model/profile_edit_function.php';
 **************************************************************/
 
 $error = array();
+$error_text = array();
 
 /*************************************************************
 
@@ -75,12 +91,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
   //if(isset($_POST['tweet']) === TRUE){
 
   $link = get_db_connect();
+
+  // バリデーション
+
+  $user_name_edit = str_validation('user_name_edit'); 
+  $user_profile_text_edit = str_long_validation('user_profile_text_edit'); // プロフィールの文章
+
+  $user_image_edit = upload_image('user_image_edit'); // 画像
+  $user_place_edit = str_validation('user_place_edit'); // 場所
+
+  if(count($error_text) === 0){
   
-  $user_tweet_str = $_POST['user_tweet_str'];
+  update_profile_table($link,$user_id,$user_name_edit,$user_profile_text_edit,$user_image_edit,$user_place_edit);
 
-  insert_table($link,$user_id,$user_tweet_str); // DBハンドラ,ユーザーID,つぶやき
+  //update_profile_table($link,$user_id,$user_name_edit,$user_profile_text_edit,$user_place_edit);
 
-  header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/home.php'); 
+  header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/profile_edit.php'); 
+
+  }
 
   //}
 

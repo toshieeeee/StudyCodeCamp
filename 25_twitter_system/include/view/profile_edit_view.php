@@ -63,47 +63,61 @@
 
     <div class="section_profile_edit_wrapper">
 
-        <div class="section_profile_edit_header_text">
+      <div class="section_profile_edit_header_text">
 
-          <p class="profile_edit_header_text">ユーザー情報</p>
-          <p class="profile_edit_header_sub_text">アカウント情報と言語設定を変更します</p>
+        <p class="profile_edit_header_text">ユーザー情報</p>
+        <p class="profile_edit_header_sub_text">アカウント情報と言語設定を変更します</p>
 
-        </div>
+      </div>
 
-        <form class="use_profile_edit_form">
+      <?php if(count($error_text) > 0){ ?>
+
+        <?php foreach ($error_text as $error_text_output) { ?>
+
+          <p class="profile_error_text">・<?php echo $error_text_output ?></p>
+
+        <?php } ?>
+
+      <?php } ?>
+
+      <form class="use_profile_edit_form" action="profile_edit.php" method="post" enctype="multipart/form-data">
 
         <div class="profile_edit_list_wrapper">
 
           <p class="user_name_edit_text edit_text">ユーザー名</p>
 
-          <input class="user_name_edit" maxlength="15" name="user_name" type="text" value="toshieeeeeee">
+          <input class="user_name_edit" maxlength="15" name="user_name_edit" type="text" value="toshiki">
           
         </div>
 
         <div class="profile_edit_list_wrapper">
 
-          <p class="edit_text">メールアドレス</p>
+          <p class="edit_text">自己紹介</p>
 
-          <input class="user_address_edit" maxlength="15" name="user_address" type="text" value="mac@gmail.com">
+          <textarea class="user_profile_text_edit" name="user_profile_text_edit" rows="4" cols="40">toshsiki  
+          </textarea>
           
         </div>
 
         <div class="profile_edit_list_wrapper">
 
           <p class="edit_text">プロフィール画像</p>
-          
+    
+          <input type="file" name="user_image_edit">
+
         </div>
 
         <div class="profile_edit_list_wrapper">
 
           <p class="edit_text">場所</p>
+
+          <input class="user_place_edit" maxlength="15" name="user_place_edit" type="text" value="Tokyo">
           
         </div>
 
         <input type="submit" value="保存する" class="profile_edit_complete_btn">
 
-
-        </form>
+      </form>
         
     </div>
 

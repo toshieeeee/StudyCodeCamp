@@ -614,7 +614,9 @@ body{
   line-height: 60px;
 }
 
-.user_name_edit{
+.user_name_edit,
+.user_place_edit,
+.user_profile_text_edit{
     display: inline-block;
     width: 210px;
     padding: 4px;
@@ -625,11 +627,12 @@ body{
     border-radius: 3px;
 }
 
-.user_address_edit{
+.user_profile_text_edit{
   display: inline-block;
   width: 210px;
   padding: 4px;
-  margin: 0 auto; 
+  margin: 0 auto;
+  margin-left: 14px;
   outline: 0;
   background-color: #fff;
   border: 1px solid #e1e8ed;
@@ -651,4 +654,10 @@ body{
   height: 37px;
   font-weight: bold;
   color: #fff;
+}
+
+.profile_error_text{
+  color: red;
+  margin-top: 12px;
+  margin-left: 12px;
 }
