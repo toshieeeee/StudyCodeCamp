@@ -45,6 +45,25 @@ if(isset($_SESSION['login'])){ // ログインしていたら、セッション�
 
   $user_id = $_SESSION['user_id']; // セッションにユーザーIDを保存
   $user_name = $_SESSION['user_name']; // セッションにユーザー名を保存
+  
+  if(isset($_SESSION['user_profile_text'])){
+
+    $user_profile_text = $_SESSION['user_profile_text']; // セッションにプロフィールの文章を保存
+
+  }
+
+  if(isset($_SESSION['user_image'])){
+
+    $user_image = $_SESSION['user_image']; // セッションに画像を保存
+
+  }
+
+  if(isset($_SESSION['user_place'])){
+
+    $user_place = $_SESSION['user_place']; // セッションに場所を保存
+
+  }
+
 
 } else{
 

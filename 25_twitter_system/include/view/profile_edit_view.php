@@ -25,8 +25,7 @@
 
   <div class="header">
 
-  <a href="./"><h1 class="h_text">Twitter</h1></a>
-
+    <a href="./"><h1 class="h_text">Twitter</h1></a>
 
   </div>
 
@@ -86,7 +85,7 @@
 
           <p class="user_name_edit_text edit_text">ユーザー名</p>
 
-          <input class="user_name_edit" maxlength="15" name="user_name_edit" type="text" value="toshiki">
+          <input class="user_name_edit" maxlength="15" name="user_name_edit" type="text" value="<?php echo $user_name ?>">
           
         </div>
 
@@ -94,7 +93,7 @@
 
           <p class="edit_text">自己紹介</p>
 
-          <textarea class="user_profile_text_edit" name="user_profile_text_edit" rows="4" cols="40">toshsiki  
+          <textarea class="user_profile_text_edit" name="user_profile_text_edit" rows="4" cols="40"><?php echo $user_profile_text ?>  
           </textarea>
           
         </div>
@@ -111,7 +110,7 @@
 
           <p class="edit_text">場所</p>
 
-          <input class="user_place_edit" maxlength="15" name="user_place_edit" type="text" value="Tokyo">
+          <input class="user_place_edit" maxlength="15" name="user_place_edit" type="text" value="<?php echo $user_place ?>">
           
         </div>
 

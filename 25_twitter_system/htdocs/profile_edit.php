@@ -43,6 +43,12 @@ require_once '../include/model/profile_edit_function.php';
 $error = array();
 $error_text = array();
 
+// 初期値の設定
+
+$user_image = ''; // 初期値の画像を設定
+$user_profile_text = 'プロフィールを入力してください';
+$user_place_edit = '場所を設定してください';
+
 /*************************************************************
 
 ▼関数を実行
@@ -60,8 +66,6 @@ if(isset($_SESSION['login'])){ // ログインしていたら、セッション�
 
   $user_id = $_SESSION['user_id']; // セッションにユーザーIDを保存
   $user_name = $_SESSION['user_name']; // セッションにユーザー名を保存
-
-
 
   if(isset($_SESSION['user_profile_text'])){
 
@@ -118,23 +122,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
   if(count($error_text) === 0){
 
-  // UPDATE実行
+    // UPDATE実行
   
-  update_profile_table($link,$user_id,$user_name_edit,$user_profile_text_edit,$user_image_edit,$user_place_edit);
+    update_profile_table($link,$user_id,$user_name_edit,$user_profile_text_edit,$user_image_edit,$user_place_edit);
 
-  // セッションに、変更情報を保存
-  $_SESSION['user_name'] = $user_name_edit;
-  $_SESSION['user_profile_text'] = $user_profile_text_edit;
-  $_SESSION['user_image'] = $user_image_edit;
-  $_SESSION['user_place'] = $user_place_edit;
+    // セッションに、変更情報を保存
 
+    $_SESSION['user_name'] = $user_name_edit;
+    $_SESSION['user_profile_text'] = $user_profile_text_edit;
+    $_SESSION['user_image'] = $user_image_edit;
+    $_SESSION['user_place'] = $user_place_edit;
 
-  header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/profile_edit.php'); 
+    // クッキーに、変更情報を保存
+
+    //setcookie('user_address', $user_address , time() + 60 * 60 * 24 * 365);
+
+    header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/profile_edit.php'); 
 
   }
 
 }
-
 
 /*************************************************************
 

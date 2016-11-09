@@ -45,7 +45,9 @@
       
       <div class="section_profile_header_image"></div>
 
-      <a href="./profile.php"><div class="section_profile_image"></div></a>
+      <a href="./profile.php"><div class="section_profile_image">
+        <img class="tweet_user_image" src=./image/<?php echo sanitize($user_image) ?>>
+      </div></a>
       <p class="user_name"><?php echo $user_name ?></p>
 
       <div class="profile_sum_wrapper profile_sum_wrapper_first">
