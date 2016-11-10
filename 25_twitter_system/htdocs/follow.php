@@ -129,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
     $follow_user_num = count($follow_user);
 
   } else {
-    
+
     $follow_user = array();
 
     $follow_user_num = '0';

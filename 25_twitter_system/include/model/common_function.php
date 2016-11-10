@@ -189,6 +189,9 @@ function get_follower_user($link, $follower_id_list){
 
   $follower_user = get_as_array($link, $sql); //SQL実行 
 
+  return $follower_user;
+
+
 }
 
 /***********************************

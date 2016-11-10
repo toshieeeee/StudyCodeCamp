@@ -104,10 +104,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
   $follower_id_list = get_follower_id($link,$user_id); //　自分がフォローしている人のユーザーIDを"文字列"で取得
 
+
+
   if($follower_id_list){
 
     $follower_user = get_follower_user($link, $follower_id_list);
     $follower_user_num = count($follower_user); // フォロワー数取得
+
+    var_dump($follower_user);
 
   } else {
 
