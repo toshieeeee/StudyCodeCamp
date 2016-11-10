@@ -87,8 +87,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
       $user_place = '場所を入力してください';
       $user_profile_text = 'プロフィールを入力してください';
-      $user_image = 'dummmy.png';
-      
+      $user_image = 'dummy.png';
+
       $_SESSION['login'] = TRUE; // セッションにフラグを立てる。
       $_SESSION['user_name'] = $user_name; // [修正] - クッキーに保存するようにする。
       $_SESSION['user_address'] = $user_address; // [修正] - クッキーに保存するようにする。
@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
       // デフォルト値を、セッションに代入
 
       $_SESSION['user_profile_text'] = 'プロフィールを入力してください';
-      $_SESSION['user_image'] = 'dummmy.png';
+      $_SESSION['user_image'] = 'dummy.png';
       $_SESSION['user_place'] = '場所を入力してください';
 
       // ログイン済みページへリダイレクト

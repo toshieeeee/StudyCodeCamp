@@ -50,15 +50,17 @@ if(isset($_SESSION['login'])){
   $user_name = $_SESSION['user_name']; // セッションにユーザー名を保存
 
 
-  if(!preg_match('/dummmy.png/',$_SESSION['user_image'])){
+
+  if(!preg_match('/dummy.png/',$_SESSION['user_image'])){
 
       $user_image = $_SESSION['user_image'];
 
   } else {
 
-    $user_image = 'dummmy.png';
+    $user_image = 'dummy.png';
 
   }
+
   
   if(isset($_SESSION['user_profile_text']) === TRUE AND mb_strlen($_SESSION['user_profile_text']) !== 0){
 

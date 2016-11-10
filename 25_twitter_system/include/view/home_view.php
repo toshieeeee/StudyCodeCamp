@@ -28,7 +28,7 @@
   
   <a href="profile.php">
 
-    <img class="h_profile_btn" src=./image/<?php echo sanitize($user_image) ?>
+    <img class="h_profile_btn" src="./image/<?php echo sanitize($user_image) ?>">
     
   </a>
 

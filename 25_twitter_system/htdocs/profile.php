@@ -97,15 +97,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
   $my_tweet_num = count($data);
 
-  /***********************************
-  ▼ フォロー数取得
-  ************************************/ 
-
-  $follow_id_list = get_follow_id($link,$user_id);
-
-  $follow_user = get_follow_user($link, $follow_id_list);
-
-  $follow_user_num = count($follow_user);
 
   /***********************************
   ▼ フォロワー取得
@@ -113,9 +104,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
   $follower_id_list = get_follower_id($link,$user_id); //　自分がフォローしている人のユーザーIDを"文字列"で取得
 
-  $follower_user = get_follower_user($link, $follower_id_list);
+  if($follower_id_list){
 
-  $follower_user_num = count($follower_user); // フォロワー数取得
+    $follower_user = get_follower_user($link, $follower_id_list);
+    $follower_user_num = count($follower_user); // フォロワー数取得
+
+  } else {
+
+    $follower_user = array();
+    $follower_user_num = '0';
+
+  }
+
+
+  /***********************************
+  ▼ フォロー数取得
+  ************************************/ 
+
+  $follow_id_list = get_follow_id($link,$user_id);
+
+  if($follow_id_list){
+
+    $follow_user = get_follow_user($link, $follow_id_list);
+
+    $follow_user_num = count($follow_user);
+
+  } else {
+    
+    $follow_user = array();
+
+    $follow_user_num = '0';
+
+  }
 
 }
 
