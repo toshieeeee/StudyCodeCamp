@@ -27,6 +27,9 @@ require_once '../include/model/home_function.php';
 **************************************************************/
 
 $error = array();
+$user_image = 'dummy.png'; // 初期値の画像を設定
+$user_profile_text = 'プロフィールを入力してください';
+$user_place = '場所を設定してください';
 
 /*************************************************************
 
@@ -85,6 +88,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
   $data = get_user_tweet_list($link);
 
   $other_user = get_user_id_name_list($link,$user_id); // フォローするユーザーIDを取得
+
+  /***********************************
+  ▼ つぶやき数取得
+  ************************************/ 
+
+  $data = get_my_tweet_list($link,$user_id);
+
+  $my_tweet_num = count($data);
+
+  /***********************************
+  ▼ フォロー数取得
+  ************************************/ 
+
+  $follow_id_list = get_follow_id($link,$user_id);
+
+  $follow_user = get_follow_user($link, $follow_id_list);
+
+  $follow_user_num = count($follow_user);
+
+  /***********************************
+  ▼ フォロワー取得
+  ************************************/ 
+
+  $follower_id_list = get_follower_id($link,$user_id); //　自分がフォローしている人のユーザーIDを"文字列"で取得
+
+  $follower_user = get_follower_user($link, $follower_id_list);
+
+  $follower_user_num = count($follower_user); // フォロワー数取得
 
 }
 

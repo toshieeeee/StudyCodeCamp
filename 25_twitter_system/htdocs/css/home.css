@@ -194,6 +194,13 @@ body{
   float: left;
 }
 
+.tweet_user_image_home_follow_follower{
+  margin-top : 0px;
+  margin-left : 0px;
+  width: 68px;
+  height: 68px;
+}
+
 .tweet_str_inner_wrapper{
   float: left;
   margin-top : 12px;

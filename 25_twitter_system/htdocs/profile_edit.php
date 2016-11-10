@@ -43,11 +43,11 @@ require_once '../include/model/profile_edit_function.php';
 $error = array();
 $error_text = array();
 
-// 初期値の設定
+// セッション初期値の設定
 
-$user_image = ''; // 初期値の画像を設定
+$user_image = 'dummy.png'; // 初期値の画像を設定
 $user_profile_text = 'プロフィールを入力してください';
-$user_place_edit = '場所を設定してください';
+$user_place = '場所を設定してください';
 
 /*************************************************************
 
@@ -132,10 +132,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     $_SESSION['user_profile_text'] = $user_profile_text_edit;
     $_SESSION['user_image'] = $user_image_edit;
     $_SESSION['user_place'] = $user_place_edit;
-
-    // クッキーに、変更情報を保存
-
-    //setcookie('user_address', $user_address , time() + 60 * 60 * 24 * 365);
 
     header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/profile_edit.php'); 
 

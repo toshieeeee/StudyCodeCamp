@@ -35,9 +35,15 @@
 
     <div class="header_profile_list_box">
 
-      <li class="header_profile_list">ツイート <p class="header_profile_list_num">12</p></li>
-      <li class="header_profile_list">フォロー <p class="header_profile_list_num">100</p></li>
-      <li class="header_profile_list">フォロワー <p class="header_profile_list_num">249</p></li>
+      <li class="header_profile_list">ツイート <p class="header_profile_list_num"><?php echo sanitize($my_tweet_num) ?></p></li>
+
+      <a href="follow.php">
+        <li class="header_profile_list">フォロー <p class="header_profile_list_num"><?php echo sanitize($follow_user_num) ?></p></li>
+      </a>
+
+      <a href="follower.php">
+        <li class="header_profile_list">フォロワー <p class="header_profile_list_num"><?php echo sanitize($follower_user_num) ?></p></li>
+      </a>
 
     </div>
 
@@ -94,9 +100,7 @@
         </div>
     
       <?php } ?>
-
-
-
+      
     </div>
 
   </div>

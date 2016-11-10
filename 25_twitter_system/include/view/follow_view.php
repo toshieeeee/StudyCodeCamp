@@ -38,26 +38,33 @@
       
       <div class="section_profile_header_image"></div>
 
-      <a href="./profile.php"><div class="section_profile_image"></div></a>
+      <a href="./profile.php"><div class="section_profile_image">
+        <img class="tweet_user_image tweet_user_image_home_follow_follower" src=./image/<?php echo sanitize($user_image) ?>>
+      </div></a>
       <p class="user_name"><?php echo $user_name ?></p>
 
       <div class="profile_sum_wrapper profile_sum_wrapper_first">
         <a href="profile.php">
           <p class="sum_common_text tweet_sum">ツイート</p>
-          <p class="sum_common_num_text">100</p>
+          <p class="sum_common_num_text"><?php echo $my_tweet_num ?></p>
         </a>
       </div>
 
       <div class="profile_sum_wrapper">
+
         <a href="follow.php">
           <p class="sum_common_text follow_sum">フォロー</p>
           <p class="sum_common_num_text"><?php echo $follow_user_num?></p>
         </a>
+        
       </div>
 
       <div class="profile_sum_wrapper">
-        <p class="sum_common_text follower_sum">フォロワー</p>
-        <p class="sum_common_num_text">100</p>
+
+        <a href="follower.php">
+          <p class="sum_common_text follower_sum">フォロワー</p>
+          <p class="sum_common_num_text"><?php echo $follower_user_num?></p>
+        </a>
 
       </div>
 

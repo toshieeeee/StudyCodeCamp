@@ -45,6 +45,25 @@ if(isset($_SESSION['login'])){ // ログインしていたら、セッション�
   $user_id = $_SESSION['user_id']; // セッションにユーザーIDを保存
   $user_name = $_SESSION['user_name']; // セッションにユーザー名を保存
 
+  if(isset($_SESSION['user_profile_text'])){
+
+    $user_profile_text = $_SESSION['user_profile_text']; // セッションにプロフィールの文章を保存
+
+  }
+
+  if(isset($_SESSION['user_image'])){
+
+    $user_image = $_SESSION['user_image']; // セッションに画像を保存
+
+  }
+
+  if(isset($_SESSION['user_place'])){
+
+    $user_place = $_SESSION['user_place']; // セッションに場所を保存
+
+  }
+
+
 } else{
 
   $error[] .= '<p>ログインされていません</p>';
@@ -66,18 +85,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
   $other_user = get_user_id_name_list($link,$user_id); // フォローするユーザーIDを取得
 
   /***********************************
-  ▼ フォロしているユーザー取得
+  ▼ つぶやき数取得
+  ************************************/ 
+
+  $data = get_my_tweet_list($link,$user_id);
+
+  $my_tweet_num = count($data);
+
+
+  /***********************************
+  ▼ フォロワー取得
   ************************************/ 
 
   $follower_id_list = get_follower_id($link,$user_id); //　自分がフォローしている人のユーザーIDを"文字列"で取得
 
-  //var_dump($follower_id_list);
-
   $follower_user = get_follower_user($link, $follower_id_list);
 
+  $follower_user_num = count($follower_user); // フォロワー数取得
+
+  /***********************************
+  ▼ フォロー数取得
+  ************************************/ 
+
+  $follow_id_list = get_follow_id($link,$user_id);
+
+  $follow_user = get_follow_user($link, $follow_id_list);
+
+  $follow_user_num = count($follow_user);
 
 
-  //$follow_user_num = count($follow_user); // フォロー数取得
 
 }
 
@@ -127,6 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
   if(isset($_POST['follow_remove_btn']) === TRUE){
 
     $link = get_db_connect();
+    
     $follow_id = $_POST['follow_id'];
 
     delete_follow_user($link,$user_id,$follow_id);

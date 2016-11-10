@@ -86,6 +86,109 @@ function get_as_array($link,$sql){
 
 }
 
+
+/***********************************
+* 自分のツイートを取得
+************************************/
+
+
+function get_my_tweet_list($link,$user_id) {
+  
+  $sql = 'SELECT tweet_table.user_id,user_table.user_name,tweet_table.user_tweet_str,tweet_table.user_tweet_time FROM tweet_table JOIN user_table ON tweet_table.user_id = user_table.user_id  WHERE tweet_table.user_id = '.$user_id; 
+
+
+  return get_as_array($link, $sql); //SQL実行 
+
+}
+
+/***********************************
+* フォローIDを取得
+***********************************/
+
+function get_follow_id($link,$user_id){
+
+  $sql = 'SELECT follow_id FROM follow_table WHERE user_id ='.$user_id;
+  
+  $list = ''; // 保存用
+
+  $follow_id = get_as_array($link, $sql); 
+
+  foreach($follow_id as $follow_id_list) {
+        
+    $list .= $follow_id_list['follow_id'].',';
+
+  }
+
+  $list = rtrim($list,',');
+
+  return $list;
+
+}
+
+/***********************************
+* フォローするユーザーを取得
+***********************************/
+
+function get_follow_user($link, $follow_id_list){
+
+  $sql = 'SELECT user_id,user_name FROM user_table WHERE user_id IN ('.$follow_id_list.')';
+
+  $follow_user = get_as_array($link, $sql); //SQL実行 
+
+  return $follow_user;
+
+}
+
+/***********************************
+* フォロワーIDを取得
+***********************************/
+
+function get_follower_id($link,$user_id){
+
+  $sql = 'SELECT user_id FROM follow_table WHERE follow_id ='.$user_id;
+  
+  $list = ''; // 保存用
+
+  $follower_id = get_as_array($link, $sql); 
+
+  foreach($follower_id as $follower_id_list) {
+        
+    $list .= $follower_id_list['user_id'].',';
+
+  }
+
+  $list = rtrim($list,',');
+
+  return $list;
+
+}
+
+/***********************************
+* フォロワーを取得
+***********************************/
+
+function get_follower_user($link, $follower_id_list){
+
+  $sql = 'SELECT user_id,user_name FROM user_table WHERE user_id IN ('.$follower_id_list.')';
+
+  $follower_user = get_as_array($link, $sql); //SQL実行 
+
+  return $follower_user;
+
+}
+
+/***********************************
+* フォローを解除
+***********************************/
+
+function delete_follow_user($link,$user_id,$follow_id){
+
+  $sql = 'DELETE FROM follow_table WHERE user_id = '.$user_id.' AND follow_id = '.$follow_id;
+
+  $link->query($sql);
+
+}
+
 /***********************************
 * サニタイズの実行
 *
