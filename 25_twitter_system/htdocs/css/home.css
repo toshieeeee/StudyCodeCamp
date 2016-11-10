@@ -35,21 +35,24 @@ body{
   position: absolute;
   top: 8px;
   right: 50%;
-  margin-right: -390px;
+  margin-right: -322px;
   border-radius: 4px;
 
 }
 
-.h_tweet_btn{
-  width: 36px;
-  height: 32px;
-  background :#0099CC;
-  position: absolute;
-    margin-right: -390px;
-  top: 8px;
-  right: 50%;
-  margin-right: -445px;
+.h-logout_btn{
+
+  background: #0099CC;
   border-radius: 4px;
+  width: 94px;
+  height: 37px;
+  font-weight: bold;
+  color: #fff;
+  position: absolute;
+  top: 5px;
+  right: 50%;
+  margin-right: -432px;
+
 }
 
 /*************************************************************
@@ -217,18 +220,6 @@ body{
   line-height: 18px;
 
 }
-
-.logout_btn{
-  background: #0099CC;
-  border-radius: 4px;
-  margin-top: 18px;
-  margin-right: 12px;
-  float: right;
-  width: 94px;
-  height: 37px;
-  font-weight: bold;
-  color: #fff;
-  }
 
 /*************************************************************
 ▼ おすすめユーザー表示

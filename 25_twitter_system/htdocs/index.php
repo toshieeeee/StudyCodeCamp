@@ -85,15 +85,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     if(count($error) === 0){ 
 
+      $user_place = '場所を入力してください';
+      $user_profile_text = 'プロフィールを入力してください';
+      $user_image = 'dummmy.png';
+      
       $_SESSION['login'] = TRUE; // セッションにフラグを立てる。
       $_SESSION['user_name'] = $user_name; // [修正] - クッキーに保存するようにする。
       $_SESSION['user_address'] = $user_address; // [修正] - クッキーに保存するようにする。
 
-      insert_table($link,$user_name,$user_address,$user_passwd); // クエリ実行
+      insert_table($link,$user_name,$user_address,$user_passwd,$user_place,$user_profile_text,$user_image); // クエリ実行
 
       $user_id = get_user_id($link,$user_address,$user_passwd);
 
       $_SESSION['user_id'] = $user_id; // セッションに、ユーザーIDを保存
+
+      // デフォルト値を、セッションに代入
+
+      $_SESSION['user_profile_text'] = 'プロフィールを入力してください';
+      $_SESSION['user_image'] = 'dummmy.png';
+      $_SESSION['user_place'] = '場所を入力してください';
 
       // ログイン済みページへリダイレクト
 

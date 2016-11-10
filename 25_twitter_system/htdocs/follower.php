@@ -26,6 +26,9 @@ require_once '../include/model/follower_function.php';
 **************************************************************/
 
 $error = array();
+$user_image = 'dummy.png'; // 初期値の画像を設定
+$user_profile_text = 'プロフィールを入力してください';
+$user_place = '場所を設定してください';
 
 /*************************************************************
 
@@ -39,38 +42,40 @@ date_default_timezone_set('Asia/Tokyo');
 ▼ ログイン判定
 **************************************************************/
 
+if(isset($_SESSION['login'])){ 
 
-if(isset($_SESSION['login'])){ // ログインしていたら、セッションの値を変数に格納
+  /*************************************************************
+  ▼ ログインしていたら、セッションの値を変数に格納
+  **************************************************************/
 
   $user_id = $_SESSION['user_id']; // セッションにユーザーIDを保存
   $user_name = $_SESSION['user_name']; // セッションにユーザー名を保存
-
-  if(isset($_SESSION['user_profile_text'])){
+  
+  if(isset($_SESSION['user_profile_text']) === TRUE AND mb_strlen($_SESSION['user_profile_text']) !== 0){
 
     $user_profile_text = $_SESSION['user_profile_text']; // セッションにプロフィールの文章を保存
 
   }
 
-  if(isset($_SESSION['user_image'])){
+  if(isset($_SESSION['user_image']) === TRUE AND mb_strlen($_SESSION['user_image']) !== 0){
 
     $user_image = $_SESSION['user_image']; // セッションに画像を保存
 
-  }
+  } 
 
-  if(isset($_SESSION['user_place'])){
+  if(isset($_SESSION['user_place']) === TRUE AND mb_strlen($_SESSION['user_place']) !== 0){
 
     $user_place = $_SESSION['user_place']; // セッションに場所を保存
 
   }
 
-
 } else{
 
   $error[] .= '<p>ログインされていません</p>';
-  $error[] .= '<p><a href="./">ログイン画面へ</a></p>';
+  $error[] .= '<p><a href="login.php">ログイン画面へ</a></p>';
+  $_SESSION = array(); 
 
 }
-
 
 /*************************************************************
 ▼ GETリクエスト時の処理
@@ -99,9 +104,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
   $follower_id_list = get_follower_id($link,$user_id); //　自分がフォローしている人のユーザーIDを"文字列"で取得
 
-  $follower_user = get_follower_user($link, $follower_id_list);
+  if($follower_id_list){
 
-  $follower_user_num = count($follower_user); // フォロワー数取得
+    $follower_user = get_follower_user($link, $follower_id_list);
+    $follower_user_num = count($follower_user); // フォロワー数取得
+
+  } else {
+
+    $follower_user = array();
+    $follower_user_num = '0';
+
+  }
+
 
   /***********************************
   ▼ フォロー数取得
@@ -109,9 +123,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
   $follow_id_list = get_follow_id($link,$user_id);
 
-  $follow_user = get_follow_user($link, $follow_id_list);
+  if($follow_id_list){
 
-  $follow_user_num = count($follow_user);
+    $follow_user = get_follow_user($link, $follow_id_list);
+
+    $follow_user_num = count($follow_user);
+
+  } else {
+
+    $follow_user = array();
+
+    $follow_user_num = '0';
+
+  }
 
 
 

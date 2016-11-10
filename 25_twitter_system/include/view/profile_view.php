@@ -26,8 +26,8 @@
 
   <a href="./"><h1 class="h_text">Twitter</h1></a>
 
-
   </div>
+  </header>
 
   <div class="header_profile_image"></div>
 
@@ -51,7 +51,7 @@
 
   </ul>
 
-  </header>
+  
 
   <section>
 

@@ -26,6 +26,18 @@
 
   <a href="home.php"><h1 class="h_text">Twitter</h1></a>
 
+  <a href="profile.php">
+
+    <img class="h_profile_btn" src=./image/<?php echo sanitize($user_image) ?>
+    
+  </a>
+
+  <form action="logout.php" method="post" name="edit_profile">
+
+      <input type="submit" value="ログアウト" class="h-logout_btn">
+
+  </form>
+
 
   </div>
   </header>
@@ -64,12 +76,6 @@
         <p class="sum_common_num_text"><?php echo sanitize($follower_user_num) ?></p>
 
       </div>
-
-      <form action="logout.php" method="post" name="edit_profile">
-
-          <input type="submit" value="ログアウト" class="logout_btn">
-
-      </form>
 
     </div>
 

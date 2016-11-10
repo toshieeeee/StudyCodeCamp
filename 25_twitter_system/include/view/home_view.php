@@ -25,17 +25,18 @@
   <div class="header">
 
   <h1 class="h_text">Twitter</h1>
-
-  <ul>
   
-    <a href="profile.php">
-      <li class=""><img class="h_profile_btn" src=./image/<?php echo sanitize($user_image) ?>></li>
-    </a>
+  <a href="profile.php">
+
+    <img class="h_profile_btn" src=./image/<?php echo sanitize($user_image) ?>
     
-    <li class="h_tweet_btn"></li>
+  </a>
 
-  </ul>
+  <form action="logout.php" method="post" name="edit_profile">
 
+      <input type="submit" value="ログアウト" class="h-logout_btn">
+
+  </form>
 
   </div>
   </header>
@@ -74,12 +75,6 @@
         </a>
 
       </div>
-
-      <form action="logout.php" method="post" name="edit_profile">
-
-          <input type="submit" value="ログアウト" class="logout_btn">
-
-      </form>
 
     </div>
 
@@ -131,11 +126,17 @@
 
       </div>
 
+      <!--*****ツイート繰り返し*****-->
+
       <?php foreach ($data as $data_text) { ?>
 
         <div class="tweet_str_wrapper">
         
-            <div class="tweet_user_image"></div> 
+            <div class="">
+
+              <img class="tweet_user_image" src=./image/<?php echo sanitize(($data_text["user_image"])) ?>>
+
+            </div> 
 
             <div class="tweet_str_inner_wrapper">         
 

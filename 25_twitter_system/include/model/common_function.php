@@ -113,15 +113,23 @@ function get_follow_id($link,$user_id){
 
   $follow_id = get_as_array($link, $sql); 
 
-  foreach($follow_id as $follow_id_list) {
-        
-    $list .= $follow_id_list['follow_id'].',';
+  if($follow_id){ 
+
+    foreach($follow_id as $follow_id_list) {
+          
+      $list .= $follow_id_list['follow_id'].',';
+
+    }
+
+    $list = rtrim($list,',');
+
+    return $list;
+
+  } else {
+
+    return FALSE;
 
   }
-
-  $list = rtrim($list,',');
-
-  return $list;
 
 }
 
@@ -149,17 +157,25 @@ function get_follower_id($link,$user_id){
   
   $list = ''; // 保存用
 
-  $follower_id = get_as_array($link, $sql); 
+  $follower_id = get_as_array($link, $sql);
 
-  foreach($follower_id as $follower_id_list) {
-        
-    $list .= $follower_id_list['user_id'].',';
+  if($follower_id){ // フォロワー数が0でなければ
+
+    foreach($follower_id as $follower_id_list) {
+          
+      $list .= $follower_id_list['user_id'].',';
+
+    }
+
+    $list = rtrim($list,',');
+
+    return $list;
+
+  } else{
+
+    return FALSE;
 
   }
-
-  $list = rtrim($list,',');
-
-  return $list;
 
 }
 
@@ -172,8 +188,6 @@ function get_follower_user($link, $follower_id_list){
   $sql = 'SELECT user_id,user_name FROM user_table WHERE user_id IN ('.$follower_id_list.')';
 
   $follower_user = get_as_array($link, $sql); //SQL実行 
-
-  return $follower_user;
 
 }
 

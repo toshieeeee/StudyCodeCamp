@@ -186,6 +186,80 @@ function get_user_name($link,$user_address,$user_passwd){ //$link = PDOオブジ
 }
 
 
+function get_user_profile_text($link,$user_address,$user_passwd){ //$link = PDOオブジェクト
+
+  global $error;
+
+  $sql = 'SELECT user_profile_text FROM user_table WHERE user_address = "' .$user_address. '" AND user_passwd = "'.$user_passwd .'"';
+
+  $data = $link->query($sql);
+
+  $data = $data->fetch(PDO::FETCH_ASSOC); 
+
+  if(!$data){ // ユーザーIDが返ってきたら処理を実行
+
+    $error[] = 'メールアドレス、またはパスワードが一致しません';
+
+  } else {
+
+    $user_profile_text = $data['user_profile_text'];
+
+    return $user_profile_text;
+
+  }  
+
+}
+
+
+function get_user_image($link,$user_address,$user_passwd){ //$link = PDOオブジェクト
+
+  global $error;
+
+  $sql = 'SELECT user_image FROM user_table WHERE user_address = "' .$user_address. '" AND user_passwd = "'.$user_passwd .'"';
+
+  $data = $link->query($sql);
+
+  $data = $data->fetch(PDO::FETCH_ASSOC); 
+
+  if(!$data){ // ユーザーIDが返ってきたら処理を実行
+
+    $error[] = 'メールアドレス、またはパスワードが一致しません';
+
+  } else {
+
+    $user_image = $data['user_image'];
+
+    return $user_image;
+
+  }  
+
+}
+
+
+function get_user_place($link,$user_address,$user_passwd){ //$link = PDOオブジェクト
+
+  global $error;
+
+  $sql = 'SELECT user_place FROM user_table WHERE user_address = "' .$user_address. '" AND user_passwd = "'.$user_passwd .'"';
+
+  $data = $link->query($sql);
+
+  $data = $data->fetch(PDO::FETCH_ASSOC); 
+
+  if(!$data){ // ユーザーIDが返ってきたら処理を実行
+
+    $error[] = 'メールアドレス、またはパスワードが一致しません';
+
+  } else {
+
+    $user_place = $data['user_place'];
+
+    return $user_place;
+
+  }  
+
+}
+
 
 /***********************************
 * 商品の一覧を取得

@@ -46,25 +46,28 @@ date_default_timezone_set('Asia/Tokyo');
 ▼ ログイン判定
 **************************************************************/
 
+if(isset($_SESSION['login'])){ 
 
-if(isset($_SESSION['login'])){ // ログインしていたら、セッションの値を変数に格納
+  /*************************************************************
+  ▼ ログインしていたら、セッションの値を変数に格納
+  **************************************************************/
 
   $user_id = $_SESSION['user_id']; // セッションにユーザーIDを保存
   $user_name = $_SESSION['user_name']; // セッションにユーザー名を保存
-
-  if(isset($_SESSION['user_profile_text'])){
+  
+  if(isset($_SESSION['user_profile_text']) === TRUE AND mb_strlen($_SESSION['user_profile_text']) !== 0){
 
     $user_profile_text = $_SESSION['user_profile_text']; // セッションにプロフィールの文章を保存
 
   }
 
-  if(isset($_SESSION['user_image'])){
+  if(isset($_SESSION['user_image']) === TRUE AND mb_strlen($_SESSION['user_image']) !== 0){
 
     $user_image = $_SESSION['user_image']; // セッションに画像を保存
 
-  }
+  } 
 
-  if(isset($_SESSION['user_place'])){
+  if(isset($_SESSION['user_place']) === TRUE AND mb_strlen($_SESSION['user_place']) !== 0){
 
     $user_place = $_SESSION['user_place']; // セッションに場所を保存
 
@@ -73,10 +76,10 @@ if(isset($_SESSION['login'])){ // ログインしていたら、セッション�
 } else{
 
   $error[] .= '<p>ログインされていません</p>';
-  $error[] .= '<p><a href="./">ログイン画面へ</a></p>';
+  $error[] .= '<p><a href="login.php">ログイン画面へ</a></p>';
+  $_SESSION = array(); 
 
 }
-
 
 /*************************************************************
 ▼ GETリクエスト時の処理

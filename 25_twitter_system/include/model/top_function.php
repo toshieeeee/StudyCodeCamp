@@ -148,16 +148,22 @@ function confirm_address_exist($link,$user_address) {
 * @return TRUE / FALSE
 ***********************************/
 
-function insert_table($link,$param1,$param2,$param3){
+
+
+function insert_table($link,$param1,$param2,$param3,$param4,$param5,$param6){
 
   try{
 
-    $sql_info = 'INSERT INTO user_table(user_name,user_address,user_passwd,user_create_date) VALUES (?,?,?,?)';
+    $sql_info = 'INSERT INTO user_table(user_name,user_address,user_passwd,user_place,user_profile_text,user_image,user_create_date) VALUES (?,?,?,?,?,?,?)';
     $stmt = $link->prepare($sql_info); 
 
     $data[] = $param1;
     $data[] = $param2;
     $data[] = $param3;
+    $data[] = $param4;
+    $data[] = $param5;
+    $data[] = $param6;
+    
     $data[] = date('Y-m-d H:i:s');
   
     if(!$stmt->execute($data)){ // SQLの判定 / 実行

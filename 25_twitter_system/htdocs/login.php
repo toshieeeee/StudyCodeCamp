@@ -88,15 +88,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     // DBへ接続（アドレスとパスを条件に、ユーザーIDを取得する）
 
+    // DBの値は、すべて、デフォルト値として、何かしらの値が入っているので、返り値がNULLになることはない。
+
     $user_id = get_user_id($link,$user_address,$user_passwd);
     $user_name = get_user_name($link,$user_address,$user_passwd);
+
+    $user_profile_text = get_user_profile_text($link,$user_address,$user_passwd);
+    $user_image = get_user_image($link,$user_address,$user_passwd);
+    $user_place = get_user_place($link,$user_address,$user_passwd);
+
+
 
     if(count($error) === 0){
 
       $_SESSION['login'] = TRUE;
+
+
       
       $_SESSION['user_id'] = $user_id; 
       $_SESSION['user_name'] = $user_name; // / セッションにユーザー名を保存
+      $_SESSION['user_profile_text'] = $user_profile_text; 
+      $_SESSION['user_image'] = $user_image; 
+      $_SESSION['user_place'] = $user_place; 
+
 
       if (isset($_POST['cookie_check']) === TRUE) {
 
@@ -109,16 +123,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
       }
    
-
-      //$_SESSION['user_address'] = $user_address; 
-
       // ログイン済みページへリダイレクト
 
       header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/home.php'); 
 
     } 
 
+
   }
+  
 
 }
 
