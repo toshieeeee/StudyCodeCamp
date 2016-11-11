@@ -86,20 +86,9 @@
 
       <p class="user_name_profile_page"><?php echo $user_name ?></p>
 
-      <p class="user_account_name_profile_page">@toshieee</p>
-
       <p class="user_profile_text_profile_page"><?php echo sanitize($user_profile_text) ?></p>
 
       <p class="user_place_profile_page"><?php echo sanitize($user_place) ?></p>
-
-      <!--
-      <form action="logout.php" method="post" name="edit_profile">
-
-          <input type="submit" value="ログアウト" class="logout_btn">
-
-      </form>
-      -->
-
 
     </div>
 

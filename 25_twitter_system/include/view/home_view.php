@@ -90,7 +90,9 @@
 
       <div class ="user_recommend_wrapper">
 
-        <div class="section_profile_recommend_image"></div>
+       <!-- <div class="section_profile_recommend_image"></div>-->
+
+        <img class="section_profile_recommend_image" src=./image/<?php echo sanitize($other_user_info["user_image"]) ?>>
 
         <p class="user_recommend_name"><?php echo sanitize(($other_user_info["user_name"])) ?></p>
 

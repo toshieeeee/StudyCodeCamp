@@ -17,7 +17,7 @@
 
 function get_user_id_name_list($link,$user_id) {
 
-  $sql = 'SELECT user_id,user_name FROM user_table WHERE user_id != '.$user_id.' ORDER BY RAND() LIMIT 3';
+  $sql = 'SELECT user_id,user_name,user_image FROM user_table WHERE user_id != '.$user_id.' ORDER BY RAND() LIMIT 3';
   
   return get_as_array($link, $sql); //SQL実行 
 
