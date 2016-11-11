@@ -4,23 +4,21 @@ session_start();
 
 /*************************************************************
 
-▼全体の処理のロジック[ユーザー登録]
+▼全体の処理のロジック[ログイン]
 
 *************************************************************
 
-POSTの値を取得する（ユーザー名 & アドレス & パスワード）
+アドレス + パスワード入力 
 ↓
-バリデーション
+入力バリデーション
 ↓
-SQL実行（SELECTクエリ - 任意のユーザー名 & アドレスを取得する）
+メールアドレスをCOOKIEに保存
 ↓
-バリデーション（ユーザー名 & アドレスが重複しているかどうか）
+DBへ接続（アドレスとパスを条件に、ユーザーIDを取得する）
 ↓
-ユーザー情報（ログインフラグ / ユーザー名）をセッションに保存
+セッションにユーザーIDを保存
 ↓
-SQL実行（INSERTクエリ - ユーザー情報をDBに保存）
-↓
-ログイン済みページにリダイレクト
+home.phpへリダイレクト
 
 **************************************************************/
 
@@ -38,7 +36,7 @@ require_once '../include/conf/const.php';
 
 **************************************************************/
 
-require_once '../include/model/function.php'; 
+require_once '../include/model/login_function.php'; 
 
 /*************************************************************
 
@@ -54,12 +52,20 @@ $error = array();
 
 **************************************************************/
 
+if (isset($_SESSION['user_id']) === TRUE) {
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+   // ログイン済みの場合、ホームページへリダイレクト
+
+   header('Location: http://'. $_SERVER['HTTP_HOST'] .'/24_cookie_session/login/htdocs/home.php'); 
+
+   exit;
+
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST'){ 
 
   // バリデーション
 
-  $name = str_validation('name'); 
   $mail = mail_validation('email'); 
   $passwd = str_validation('passwd'); 
   $passwd = md5($passwd); // 暗号化
@@ -68,18 +74,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     $link = get_db_connect();
 
-    // 重複の確認
+    // DBへ接続（アドレスとパスを条件に、ユーザーIDを取得する）
 
-    confirm_name_exist($link,$name); // ユーザー名が重複してるかどうか確認
-    confirm_address_exist($link,$mail); // アドレスが重複してるかどうか確認
+    $user_id = get_user_id($link,$mail,$passwd);
+    $user_name = get_user_name($link,$mail,$passwd);
 
-    if(count($error) === 0){ 
+    if(count($error) === 0){
 
       $_SESSION['login'] = TRUE;
-      $_SESSION['user_name'] = $name; // セッションにユーザー名を保存
-      $_SESSION['user_address'] = $mail;
-
-      insert_table($link,$name,$mail,$passwd); // クエリ実行
+      $_SESSION['user_name'] = $user_id; 
+      $_SESSION['user_id'] = $user_id; // セッションにユーザー名を保存
+      $_SESSION['user_address'] = $mail; 
 
       // ログイン済みページへリダイレクト
 
@@ -91,10 +96,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
 }
 
+
+
 /*************************************************************
 
 ▼VIEW読み込み
 
 **************************************************************/
 
-include_once '../include/view/top_view.php';
+include_once '../include/view/login_view.php';

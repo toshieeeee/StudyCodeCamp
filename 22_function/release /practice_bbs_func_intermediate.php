@@ -1,8 +1,18 @@
 <?php
 
-//定数定義 → 変数定義 → 関数実行 → 関数定義 
+/***********
 
+*処理の流れ 
 
+1.定数定義
+↓
+2.変数定義
+↓
+3.関数実行
+↓
+4.関数定義 
+
+***********/
 
 /***********************************
 
@@ -10,14 +20,13 @@
 
 ************************************/
 
-date_default_timezone_set('Asia/Tokyo');
-
-define('DSN','mysql:dbname=vending_machine;host=localhost');
-define('DB_USER','root');
-define('DB_PASSWD','root');
+define('DSN','mysql:dbname=codecamp10334;host=localhost');
+define('DB_USER','codecamp10334');
+define('DB_PASSWD','SXHGVPSG');
 define('HTML_CHARACTER_SET','UTF-8');  // HTML文字エンコーディング
 define('DB_CHARACTER_SET','SET NAMES utf8'); 
 
+date_default_timezone_set('Asia/Tokyo');
 $error = array();
 
 /*************************************************************
@@ -30,20 +39,21 @@ $link = get_db_connect(); // DBに接続する関数 [返り値] : PDOオブジ�
 
 $data = get_goods_table_list($link); // SQLを実行して、結果セットを取得。連想配列として格納
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
-  $name = str_validation('pro_name'); // Name属性を引数に渡す
-  $price = num_validation('pro_price');
+  $name = str_validation('user_name'); // Name属性を引数に渡す
+  $comment = str_long_validation('user_comment');
 
-  insert_table($link,$name,$price);
+  if(count($error) === 0){
+
+    insert_table($link,$name,$comment);
+
+  }
  
 }
 
 
 close_db_connect($link); // DBを切断
-
-
 
 
 /*************************************************************
@@ -54,8 +64,9 @@ close_db_connect($link); // DBを切断
 
 
 /***********************************
-▼PDOインスタンス作成 + DBハンドル取得 
-@return obj $link DBハンドル取得
+* DBハンドル取得を取得
+*
+* @return obj $link DBハンドル
 ************************************/
 
 function get_db_connect(){
@@ -68,10 +79,7 @@ function get_db_connect(){
 
         throw new DBException;        
 
-      };
-
-      //PDO::query() は、PDOStatement オブジェクトを返します。
-      //失敗した場合は FALSE を返します。
+      }
 
       return $dbh;
 
@@ -97,7 +105,7 @@ function close_db_connect($link) {
 }
 
 /***********************************
-* 商品の一覧を取得する
+* 商品の一覧を取得
 *
 * @param obj $link DBハンドル
 * @param obj $sql 実行するクエリ
@@ -134,13 +142,13 @@ function get_as_array($link,$sql){
 
   }
 
-  return $data;
+  return array_reverse($data); // 配列を逆にして返す
 
 }
 
 
 /***********************************
-* SQLを定義して、get_as_arrayを実行する
+* SQLの定義 / get_as_arrayを実行
 *
 * @param obj $link DBハンドル
 * @return 商品一覧、連想配列データ
@@ -148,7 +156,7 @@ function get_as_array($link,$sql){
 
 function get_goods_table_list($link) {
   
-  $sql = 'SELECT pro_id,pro_name,pro_price,pro_status FROM pro_info_table'; // SQL生成
+  $sql = 'SELECT user_name,user_comment,user_date FROM board_table'; // SQL生成
 
   return get_as_array($link, $sql); //SQL実行 
 
@@ -156,12 +164,10 @@ function get_goods_table_list($link) {
 
 
 /***********************************
-
-▼文字列をバリデーション
-
+* 文字列のバリデーション
+*
 * @param str name属性
 * @return 成功 : 入力データ 失敗 : $errorに、入力した文字列を格納したデータ
-
 ************************************/
 
 function str_validation($str){
@@ -193,12 +199,46 @@ function str_validation($str){
 }
 
 /***********************************
-
-▼整数をバリデーションする関数
-
+* 文字列のバリデーション - Comment
+*
 * @param str name属性
 * @return 成功 : 入力データ 失敗 : $errorに、入力した文字列を格納したデータ
+************************************/
 
+function str_long_validation($str){
+
+  global $error;
+
+  $temp = $str; 
+  $str = $_POST[$str]; 
+  $attr = $temp;
+
+  if(isset($str) !== TRUE || mb_strlen($str) === 0){
+
+    $error[$attr] = $attr.'を入力してください';
+
+  } else if(mb_strlen($str) > 100){
+
+    $error[$attr] = $attr.'は100文字以内で入力してください';
+
+  } else if(preg_match ('/^\s*$|^　*$/',$str)){
+
+    $error[$attr] = $attr.'は半角、または全角スペースだけでは登録できません';
+
+  } else {
+
+    return $str;
+
+  }
+
+}
+
+
+/***********************************
+* 整数のバリデーション
+*
+* @param str name属性
+* @return 成功 : 入力データ 失敗 : $errorに、入力した文字列を格納したデータ
 ************************************/
 
 function num_validation($num){
@@ -235,32 +275,33 @@ function num_validation($num){
 
 
 /***********************************
-
-▼INSERTを実行する
-
+* INSERTの実行
+*
 * @param1 - DBハンドラ
-* @param2 ~  - プレースホルダーに入れる値
-
-→ * @param2 を、SQLに変更する?
-
-* @return 
+* @param2 - プレースホルダーに入れる値
+*
+* @return TRUE / FALSE
 ***********************************/
 
 function insert_table($link,$param1,$param2){
 
   try{
 
-    $sql_info = 'INSERT INTO pro_info_table(pro_name,pro_price) VALUES (?,?)';
+    $sql_info = 'INSERT INTO board_table(user_name,user_comment,user_date,user_info) VALUES (?,?,?,?)';
     $stmt = $link->prepare($sql_info); 
 
     $data[] = $param1;
     $data[] = $param2;
+    $data[] = date('Y-m-d H:i:s');
+    $data[] = $_SERVER['HTTP_USER_AGENT'];
 
     if(!$stmt->execute($data)){ // SQLの判定 / 実行
 
       throw new QueryException();
 
     }
+
+    header('Location: http://'. $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); // ブラウザをリダイレクト
 
   } catch (QueryException $e){
 
@@ -274,7 +315,7 @@ function insert_table($link,$param1,$param2){
 
 
 /***********************************
-* サニタイズ
+* サニタイズの実行
 *
 * @param str エスケープする文字列
 * @return エスケープした文字列
@@ -313,7 +354,6 @@ class QueryException extends Exception{
 
     $this->message = 'クエリの実行に失敗しました';
 
-
   }
 
 }
@@ -330,7 +370,6 @@ class QueryException extends Exception{
     
   table,td,th {
     border: solid black 1px;
-    /*margin : auto;*/
   }
 
   td,th {
@@ -381,9 +420,9 @@ class QueryException extends Exception{
   <form action="practice_bbs_func_intermediate.php" method="post">
 
         
-    <p>名前 : <input type="text" name="pro_name"></p>
+    <p>名前 : <input type="text" name="user_name"></p>
 
-    コメント : <input type="text" name="pro_price" size="60">
+    コメント : <input type="text" name="user_comment" size="100">
 
     <p><input type="submit" name="submit" value="送信"></p>
       
@@ -393,26 +432,22 @@ class QueryException extends Exception{
 
   <table>
 
-    <p>▼商品一覧</p>
-
     <tbody>
 
       <tr>
-          <th>商品名</th>
-          <th>価格</th>
-          <th>ステータス</th>
+          <th>名前</th>
+          <th>コメント</th>
+          <th>投稿日時</th>
       </tr>
 
       <!--ここにPHPのコードを書きます-->
 
-      
-
       <?php foreach ($data as $data_text) { ?>
 
         <tr>
-          <td><?php echo sanitize(($data_text["pro_name"])) ?></td>
-          <td><?php echo sanitize(($data_text["pro_price"])) ?></td>
-          <td><?php echo sanitize(($data_text["pro_status"])) ?></td>
+          <td><?php echo sanitize(($data_text["user_name"])) ?></td>
+          <td><?php echo sanitize(($data_text["user_comment"])) ?></td>
+          <td><?php echo sanitize(($data_text["user_date"])) ?></td>
         </tr>
 
       <?php } ?>
