@@ -47,8 +47,6 @@
 
     </div>
 
-    <a href="profile_edit.php"><li class="header_profile_edit_btn">プロフィールを編集</li></a>
-
   </ul>
 
   
@@ -60,16 +58,16 @@
     <div class="section_profile_wrapper_profile_page">
 
       <a href="./profile.php"><div class="section_profile_image_profile_page">
-        <img class="section_profile_image_tag" src=./image/<?php echo sanitize($user_image) ?>>
+        <img class="section_profile_image_tag" src=./image/<?php echo sanitize($other_user_image) ?>>
       </div></a>
 
-      <p class="user_name_profile_page"><?php echo $user_name ?></p>
+      <p class="user_name_profile_page"><?php echo $other_user_name ?></p>
 
       <p class="user_account_name_profile_page">@toshieee</p>
 
-      <p class="user_profile_text_profile_page"><?php echo sanitize($user_profile_text) ?></p>
+      <p class="user_profile_text_profile_page"><?php echo sanitize($other_user_profile_text) ?></p>
 
-      <p class="user_place_profile_page"><?php echo sanitize($user_place) ?></p>
+      <p class="user_place_profile_page"><?php echo sanitize($other_user_place) ?></p>
 
       <!--
       <form action="logout.php" method="post" name="edit_profile">
@@ -87,8 +85,8 @@
       <?php foreach ($data as $data_text) { ?>
 
         <div class="tweet_str_wrapper">
-
-            <img class="tweet_user_image" src=./image/<?php echo sanitize($user_image) ?>>
+   
+          <img class="tweet_user_image" src=./image/<?php echo sanitize($other_user_image) ?>>
       
           <div class="tweet_str_inner_wrapper">         
 

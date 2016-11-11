@@ -16,8 +16,8 @@ require_once '../include/conf/const.php';
 
 **************************************************************/
 
-require_once '../include/model/common_function.php';
-require_once '../include/model/home_function.php'; 
+require_once '../include/model/common_function.php'; 
+require_once '../include/model/profile_other_function.php'; 
 
 /*************************************************************
 
@@ -26,6 +26,13 @@ require_once '../include/model/home_function.php';
 **************************************************************/
 
 $error = array();
+
+// セッション初期値の設定
+
+$user_image = 'dummy.png'; // 初期値の画像を設定
+$user_profile_text = 'プロフィールを入力してください';
+$user_place = '場所を設定してください';
+
 
 /*************************************************************
 
@@ -39,7 +46,6 @@ date_default_timezone_set('Asia/Tokyo');
 ▼ ログイン判定
 **************************************************************/
 
-
 if(isset($_SESSION['login'])){ 
 
   /*************************************************************
@@ -48,37 +54,22 @@ if(isset($_SESSION['login'])){
 
   $user_id = $_SESSION['user_id']; // セッションにユーザーIDを保存
   $user_name = $_SESSION['user_name']; // セッションにユーザー名を保存
-
-
-
-  if(!preg_match('/dummy.png/',$_SESSION['user_image'])){
-
-      $user_image = $_SESSION['user_image'];
-
-  } else {
-
-    $user_image = 'dummy.png';
-
-  }
-
   
   if(isset($_SESSION['user_profile_text']) === TRUE AND mb_strlen($_SESSION['user_profile_text']) !== 0){
 
     $user_profile_text = $_SESSION['user_profile_text']; // セッションにプロフィールの文章を保存
 
-  } else{
-
-    $user_profile_text = 'プロフィールを入力してください';
-
   }
+
+  if(isset($_SESSION['user_image']) === TRUE AND mb_strlen($_SESSION['user_image']) !== 0){
+
+    $user_image = $_SESSION['user_image']; // セッションに画像を保存
+
+  } 
 
   if(isset($_SESSION['user_place']) === TRUE AND mb_strlen($_SESSION['user_place']) !== 0){
 
     $user_place = $_SESSION['user_place']; // セッションに場所を保存
-
-  } else{
-
-    $user_place = '場所を設定してください';
 
   }
 
@@ -96,45 +87,39 @@ if(isset($_SESSION['login'])){
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET'){ 
 
+  $other_user_id = $_GET['user_id'];
+ 
   $link = get_db_connect();
 
-  $data = get_user_tweet_list($link);
+  // $user_profile_text
+  // $user_image
+  // $user_place
 
-  $other_user = get_user_id_name_list($link,$user_id); // ランダムに、フォローするユーザーIDを取得
+  $other_user_info = get_other_user_info($link,$other_user_id);
+
+  //$user_name = $other_user_info['user_name'];
+  //var_dump($other_user_info['user_name']);
+  $other_user_name = $other_user_info[0]['user_name'];
+  $other_user_profile_text = $other_user_info[0]['user_profile_text'];
+  $other_user_image = $other_user_info[0]['user_image'];
+  $other_user_place = $other_user_info[0]['user_place'];
 
 
 
   /***********************************
-  ▼ 自分のつぶやき数取得
+  ▼ つぶやき数取得
   ************************************/ 
 
-  $my_tweet_data = get_my_tweet_list($link,$user_id);
+  $data = get_my_tweet_list($link,$other_user_id);
 
-  $my_tweet_num = count($my_tweet_data);
+  $my_tweet_num = count($data);
 
-  /***********************************
-  ▼ フォロー数取得
-  ************************************/ 
-
-  $follow_id_list = get_follow_id($link,$user_id);
-
-  if($follow_id_list){
-
-    $follow_user = get_follow_user($link, $follow_id_list);
-
-    $follow_user_num = count($follow_user);
-
-  } else {
-
-    $follow_user_num = '0';
-
-  }
 
   /***********************************
   ▼ フォロワー取得
   ************************************/ 
 
-  $follower_id_list = get_follower_id($link,$user_id); //　自分がフォローしている人のユーザーIDを"文字列"で取得
+  $follower_id_list = get_follower_id($link,$other_user_id); //　自分がフォローしている人のユーザーIDを"文字列"で取得
 
   if($follower_id_list){
 
@@ -143,10 +128,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
   } else {
 
+    $follower_user = array();
     $follower_user_num = '0';
 
   }
 
+
+  /***********************************
+  ▼ フォロー数取得
+  ************************************/ 
+
+  $follow_id_list = get_follow_id($link,$other_user_id);
+
+  if($follow_id_list){
+
+    $follow_user = get_follow_user($link, $follow_id_list);
+
+    $follow_user_num = count($follow_user);
+
+  } else {
+    
+    $follow_user = array();
+
+    $follow_user_num = '0';
+
+  }
+   
 }
 
 /*************************************************************
@@ -156,12 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){ 
 
-
-  /***********************************
-  ▼ つぶやきリクエスト
-  ************************************/ 
-
-  if(isset($_POST['tweet']) === TRUE){
+  //if(isset($_POST['tweet']) === TRUE){
 
   $link = get_db_connect();
   
@@ -171,24 +173,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
   header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/home.php'); 
 
-  }
+  //}
 
-  /***********************************
-  ▼ フォローリクエスト
-  ************************************/ 
-
-  if(isset($_POST['follow_btn']) === TRUE){
-
-    $link = get_db_connect();
-
-    $follow_id = $_POST['follow_id'];
-
-    insert_follow_table($link,$user_id,$follow_id);
-
-    header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/home.php'); 
-    
-  }
-  
 }
 
 /*************************************************************
@@ -197,4 +183,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
 **************************************************************/
 
-include_once '../include/view/home_view.php';
+include_once '../include/view/profile_other_view.php';

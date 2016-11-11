@@ -111,15 +111,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
     $follower_user = get_follower_user($link, $follower_id_list);
     $follower_user_num = count($follower_user); // フォロワー数取得
 
-    var_dump($follower_user);
-
   } else {
 
     $follower_user = array();
     $follower_user_num = '0';
 
   }
-
 
   /***********************************
   ▼ フォロー数取得

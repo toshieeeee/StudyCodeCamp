@@ -128,15 +128,19 @@
 
       <!--*****ツイート繰り返し*****-->
 
+      <!--*****GETでユーザーIDを渡す*****-->
+
       <?php foreach ($data as $data_text) { ?>
 
         <div class="tweet_str_wrapper">
-        
-            <div class="">
+
+          <form action="profile_other.php" method="post" name="edit_profile">
+            
+            <a href="profile_other.php?user_id=<?php echo sanitize(($data_text["user_id"])) ?>">
 
               <img class="tweet_user_image" src=./image/<?php echo sanitize(($data_text["user_image"])) ?>>
 
-            </div> 
+            </a>
 
             <div class="tweet_str_inner_wrapper">         
 
