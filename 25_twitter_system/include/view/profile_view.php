@@ -26,6 +26,18 @@
 
   <a href="./"><h1 class="h_text">Twitter</h1></a>
 
+  <a href="profile.php">
+
+    <img class="h_profile_btn" src=./image/<?php echo sanitize($user_image) ?>
+    
+  </a>
+
+  <form action="logout.php" method="post" name="edit_profile">
+
+      <input type="submit" value="ログアウト" class="h-logout_btn">
+
+  </form>
+
   </div>
   </header>
 
@@ -35,15 +47,24 @@
 
     <div class="header_profile_list_box">
 
-      <li class="header_profile_list">ツイート <p class="header_profile_list_num"><?php echo sanitize($my_tweet_num) ?></p></li>
+      <li class="header_profile_list">ツイート <p class="header_profile_list_num"><?php echo sanitize($my_tweet_num) ?></p>
+      </li>
 
-      <a href="follow.php">
-        <li class="header_profile_list">フォロー <p class="header_profile_list_num"><?php echo sanitize($follow_user_num) ?></p></li>
-      </a>
+      <li class="header_profile_list">
 
-      <a href="follower.php">
-        <li class="header_profile_list">フォロワー <p class="header_profile_list_num"><?php echo sanitize($follower_user_num) ?></p></li>
-      </a>
+        <a href="follow.php">
+          フォロー <p class="header_profile_list_num"><?php echo sanitize($follow_user_num) ?></p>
+        </a>
+
+      </li>
+
+      <li class="header_profile_list">
+
+        <a href="follower.php">
+        フォロワー <p class="header_profile_list_num"><?php echo sanitize($follower_user_num) ?></p>
+        </a>
+
+      </li>
 
     </div>
 

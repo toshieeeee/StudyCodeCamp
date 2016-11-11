@@ -24,7 +24,23 @@
   <header>
   <div class="header">
 
+
   <a href="./"><h1 class="h_text">Twitter</h1></a>
+
+  <a href="profile.php">
+
+    <img class="h_profile_btn" src=./image/<?php echo sanitize($user_image) ?>>
+    
+  </a>
+
+
+  <form action="logout.php" method="post" name="edit_profile">
+
+   <input type="submit" value="ログアウト" class="h-logout_btn">
+
+ </form>
+
+
 
   </div>
   </header>
@@ -35,15 +51,24 @@
 
     <div class="header_profile_list_box">
 
+      
       <li class="header_profile_list">ツイート <p class="header_profile_list_num"><?php echo sanitize($my_tweet_num) ?></p></li>
+      
+      <li class="header_profile_list">
 
-      <a href="follow.php">
-        <li class="header_profile_list">フォロー <p class="header_profile_list_num"><?php echo sanitize($follow_user_num) ?></p></li>
-      </a>
+        <a href="follow_other.php?user_id=<?php echo sanitize($other_user_id) ?>">
+          フォロー <p class="header_profile_list_num"><?php echo sanitize($follow_user_num) ?></p>
+        </a>
 
-      <a href="follower.php">
-        <li class="header_profile_list">フォロワー <p class="header_profile_list_num"><?php echo sanitize($follower_user_num) ?></p></li>
-      </a>
+      </li>
+
+      <li class="header_profile_list">
+
+        <a href="follower_other.php?user_id=<?php echo sanitize($other_user_id) ?>">
+          フォロワー <p class="header_profile_list_num"><?php echo sanitize($follower_user_num) ?></p>
+
+        </a>
+      </li>
 
     </div>
 
@@ -57,9 +82,13 @@
 
     <div class="section_profile_wrapper_profile_page">
 
-      <a href="./profile.php"><div class="section_profile_image_profile_page">
+      <a href="profile_other.php?user_id=<?php echo sanitize($other_user_id) ?>">
+
+        <div class="section_profile_image_profile_page">
         <img class="section_profile_image_tag" src=./image/<?php echo sanitize($other_user_image) ?>>
-      </div></a>
+        </div>
+
+      </a>
 
       <p class="user_name_profile_page"><?php echo $other_user_name ?></p>
 
@@ -69,15 +98,6 @@
 
       <p class="user_place_profile_page"><?php echo sanitize($other_user_place) ?></p>
 
-      <!--
-      <form action="logout.php" method="post" name="edit_profile">
-
-          <input type="submit" value="ログアウト" class="logout_btn">
-
-      </form>
-      -->
-
-
     </div>
 
     <div class="section_tweet_wrapper">
@@ -86,7 +106,7 @@
 
         <div class="tweet_str_wrapper">
    
-          <img class="tweet_user_image" src=./image/<?php echo sanitize($other_user_image) ?>>
+          <img class="tweet_user_image" src="./image/<?php echo sanitize($other_user_image) ?>">
       
           <div class="tweet_str_inner_wrapper">         
 

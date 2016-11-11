@@ -101,7 +101,6 @@ function get_my_tweet_list($link,$user_id) {
 
 }
 
-//[fix] get_my_tweet_listのWHERE句に、他のユーザーのIDを渡すだけ。つぶやき
 
 /***********************************
 * フォローIDを取得
@@ -141,7 +140,7 @@ function get_follow_id($link,$user_id){
 
 function get_follow_user($link, $follow_id_list){
 
-  $sql = 'SELECT user_id,user_name FROM user_table WHERE user_id IN ('.$follow_id_list.')';
+  $sql = 'SELECT user_id,user_name,user_profile_text,user_image FROM user_table WHERE user_id IN ('.$follow_id_list.')';
 
   $follow_user = get_as_array($link, $sql); //SQL実行 
 
@@ -187,7 +186,7 @@ function get_follower_id($link,$user_id){
 
 function get_follower_user($link, $follower_id_list){
 
-  $sql = 'SELECT user_id,user_name FROM user_table WHERE user_id IN ('.$follower_id_list.')';
+  $sql = 'SELECT user_id,user_name,user_profile_text,user_image FROM user_table WHERE user_id IN ('.$follower_id_list.')';
 
   $follower_user = get_as_array($link, $sql); //SQL実行 
 
@@ -205,6 +204,21 @@ function delete_follow_user($link,$user_id,$follow_id){
   $sql = 'DELETE FROM follow_table WHERE user_id = '.$user_id.' AND follow_id = '.$follow_id;
 
   $link->query($sql);
+
+}
+
+/***********************************
+* 自分以外のユーザー情報を取得
+***********************************/
+
+
+function get_other_user_info($link,$other_user_id) {
+
+  // SQL生成
+  
+  $sql = 'SELECT user_name,user_image,user_profile_text,user_place FROM user_table WHERE user_id = '.$other_user_id;
+
+  return get_as_array($link, $sql); //SQL実行 
 
 }
 

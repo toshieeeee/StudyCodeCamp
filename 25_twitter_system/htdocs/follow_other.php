@@ -16,8 +16,8 @@ require_once '../include/conf/const.php';
 
 **************************************************************/
 
-require_once '../include/model/common_function.php'; 
-require_once '../include/model/profile_other_function.php'; 
+require_once '../include/model/common_function.php';
+require_once '../include/model/follow_function.php'; 
 
 /*************************************************************
 
@@ -26,13 +26,9 @@ require_once '../include/model/profile_other_function.php';
 **************************************************************/
 
 $error = array();
-
-// セッション初期値の設定
-
 $user_image = 'dummy.png'; // 初期値の画像を設定
 $user_profile_text = 'プロフィールを入力してください';
 $user_place = '場所を設定してください';
-
 
 /*************************************************************
 
@@ -80,7 +76,6 @@ if(isset($_SESSION['login'])){
   $_SESSION = array(); 
 
 }
-
 /*************************************************************
 ▼ GETリクエスト時の処理
 **************************************************************/
@@ -88,8 +83,16 @@ if(isset($_SESSION['login'])){
 if ($_SERVER['REQUEST_METHOD'] === 'GET'){ 
 
   $other_user_id = $_GET['user_id'];
- 
+
   $link = get_db_connect();
+
+  $data = get_user_tweet_list($link);
+
+  $other_user = get_user_id_name_list($link,$user_id); // フォローするユーザーIDを取得
+
+  /***********************************
+  ▼ 他ユーザーの情報を取得
+  ************************************/ 
 
   $other_user_info = get_other_user_info($link,$other_user_id);
 
@@ -99,14 +102,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
   $other_user_place = $other_user_info[0]['user_place'];
 
 
-
   /***********************************
-  ▼ つぶやき数取得
+  ▼ 自分のつぶやき数取得
   ************************************/ 
 
-  $data = get_my_tweet_list($link,$other_user_id);
+  $my_tweet_data = get_my_tweet_list($link,$other_user_id);
 
-  $my_tweet_num = count($data);
+  $my_tweet_num = count($my_tweet_data);
 
 
   /***********************************
@@ -141,13 +143,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
     $follow_user_num = count($follow_user);
 
   } else {
-    
+
     $follow_user = array();
 
     $follow_user_num = '0';
 
   }
-   
+
 }
 
 /*************************************************************
@@ -157,7 +159,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){ 
 
-  //if(isset($_POST['tweet']) === TRUE){
+  /***********************************
+  ▼ つぶやきリクエスト
+  ************************************/ 
+
+  if(isset($_POST['tweet']) === TRUE){
 
   $link = get_db_connect();
   
@@ -167,9 +173,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
   header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/home.php'); 
 
-  //}
+  }
+
+  /***********************************
+  ▼ フォローリクエスト
+  ************************************/ 
+
+  if(isset($_POST['follow_btn']) === TRUE){
+
+    $link = get_db_connect();
+
+    $follow_id = $_POST['follow_id'];
+
+    insert_follow_table($link,$user_id,$follow_id);
+
+    header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/follow.php'); 
+    
+  }
+
+  /***********************************
+  ▼ フォロー解除
+  ************************************/ 
+
+  if(isset($_POST['follow_remove_btn']) === TRUE){
+
+    $link = get_db_connect();
+    $follow_id = $_POST['follow_id'];
+
+    delete_follow_user($link,$user_id,$follow_id);
+
+    header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/follow.php'); 
+
+  }
 
 }
+
+
 
 /*************************************************************
 
@@ -177,4 +216,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
 **************************************************************/
 
-include_once '../include/view/profile_other_view.php';
+include_once '../include/view/follow_other_view.php';

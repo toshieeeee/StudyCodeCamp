@@ -121,13 +121,13 @@
         
           <div class="section_follow_header_image"></div>
 
-          <div class="section_profile_image"></div>
+          <a href="profile_other.php?user_id=<?php echo $follow_user_list['user_id'] ?>">
+            <img class="section_profile_image" src="./image/<?php echo $follow_user_list['user_image']?>">
+          </a>
 
           <p class="section_profile_user_name"><?php echo $follow_user_list['user_name'] ?></p>
 
-          <p class="section_profile_user_account_name">@komuro</p>
-
-          <p class="section_profile_text">I am japanese in asia who is musician, producer,composer,keyboard player(piano organ synthesizer) PLS find out by WIKI or QWIKI! sizer)</p>
+          <p class="section_profile_text"><?php echo $follow_user_list['user_profile_text'] ?></p>
           
           <input type="hidden" name="follow_id" value= <?php echo sanitize(($follow_user_list["user_id"])) ?>>
           <input type="submit" value="フォロー中" class="section_follow_follow_btn" name="follow_remove_btn">

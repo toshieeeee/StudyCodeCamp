@@ -61,16 +61,3 @@ function insert_table($link,$param1,$param2){
   
 }
 
-// WHERE user_id = '.$other_user_id
-
-function get_other_user_info($link,$other_user_id) {
-
-  // SQL生成
-  
-  $sql = 'SELECT user_name,user_image,user_profile_text,user_place FROM user_table WHERE user_id = '.$other_user_id;
-
-  return get_as_array($link, $sql); //SQL実行 
-
-}
-
-

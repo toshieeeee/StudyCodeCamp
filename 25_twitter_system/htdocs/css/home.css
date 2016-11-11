@@ -464,6 +464,10 @@ body{
   text-align: center;
 }
 
+.header_profile_list > a{
+  color: #66757f;
+}
+
 .header_profile_list_num{
   color: #0099CC;
   font-size: 18px;
