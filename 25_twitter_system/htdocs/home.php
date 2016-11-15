@@ -158,16 +158,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
   $reply_parents_tweet = get_tweet_parents_reply($link,$reply_id_list);
 
-  //var_dump($reply_parents_tweet);
+  var_dump($reply_parents_tweet);
 
   // 子ツイート取得
 
   $reply_tweet = get_tweet_reply($link,$reply_id_list);
 
+
   /***********************************
-  ▼ リツイート機能
+  ▼ リツイート取得
   ************************************/ 
 
+  $retweet_id_list = get_retweet_id($link);
+
+  $retweet = get_retweet($link,$retweet_id_list);
+
+  // var_dump($retweet); // ReTweetの情報
 
 
 }
@@ -227,8 +233,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     insert_tweet_replay($link,$user_id,$user_tweet_reply_id,$user_tweet_str);
 
     header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/home.php'); 
-
     
+  }
+
+  /***********************************
+  ▼ リツイート機能
+  ************************************/ 
+
+  if(isset($_POST['retweet']) === TRUE){
+
+    $link = get_db_connect();
+
+    $retweet_id = $_POST['retweet_id'];
+
+    insert_retweet($link,$user_id,$retweet_id);
+
+    header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/home.php'); 
+
   }
   
 }

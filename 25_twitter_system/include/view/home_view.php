@@ -158,6 +158,8 @@
 
           </div>
 
+        <!--*****返信機能 [display : none] *****-->
+
           <div class="replay_tweet_str_wapper replay_tweet_str_wapper_<?php echo sanitize(($data_text["tweet_id"])) ?>">
 
             <form action="home.php" method="post" name="tweet_reply">
@@ -172,6 +174,8 @@
 
           </div>
 
+          <!--*****リツイート機能 [display : none] *****-->
+
           <div class="retweet_str_wapper retweet_str_wapper_<?php echo sanitize(($data_text["tweet_id"])) ?>">
 
             <form action="home.php" method="post" name="retweet">
@@ -185,9 +189,6 @@
           </div>
         
         </div>
-
-
-
 
       <?php } ?>
 
@@ -239,7 +240,6 @@ $('.tweet_replay').click(function(){
 * リツイートフォームを表示
 ************************************/
   
-
 $('.retweet').click(function(){
 
   $('.replay_tweet_str_wapper').css('display','none'); // 返信ブロックを非表示
@@ -255,15 +255,12 @@ $('.retweet').click(function(){
   // 隠れているフォームの要素を取得
 
   $retweet_str_wapper = $('.'+ $retweet_id).parent().next().next().attr('class'); //兄弟要素の兄弟要素を取得
-
   
   // クラス名をスライス
 
   $retweet_str_wapper = $retweet_str_wapper.slice(19);
 
   $('.' + $retweet_str_wapper).css('display','block'); // リツイートブロックを表示
-
-  
 
   });
 

@@ -320,3 +320,63 @@ function insert_retweet($link,$param1,$param2){
 
 
 
+/***********************************
+* リツイートを取得
+***********************************/
+
+//リツイートされた、ツイートを取得
+
+/***********************************
+* 返信ツイートのIDを取得
+***********************************/
+
+function get_retweet_id($link) {
+  
+  $sql = 'SELECT retweet_id FROM tweet_table WHERE retweet_id != 0'; // SQL生成
+
+  $list = '';
+
+  $retweet_id = get_as_array($link, $sql); //SQL実行
+
+
+    if($retweet_id){
+
+    foreach($retweet_id as $retweet_id_list) {
+          
+      $list .= $retweet_id_list['retweet_id'].',';
+
+    }
+
+    $list = rtrim($list,',');
+
+    return $list; 
+
+  } else {
+
+    return FALSE;
+
+  }
+
+}
+
+/*
+'SELECT tweet_table.user_id,user_table.user_name,tweet_table.user_tweet_str,tweet_table.user_tweet_time FROM tweet_table JOIN user_table ON tweet_table.user_id = user_table.user_id  WHERE tweet_table.user_id = '.$user_id; 
+*/
+
+/***********************************
+* リツイートを取得
+***********************************/
+
+function get_retweet($link, $retweet_id_list){
+
+  $sql = 'SELECT tweet_table.tweet_id,tweet_table.user_id,tweet_table.user_tweet_str,user_table.user_name,user_table.user_image FROM tweet_table JOIN user_table ON tweet_table.user_id = user_table.user_id WHERE tweet_id IN ('.$retweet_id_list.')';
+
+  $retweet = get_as_array($link, $sql); //SQL実行 
+
+  return $retweet;
+
+}
+
+
+
+
