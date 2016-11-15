@@ -97,7 +97,7 @@ function get_user_name($link,$mail,$passwd){ //$link = PDOオブジェクト
 
 function get_user_tweet_list($link) {
   
-  $sql = 'SELECT tweet_table.user_id,user_table.user_name,user_table.user_image,tweet_table.user_tweet_str,tweet_table.user_tweet_time FROM tweet_table JOIN user_table ON tweet_table.user_id = user_table.user_id'; // SQL生成
+  $sql = 'SELECT tweet_table.user_id,user_table.user_name,user_table.user_image,tweet_table.tweet_id,tweet_table.user_tweet_str,tweet_table.user_tweet_time FROM tweet_table JOIN user_table ON tweet_table.user_id = user_table.user_id'; // SQL生成
 
   return get_as_array($link, $sql); //SQL実行 
 

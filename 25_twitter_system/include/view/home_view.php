@@ -82,23 +82,18 @@
 
       <p class="user_recommend_text">おすすめユーザー</p>
 
-      <!--*****おすすめ繰り返し（3回回ったら、forループを抜けたい）*****-->
-
-      <!--foreach - 連想配列を、全部取りだす-->
-
       <?php foreach ($other_user as $other_user_info) { ?>
 
       <div class ="user_recommend_wrapper">
 
-       <!-- <div class="section_profile_recommend_image"></div>-->
+      <a href="profile_other.php?user_id=<?php echo sanitize($other_user_info["user_id"]) ?>">
 
         <img class="section_profile_recommend_image" src=./image/<?php echo sanitize($other_user_info["user_image"]) ?>>
+      </a>
 
         <p class="user_recommend_name"><?php echo sanitize(($other_user_info["user_name"])) ?></p>
 
         <form action="home.php" method="post">
-
-          <!--VALUEに$user_id-->
 
           <input type="hidden" name="follow_id" value="<?php echo sanitize(($other_user_info["user_id"])) ?>">
           <input type="submit" value="フォローする" class="follow_btn" name="follow_btn">
@@ -132,12 +127,13 @@
 
       <!--*****GETでユーザーIDを渡す*****-->
 
+
       <?php foreach ($data as $data_text) { ?>
 
-        <div class="tweet_str_wrapper">
+        <div class="tweet_str_parents_wrapper">
 
-          <form action="profile_other.php" method="post" name="edit_profile">
-            
+          <div class="tweet_str_wrapper">
+        
             <a href="profile_other.php?user_id=<?php echo sanitize(($data_text["user_id"])) ?>">
 
               <img class="tweet_user_image" src=./image/<?php echo sanitize(($data_text["user_image"])) ?>>
@@ -146,15 +142,39 @@
 
             <div class="tweet_str_inner_wrapper">         
 
-            <p class="tweet_user"><?php echo sanitize(($data_text["user_name"])) ?></p>
-            <p class="tweet_str"><?php echo sanitize(($data_text["user_tweet_str"])) ?></p>
+              <p class="tweet_user"><?php echo sanitize(($data_text["user_name"])) ?></p>
+              <p class="tweet_str"><?php echo sanitize(($data_text["user_tweet_str"])) ?></p>
+
+            </div>
 
           </div>
 
-        </div>
-    
-      <?php } ?>
+          <div class="tweet_str_action_wrapper tweet_action_id_<?php echo sanitize(($data_text["tweet_id"])) ?>"> 
 
+            <img class="tweet_replay tweet_user_reply_image tweet_replay_id_<?php echo sanitize(($data_text["tweet_id"])) ?>" src="./image/reply.png">
+
+            <img class="tweet_user_reply_image" src="./image/retweet_btn.png">
+
+          </div>
+
+          <div class="replay_tweet_str_wapper replay_tweet_str_wapper_<?php echo sanitize(($data_text["tweet_id"])) ?>">
+
+            <form action="home.php" method="post" name="reply">
+
+              <input type="text" name="user_tweet_str" class="tweer_form_wrapper">
+
+              <input type="submit" value="つぶやく" class="tweet_btn" name="tweet">
+
+            </form>
+
+          </div>
+        
+        </div>
+
+
+
+
+      <?php } ?>
 
 
     </div>
@@ -163,5 +183,38 @@
   </section>
 
 <?php } ?>
+
+<script type="text/javascript" src="./js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+  
+
+$('.tweet_replay').click(function(){
+
+  // クリックしたボタンのユニークなIDを取得
+
+  $tweet_replay_id = ($(this).attr('class')); 
+  $replay_tweet_str_wapper = $('.replay_tweet_str_wapper').attr('class');
+
+  // クラス名をスライス
+
+  $tweet_replay_id = $tweet_replay_id.slice(36); 
+  $replay_tweet_str_wapper = $replay_tweet_str_wapper.slice(24);
+  
+  // 隠れているフォームの要素を取得
+
+  $replay_tweet_str_wapper = $('.'+ $tweet_replay_id).parent().next().attr('class');
+
+  // クラス名をスライス
+
+  $replay_tweet_str_wapper = $replay_tweet_str_wapper.slice(24);
+
+  $('.' + $replay_tweet_str_wapper).css('display','block');
+
+
+  });
+
+
+</script>
+
 </body>
 </html>

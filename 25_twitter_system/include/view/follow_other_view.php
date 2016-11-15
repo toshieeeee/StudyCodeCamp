@@ -83,35 +83,6 @@
 
     </div>
 
-    <div class="section_user_recommend_wrapper">
-
-      <p class="user_recommend_text">おすすめユーザー</p>
-
-      <?php foreach ($other_user as $other_user_info) { ?>
-
-      <form action="follow.php" method="post">
-
-        <div class ="user_recommend_wrapper">
-
-          <div class="section_profile_recommend_image"></div>
-
-          <p class="user_recommend_name"><?php echo sanitize(($other_user_info["user_name"])) ?></p>
-
-            <input type="hidden" name="follow_id" value="<?php echo sanitize(($other_user_info["user_id"])) ?>">
-            <input type="submit" value="フォローする" class="follow_btn" name="follow_btn">
-
-        </div>
-
-      </form>
-
-      <?php } ?>
-
-      <!--*****おすすめ繰り返し*****-->
-
-    </div>
-
-  
-
     <ul class="section_follow_parents_wrapper">
 
     <?php foreach($follow_user as $follow_user_list) { ?>

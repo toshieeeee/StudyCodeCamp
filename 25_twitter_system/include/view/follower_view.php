@@ -92,7 +92,11 @@
 
         <div class ="user_recommend_wrapper">
 
+        <a href="profile_other.php?user_id=<?php echo sanitize($other_user_info["user_id"]) ?>">
+
           <img class="section_profile_recommend_image" src=./image/<?php echo sanitize($other_user_info["user_image"]) ?>>
+
+        </a>
 
           <p class="user_recommend_name"><?php echo sanitize(($other_user_info["user_name"])) ?></p>
 

@@ -7,6 +7,12 @@ body{
   background: #f5f8fa;
 }
 
+.clearfix:after {
+  content: "";
+  clear: both;
+  display: block;
+}
+
 /*************************************************************
 ▼ ヘッダー / ナビゲーション
 **************************************************************/
@@ -182,9 +188,14 @@ body{
 **************************************************************/
 
 
-.tweet_str_wrapper{
-  min-height : 64px;
+.tweet_str_parents_wrapper{
+  min-height : 86px;
   border-bottom: 1px solid #e1e8ed;
+}
+
+.tweet_str_wrapper{
+  min-height : 56px;
+
 }
 
 .tweet_user_image{
@@ -208,6 +219,7 @@ body{
   float: left;
   margin-top : 12px;
   margin-left : 8px;
+  width: 510px;
 }
 
 .tweet_user{
@@ -219,6 +231,29 @@ body{
   font-size: 14px;
   line-height: 18px;
 
+}
+
+.tweet_user_reply_image{
+  width: 20px;
+  height: 20px;
+  margin-left: 62px;
+}
+
+.tweet_replay{
+
+}
+
+.tweet_str_action_wrapper{
+  padding-top: 8px;
+  padding-bottom: 8px;
+  
+}
+
+.replay_tweet_str_wapper{
+  height :150px;
+  display: none;
+  border-bottom: 1px solid #e1e8ed;
+  padding-bottom: 12px;
 }
 
 /*************************************************************
