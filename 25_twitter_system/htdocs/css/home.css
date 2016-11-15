@@ -243,6 +243,8 @@ body{
 
 }
 
+/*隠れコンテンツ*/
+
 .tweet_str_action_wrapper{
   padding-top: 8px;
   padding-bottom: 8px;
@@ -251,6 +253,13 @@ body{
 
 .replay_tweet_str_wapper{
   height :150px;
+  display: none;
+  border-bottom: 1px solid #e1e8ed;
+  padding-bottom: 12px;
+}
+
+.retweet_str_wapper{
+  height :50px;
   display: none;
   border-bottom: 1px solid #e1e8ed;
   padding-bottom: 12px;

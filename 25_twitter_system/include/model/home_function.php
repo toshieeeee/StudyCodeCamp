@@ -97,7 +97,7 @@ function get_user_name($link,$mail,$passwd){ //$link = PDOオブジェクト
 
 function get_user_tweet_list($link) {
   
-  $sql = 'SELECT tweet_table.user_id,user_table.user_name,user_table.user_image,tweet_table.tweet_id,tweet_table.user_tweet_str,tweet_table.user_tweet_time FROM tweet_table JOIN user_table ON tweet_table.user_id = user_table.user_id'; // SQL生成
+  $sql = 'SELECT tweet_table.user_id,tweet_table.user_tweet_reply_id,user_table.user_name,user_table.user_image,tweet_table.tweet_id,tweet_table.user_tweet_str,tweet_table.user_tweet_time FROM tweet_table JOIN user_table ON tweet_table.user_id = user_table.user_id'; // SQL生成
 
   return get_as_array($link, $sql); //SQL実行 
 
@@ -178,4 +178,145 @@ function insert_follow_table($link,$param1,$param2){
   }
   
 }
+
+/***********************************
+* INSERTの実行 / 返信機能
+*
+* @param0 - DBハンドラ
+* @param1 - ユーザーID
+* @param2 - フォローID
+*
+* @return TRUE / FALSE
+***********************************/
+
+function insert_tweet_replay($link,$param1,$param2,$param3){
+
+  try{
+
+    $sql_info = 'INSERT INTO tweet_table(user_id,user_tweet_reply_id,user_tweet_str,user_tweet_time) VALUES (?,?,?,?)';
+    $stmt = $link->prepare($sql_info);
+
+    $data[] = $param1;
+    $data[] = $param2;
+    $data[] = $param3;
+    $data[] = date('Y-m-d H:i:s');
+  
+    if(!$stmt->execute($data)){ // SQLの判定 / 実行
+
+      throw new QueryException();
+
+    }
+
+  } catch (QueryException $e){
+
+    echo 'Fatal Error : '.$e->getMessage().'<br>';
+    echo $e->getFile().'<br>';
+    echo $e->getLine().'<br>';
+
+  }
+  
+}
+
+
+/***********************************
+* 返信ツイート取得
+***********************************/
+
+
+/***********************************
+* 返信ツイートのIDを取得
+***********************************/
+
+function get_tweet_reply_id($link) {
+  
+  $sql = 'SELECT user_tweet_reply_id FROM tweet_table WHERE user_tweet_reply_id != 0'; // SQL生成
+
+  $list = '';
+
+  $reply_id = get_as_array($link, $sql); //SQL実行
+
+
+    if($reply_id){
+
+    foreach($reply_id as $reply_id_list) {
+          
+      $list .= $reply_id_list['user_tweet_reply_id'].',';
+
+    }
+
+    $list = rtrim($list,',');
+
+    return $list; 
+
+  } else {
+
+    return FALSE;
+
+  }
+
+}
+
+/***********************************
+* 返信ツイートの、親を取得
+***********************************/
+
+function get_tweet_parents_reply($link, $reply_id_list){
+
+  $sql = 'SELECT tweet_id,user_id,user_tweet_reply_id,user_tweet_str FROM tweet_table WHERE tweet_id IN ('.$reply_id_list.')';
+
+  $tweet_parents_reply = get_as_array($link, $sql); //SQL実行 
+
+  return $tweet_parents_reply;
+
+}
+
+/***********************************
+* 返信ツイートの、子を取得
+***********************************/
+
+
+function get_tweet_reply($link, $reply_id_list){
+
+  $sql = 'SELECT tweet_id,user_id,user_tweet_str FROM tweet_table WHERE user_tweet_reply_id IN ('.$reply_id_list.')';
+
+  $tweet_reply = get_as_array($link, $sql); //SQL実行 
+
+  return $tweet_reply;
+
+}
+
+/***********************************
+* リツイート機能
+
+retweet_id = リツイートするつぶやきの、ツイートID
+***********************************/
+
+function insert_retweet($link,$param1,$param2){
+
+  try{
+
+    $sql_info = 'INSERT INTO tweet_table(user_id,retweet_id,user_tweet_time) VALUES (?,?,?)';
+    $stmt = $link->prepare($sql_info);
+
+    $data[] = $param1;
+    $data[] = $param2;
+    $data[] = date('Y-m-d H:i:s');
+  
+    if(!$stmt->execute($data)){ // SQLの判定 / 実行
+
+      throw new QueryException();
+
+    }
+
+  } catch (QueryException $e){
+
+    echo 'Fatal Error : '.$e->getMessage().'<br>';
+    echo $e->getFile().'<br>';
+    echo $e->getLine().'<br>';
+
+  }
+  
+}
+
+
 

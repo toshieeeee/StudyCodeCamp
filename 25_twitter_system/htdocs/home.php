@@ -147,6 +147,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
   }
 
+
+  /***********************************
+  ▼ 返信のつぶやき取得
+  ************************************/ 
+
+  $reply_id_list = get_tweet_reply_id($link);
+
+  // 親ツイート取得
+
+  $reply_parents_tweet = get_tweet_parents_reply($link,$reply_id_list);
+
+  //var_dump($reply_parents_tweet);
+
+  // 子ツイート取得
+
+  $reply_tweet = get_tweet_reply($link,$reply_id_list);
+
+  /***********************************
+  ▼ リツイート機能
+  ************************************/ 
+
+
+
 }
 
 /*************************************************************
@@ -186,6 +209,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     insert_follow_table($link,$user_id,$follow_id);
 
     header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/home.php'); 
+    
+  }
+
+  /***********************************
+  ▼ 返信機能
+  ************************************/ 
+
+  if(isset($_POST['tweet_reply']) === TRUE){
+
+    $link = get_db_connect();
+
+    $user_tweet_reply_id = $_POST['user_tweet_reply_id'];
+
+    $user_tweet_str = $_POST['user_tweet_str'];
+
+    insert_tweet_replay($link,$user_id,$user_tweet_reply_id,$user_tweet_str);
+
+    header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/home.php'); 
+
     
   }
   

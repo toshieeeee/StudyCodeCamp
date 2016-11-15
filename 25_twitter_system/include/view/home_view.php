@@ -115,7 +115,7 @@
 
         <form action="home.php" method="post">
 
-          <input type="text" name="user_tweet_str" class="tweer_form_wrapper">
+          <input type="text" name="user_tweet_str" class="tweer_form_wrapper"  placeholder="いまなにしてる？">
 
           <input type="submit" value="つぶやく" class="tweet_btn" name="tweet">
 
@@ -132,6 +132,7 @@
 
         <div class="tweet_str_parents_wrapper">
 
+    
           <div class="tweet_str_wrapper">
         
             <a href="profile_other.php?user_id=<?php echo sanitize(($data_text["user_id"])) ?>">
@@ -153,17 +154,31 @@
 
             <img class="tweet_replay tweet_user_reply_image tweet_replay_id_<?php echo sanitize(($data_text["tweet_id"])) ?>" src="./image/reply.png">
 
-            <img class="tweet_user_reply_image" src="./image/retweet_btn.png">
+            <img class="retweet tweet_user_reply_image retweet_id_<?php echo sanitize(($data_text["tweet_id"])) ?>" src="./image/retweet_btn.png">
 
           </div>
 
           <div class="replay_tweet_str_wapper replay_tweet_str_wapper_<?php echo sanitize(($data_text["tweet_id"])) ?>">
 
-            <form action="home.php" method="post" name="reply">
+            <form action="home.php" method="post" name="tweet_reply">
 
-              <input type="text" name="user_tweet_str" class="tweer_form_wrapper">
+            <input type ="hidden" name= "user_tweet_reply_id" value="<?php echo sanitize(($data_text["tweet_id"])) ?>">
 
-              <input type="submit" value="つぶやく" class="tweet_btn" name="tweet">
+            <textarea name="user_tweet_str" class="tweer_form_wrapper" rows="4" cols="40">@<?php echo sanitize(($data_text["user_name"])) ?> </textarea>
+
+              <input type="submit" value="返信する" class="tweet_btn" name="tweet_reply">
+
+            </form>
+
+          </div>
+
+          <div class="retweet_str_wapper retweet_str_wapper_<?php echo sanitize(($data_text["tweet_id"])) ?>">
+
+            <form action="home.php" method="post" name="retweet">
+
+            <input type ="hidden" name= "retweet_id" value="<?php echo sanitize(($data_text["tweet_id"])) ?>">
+
+              <input type="submit" value="リツイート" class="tweet_btn" name="retweet">
 
             </form>
 
@@ -186,11 +201,17 @@
 
 <script type="text/javascript" src="./js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
+
+/***********************************
+* 返信フォームを表示
+************************************/
   
 
 $('.tweet_replay').click(function(){
 
   // クリックしたボタンのユニークなIDを取得
+
+  $('.retweet_str_wapper').css('display','none');
 
   $tweet_replay_id = ($(this).attr('class')); 
   $replay_tweet_str_wapper = $('.replay_tweet_str_wapper').attr('class');
@@ -208,10 +229,44 @@ $('.tweet_replay').click(function(){
 
   $replay_tweet_str_wapper = $replay_tweet_str_wapper.slice(24);
 
-  $('.' + $replay_tweet_str_wapper).css('display','block');
+  $('.' + $replay_tweet_str_wapper).css('display','block'); // 返信ブロックを表示
+
 
 
   });
+
+/***********************************
+* リツイートフォームを表示
+************************************/
+  
+
+$('.retweet').click(function(){
+
+  $('.replay_tweet_str_wapper').css('display','none'); // 返信ブロックを非表示
+
+  // クリックしたボタンのユニークなIDを取得
+
+  $retweet_id = ($(this).attr('class'));
+
+  // クラス名をスライス
+  
+  $retweet_id = $retweet_id.slice(31);
+
+  // 隠れているフォームの要素を取得
+
+  $retweet_str_wapper = $('.'+ $retweet_id).parent().next().next().attr('class'); //兄弟要素の兄弟要素を取得
+
+  
+  // クラス名をスライス
+
+  $retweet_str_wapper = $retweet_str_wapper.slice(19);
+
+  $('.' + $retweet_str_wapper).css('display','block'); // リツイートブロックを表示
+
+  
+
+  });
+
 
 
 </script>
