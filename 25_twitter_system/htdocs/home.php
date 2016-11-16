@@ -98,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
   $link = get_db_connect();
 
-  $data = get_user_tweet_list($link);
+  $data = get_user_tweet_list($link); // $dataには、reply_idも入っている。ここのデータをいじればいいのでは。
 
   $other_user = get_user_id_name_list($link,$user_id); // ランダムに、フォローするユーザーIDを取得
 
@@ -158,8 +158,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
   $reply_parents_tweet = get_tweet_parents_reply($link,$reply_id_list);
 
-  var_dump($reply_parents_tweet);
-
   // 子ツイート取得
 
   $reply_tweet = get_tweet_reply($link,$reply_id_list);
@@ -169,11 +167,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
   ▼ リツイート取得
   ************************************/ 
 
-  $retweet_id_list = get_retweet_id($link);
+  //$retweet_id_list = get_retweet_id($link);
 
-  $retweet = get_retweet($link,$retweet_id_list);
+  //$retweet = get_retweet($link,$retweet_id_list); // ReTweetの情報取得
 
-  // var_dump($retweet); // ReTweetの情報
+  // tweet_id,user_id,user_name,user_tweet_str,user_image
+
+  // var_dump($retweet); 
+
+
+  $test = get_retweet_test($link,$user_id);
+  var_dump($test);
 
 
 }

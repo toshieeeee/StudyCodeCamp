@@ -236,7 +236,7 @@ function get_tweet_reply_id($link) {
   $reply_id = get_as_array($link, $sql); //SQL実行
 
 
-    if($reply_id){
+  if($reply_id){
 
     foreach($reply_id as $reply_id_list) {
           
@@ -367,6 +367,7 @@ function get_retweet_id($link) {
 * リツイートを取得
 ***********************************/
 
+
 function get_retweet($link, $retweet_id_list){
 
   $sql = 'SELECT tweet_table.tweet_id,tweet_table.user_id,tweet_table.user_tweet_str,user_table.user_name,user_table.user_image FROM tweet_table JOIN user_table ON tweet_table.user_id = user_table.user_id WHERE tweet_id IN ('.$retweet_id_list.')';
@@ -375,6 +376,41 @@ function get_retweet($link, $retweet_id_list){
 
   return $retweet;
 
+}
+
+// 引数に、全ツイート渡せばいいのではないか。
+
+function get_retweet_test($link,$user_id) {
+  
+  $sql = 'SELECT tweet_table.user_id,user_table.user_name,user_table.user_image,tweet_table.retweet_id,tweet_table.user_tweet_str,tweet_table.user_tweet_time FROM tweet_table JOIN user_table ON tweet_table.user_id = user_table.user_id  WHERE tweet_table.user_id = '.$user_id;// ユーザーのツイート情報を取得するSQL生成
+
+   $retweet = get_as_array($link, $sql); // ユーザーの全ツイート情報取得
+
+  foreach($retweet as $retweet_list) {
+        
+    if($retweet_list['retweet_id'] !== '0'){ // リツイートIDが存在したら != 
+
+      $retweet_id = $retweet_list['retweet_id']; // リツイートIDを変数に格納
+
+      $retweet_info = get_retweet($link,$retweet_id); // リツイート・ユーザー情報を、配列に格納
+
+      // データ入れ替え
+
+      $retweet_list['user_id'] = $retweet_info[0]['user_id']; 
+      $retweet_list['user_name'] = $retweet_info[0]['user_name']; 
+      $retweet_list['user_image'] = $retweet_info[0]['user_image']; 
+      $retweet_list['user_tweet_str'] = $retweet_info[0]['user_tweet_str']; 
+
+    } 
+
+  //var_dump($retweet_list); // ここの時点が、理想の連想配列になっている。.
+
+  $data[] = $retweet_list; // データを配列に格納    
+
+  }
+
+  return $data;
+  
 }
 
 
