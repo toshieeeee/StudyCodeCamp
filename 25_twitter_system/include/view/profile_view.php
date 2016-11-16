@@ -98,9 +98,16 @@
 
         <div class="tweet_str_wrapper">
 
-            <img class="tweet_user_image" src=./image/<?php echo sanitize($user_image) ?>>
+
+          <img class="tweet_user_image" src=./image/<?php echo sanitize(($data_text["user_image"])) ?>>
       
-          <div class="tweet_str_inner_wrapper">         
+          <div class="tweet_str_inner_wrapper">
+
+          <?php if($data_text["retweet_id"]){ ?>
+
+            <p class="retweet_user"><?php echo $user_name ?>さんがリツイート</p>
+
+          <?php } ?>         
 
           <p class="tweet_user"><?php echo sanitize(($data_text["user_name"])) ?></p>
           <p class="tweet_str"><?php echo sanitize(($data_text["user_tweet_str"])) ?></p>

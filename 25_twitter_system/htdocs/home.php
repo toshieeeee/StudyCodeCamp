@@ -176,8 +176,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
   // var_dump($retweet); 
 
 
-  $test = get_retweet_test($link,$user_id);
-  var_dump($test);
+  //$test = get_retweet_test($link,$user_id);
+  //var_dump($test);
 
 
 }

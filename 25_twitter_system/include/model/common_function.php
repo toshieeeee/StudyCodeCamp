@@ -103,6 +103,53 @@ function get_my_tweet_list($link,$user_id) {
 
 
 /***********************************
+* 自分のツイートを取得 - リツイートを含む
+************************************/
+
+function get_retweet($link, $retweet_id_list){
+
+  $sql = 'SELECT tweet_table.tweet_id,tweet_table.user_id,tweet_table.user_tweet_str,user_table.user_name,user_table.user_image FROM tweet_table JOIN user_table ON tweet_table.user_id = user_table.user_id WHERE tweet_id IN ('.$retweet_id_list.')';
+
+  $retweet = get_as_array($link, $sql); //SQL実行 
+
+  return $retweet;
+
+}
+
+
+function get_my_tweet_retweet_list($link,$user_id) {
+  
+  $sql = 'SELECT tweet_table.user_id,user_table.user_name,user_table.user_image,tweet_table.retweet_id,tweet_table.user_tweet_str,tweet_table.user_tweet_time FROM tweet_table JOIN user_table ON tweet_table.user_id = user_table.user_id  WHERE tweet_table.user_id = '.$user_id;// ユーザーのツイート情報を取得するSQL生成
+
+  $retweet = get_as_array($link, $sql); // ユーザーの全ツイート情報取得
+
+  foreach($retweet as $retweet_list) {
+        
+    if($retweet_list['retweet_id'] !== '0'){ // リツイートIDが存在したら != 
+
+      $retweet_id = $retweet_list['retweet_id']; // リツイートIDを変数に格納
+
+      $retweet_info = get_retweet($link,$retweet_id); // リツイート・ユーザー情報を、配列に格納
+
+      // データ入れ替え
+
+      $retweet_list['user_id'] = $retweet_info[0]['user_id']; 
+      $retweet_list['user_name'] = $retweet_info[0]['user_name']; 
+      $retweet_list['user_image'] = $retweet_info[0]['user_image']; 
+      $retweet_list['user_tweet_str'] = $retweet_info[0]['user_tweet_str']; 
+
+    } 
+
+  $data[] = $retweet_list; // データを配列に格納    
+
+  }
+
+  return $data;
+
+}
+
+
+/***********************************
 * フォローIDを取得
 ***********************************/
 
