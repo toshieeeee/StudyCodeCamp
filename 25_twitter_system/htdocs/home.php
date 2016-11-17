@@ -100,6 +100,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
   $follow_id_list = get_follow_id($link,$user_id); // フォローID取得
 
+  $follow_id_list = $follow_id_list.','.$user_id; // フォローID + 自分のユーザーID
+
   $data = get_user_tweet_list($link,$follow_id_list); // $dataには、reply_idも入っている。ここのデータをいじればいいのでは。
 
   // $data = get_my_tweet_reply_list($link,$user_id);
