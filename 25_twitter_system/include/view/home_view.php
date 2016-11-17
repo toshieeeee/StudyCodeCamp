@@ -173,9 +173,12 @@
 
           <div class="tweet_str_action_wrapper tweet_action_id_<?php echo sanitize(($data_text["tweet_id"])) ?>"> 
 
+
             <img class="tweet_replay tweet_user_reply_image tweet_replay_id_<?php echo sanitize(($data_text["tweet_id"])) ?>" src="./image/reply.png">
 
+          
             <img class="retweet tweet_user_reply_image retweet_id_<?php echo sanitize(($data_text["tweet_id"])) ?>" src="./image/retweet_btn.png">
+
 
           </div>
 
@@ -212,7 +215,7 @@
         </div>
 
 
-              <?php } ?>
+        <?php } ?>
       
       <?php } ?>
 
