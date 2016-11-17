@@ -130,6 +130,19 @@
 
       <?php foreach ($data as $data_text) { ?>
 
+        <?php foreach ($data_text as $data_text_nest) { ?>
+
+        <?php if(isset($data_text_nest['user_tweet_reply_id'])){ ?>
+
+          <p class="tweet_str"><?php echo sanitize(($data_text_nest["user_tweet_str"])) ?></p>
+
+        <?php } ?>
+
+      <?php }  ?>
+
+      <?php if(isset($data_text['user_tweet_str'])){ ?>
+
+
         <div class="tweet_str_parents_wrapper">
 
     
@@ -190,6 +203,9 @@
         
         </div>
 
+
+              <?php } ?>
+      
       <?php } ?>
 
 

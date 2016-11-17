@@ -243,6 +243,13 @@ body{
 
 }
 
+.garbage_btn{
+  width: 20px;
+  height: 20px;
+  margin-left: 556px;
+}
+
+
 /*隠れコンテンツ*/
 
 .tweet_str_action_wrapper{
@@ -258,6 +265,13 @@ body{
   padding-bottom: 12px;
 }
 
+.delete_tweet_str_wapper{
+  height :50px;
+  display: none;
+  border-bottom: 1px solid #e1e8ed;
+  padding-bottom: 12px;
+}
+
 .retweet_str_wapper{
   height :50px;
   display: none;
@@ -268,6 +282,10 @@ body{
 .retweet_user{
   font-size: 10px;
   color: #8899a6;
+}
+
+.delete_btn{
+  background :red;
 }
 
 /*************************************************************

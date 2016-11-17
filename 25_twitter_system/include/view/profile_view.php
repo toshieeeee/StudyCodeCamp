@@ -94,29 +94,65 @@
 
     <div class="section_tweet_wrapper">
 
-      <?php foreach ($data as $data_text) { ?>
 
+    <?php foreach ($data as $data_text) { ?>
+
+      <div class="tweet_str_parents_wrapper">
+
+    
         <div class="tweet_str_wrapper">
-
-
-          <img class="tweet_user_image" src=./image/<?php echo sanitize(($data_text["user_image"])) ?>>
       
-          <div class="tweet_str_inner_wrapper">
+          <a href="profile_other.php?user_id=<?php echo sanitize(($data_text["user_id"])) ?>">
+
+            <img class="tweet_user_image" src=./image/<?php echo sanitize(($data_text["user_image"])) ?>>
+
+          </a>
+
+        <div class="tweet_str_inner_wrapper"> 
 
           <?php if($data_text["retweet_id"]){ ?>
 
-            <p class="retweet_user"><?php echo $user_name ?>さんがリツイート</p>
+          <p class="retweet_user"><?php echo $user_name ?>さんがリツイート</p>
 
-          <?php } ?>         
+          <?php } ?>            
 
-          <p class="tweet_user"><?php echo sanitize(($data_text["user_name"])) ?></p>
-          <p class="tweet_str"><?php echo sanitize(($data_text["user_tweet_str"])) ?></p>
+            <p class="tweet_user"><?php echo sanitize(($data_text["user_name"])) ?></p>
+            <p class="tweet_str"><?php echo sanitize(($data_text["user_tweet_str"])) ?></p>
 
           </div>
 
         </div>
-    
-      <?php } ?>
+
+        <div class="delete_tweet tweet_str_action_wrapper tweet_action_id_<?php echo sanitize(($data_text["tweet_id"])) ?>"> 
+
+          <?php if(!$data_text["retweet_id"]){ ?>
+
+            <img class="garbage_btn retweet_id_<?php echo sanitize(($data_text["tweet_id"])) ?>" src="./image/garbage_btn.png">
+
+          <?php } ?>
+
+        </div>
+
+
+        <!--*****返信機能 [display : none] *****-->
+
+          <div class="delete_tweet_str_wapper delete_tweet_str_wapper_<?php echo sanitize(($data_text["tweet_id"])) ?>">
+
+            <form action="home.php" method="post" name="delete_tweet">
+
+            <input type ="hidden" name= "user_tweet_reply_id" value="<?php echo sanitize(($data_text["tweet_id"])) ?>">
+
+              <input type="submit" value="削除する" class="tweet_btn delete_btn" name="delete_tweet">
+
+            </form>
+
+          </div>
+
+
+      </div>
+
+    <?php } ?>
+
       
     </div>
 
@@ -124,5 +160,44 @@
   </section>
 
 <?php } ?>
+
+<script type="text/javascript" src="./js/jquery-3.1.1.min.js"></script>
+
+
+<script type="text/javascript">
+
+/***********************************
+* 削除するフォームを表示
+************************************/
+
+$('.delete_tweet').click(function(){
+
+  // クリックしたボタンのユニークなIDを取得
+
+  $delete_id = ($(this).attr('class'));
+
+
+  // クラス名をスライス
+  
+  $delete_id = $delete_id.slice(38);
+
+  // 隠れているフォームの要素を取得
+
+  $delete_str_wapper = $('.'+ $delete_id).next().attr('class'); //兄弟要素の兄弟要素を取得
+  
+  // クラス名をスライス
+
+  $delete_str_wapper = $delete_str_wapper.slice(24);
+
+  $('.' + $delete_str_wapper).fadeIn().css('display','block'); // リツイートブロックを表示
+
+  });
+
+
+
+
+
+</script>
+
 </body>
 </html>

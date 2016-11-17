@@ -119,7 +119,7 @@ function get_retweet($link, $retweet_id_list){
 
 function get_my_tweet_retweet_list($link,$user_id) {
   
-  $sql = 'SELECT tweet_table.user_id,user_table.user_name,user_table.user_image,tweet_table.retweet_id,tweet_table.user_tweet_str,tweet_table.user_tweet_time FROM tweet_table JOIN user_table ON tweet_table.user_id = user_table.user_id  WHERE tweet_table.user_id = '.$user_id;// ユーザーのツイート情報を取得するSQL生成
+  $sql = 'SELECT tweet_table.user_id,user_table.user_name,user_table.user_image,tweet_table.tweet_id,tweet_table.retweet_id,tweet_table.user_tweet_str,tweet_table.user_tweet_time FROM tweet_table JOIN user_table ON tweet_table.user_id = user_table.user_id  WHERE tweet_table.user_id = '.$user_id;// ユーザーのツイート情報を取得するSQL生成
 
   $retweet = get_as_array($link, $sql); // ユーザーの全ツイート情報取得
 
