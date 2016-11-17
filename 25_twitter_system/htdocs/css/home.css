@@ -13,11 +13,20 @@ body{
   display: block;
 }
 
+.error_text{
+  font-size: 14px;
+  text-align: center;
+  font-weight: 400;
+  color: red;
+  line-height: 1.5;
+}
+
 /*************************************************************
-▼ ログイン画面
+▼ ログイン画面 / ゆーざ登録画面
 **************************************************************/
 
-.login_form_wrapper{
+.login_form_wrapper,
+.user_form_wrapper{
   width :1020px;
   margin :0 auto; 
   margin-top: 48px;
@@ -63,7 +72,8 @@ body{
  transition: 1s; 
 }
 
-.login_text{
+.login_text,
+.user_text{
   font-size: 14px;
   text-align: center;
   font-weight: 400;
@@ -72,7 +82,8 @@ body{
 }
 
 .user_address,
-.passwd{
+.passwd,
+.top_user_name{
   border: 1px solid #e1e8ed;
   border-radius: 3px;
   width: 240px;
@@ -83,9 +94,15 @@ body{
 
 }
 
+.top_user_name{
+  margin-bottom: 24px;
+  margin-left: 26px;
+}
+
 .passwd{
   margin-top: 24px;
   margin-left: 26px;
+  margin-bottom: 24px;
 }
 
 .check_box{

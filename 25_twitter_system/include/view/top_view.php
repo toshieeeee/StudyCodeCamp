@@ -5,46 +5,52 @@
    <meta charset="UTF-8">
    <title>ログイン</title>
 
-   <style>
-
-       input {
-           display: block;
-           margin-bottom: 10px;
-       }
-
-   </style>
+   <link rel="stylesheet" type="text/css" href="./css/reset.css">
+   <link rel="stylesheet" type="text/css" href="./css/home.css">
 
 </head>
 
 <body>
 
-  <?php if(count($error) > 0){ ?>
+  <h1 class="login_header_text">ユーザー登録</h1>
 
-    <ul>
-
-      <?php foreach ($error as $error_text) { ?>
-
-      <li><?php echo $error_text ?></li>
-
-      <?php } ?>
-
-    </ul>
-
-  <?php } ?>
-
-  <h1>ユーザー登録</h1>
+  <div class ='user_form_wrapper'>
 
   <form action="index.php" method="post">
     
-    <label for="user_name">ユーザー名</label>
-    <input type="text" id="user_name" name="user_name" value="">
+    <div class="user_text">ユーザー名
 
-    <label for="user_address">メールアドレス</label>
-    <input type="email" id="user_address" name="user_address" value="">
+      <input type="text" id="user_name" name="user_name" value="" class="top_user_name">
 
-    <label for="user_passwd">パスワード</label>
-    <input type="password" id="user_passwd" name="user_passwd" value="">
-    <input type="submit" value="登録">
+    </div>
+
+    <div class="user_text">メールアドレス
+
+      <input type="email" id="user_address" name="user_address" value="" class="user_address">
+
+    </div>
+
+    <div class="user_text">パスワード
+
+      <input type="password" id="user_passwd" name="user_passwd" value="" class="passwd">
+
+    </div>
+
+    <?php if(count($error) > 0){ ?>
+
+      <ul>
+
+        <?php foreach ($error as $error_text) { ?>
+
+        <li class="error_text"><?php echo $error_text ?></li>
+
+        <?php } ?>
+
+      </ul>
+
+    <?php } ?>
+
+    <input type="submit" value="登録" class="login_btn">
 
   </form>
 

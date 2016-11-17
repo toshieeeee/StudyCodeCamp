@@ -12,21 +12,6 @@
 
 <body>
 
-  <?php if(count($error) > 0){ ?>
-
-    <ul>
-
-      <?php foreach ($error as $error_text) { ?>
-
-      <li><?php echo $error_text ?></li>
-
-      <?php } ?>
-
-    </ul>
-
-  <?php } ?>
-
-
     <h1 class="login_header_text">ログインページ</h1>
 
     <div class ='login_form_wrapper'>
@@ -45,6 +30,20 @@
         <input class="passwd" type="password" id="user_passwd" name="user_passwd" value="">
 
       </div>
+
+      <?php if(count($error) > 0){ ?>
+
+        <ul>
+
+          <?php foreach ($error as $error_text) { ?>
+
+          <li class="error_text"><?php echo $error_text ?></li>
+
+          <?php } ?>
+
+        </ul>
+
+      <?php } ?>
 
       <div class="login_text">
 
