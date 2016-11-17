@@ -152,11 +152,17 @@
         
             <a href="profile_other.php?user_id=<?php echo sanitize(($data_text["user_id"])) ?>">
 
+              <?php if($data_text["retweet_id"]){ ?>
+
+              <p class="retweet_user"><img src="./image/retweet_btn.png" class="retweet_str_img"><?php echo $user_name ?>さんがリツイート</p>
+
+              <?php } ?>    
+
               <img class="tweet_user_image" src=./image/<?php echo sanitize(($data_text["user_image"])) ?>>
 
             </a>
 
-            <div class="tweet_str_inner_wrapper">         
+            <div class="tweet_str_inner_wrapper">   
 
               <p class="tweet_user"><?php echo sanitize(($data_text["user_name"])) ?></p>
               <p class="tweet_str"><?php echo sanitize(($data_text["user_tweet_str"])) ?></p>

@@ -102,9 +102,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
   $follow_id_list = $follow_id_list.','.$user_id; // フォローID + 自分のユーザーID
 
-  $data = get_user_tweet_list($link,$follow_id_list); // $dataには、reply_idも入っている。ここのデータをいじればいいのでは。
+  //$data = get_user_tweet_list($link,$follow_id_list); // $dataには、reply_idも入っている。ここのデータをいじればいいのでは。
 
-  // $data = get_my_tweet_reply_list($link,$user_id);
+  $data = get_follow_user_tweet_retweet_list($link,$follow_id_list); // $
 
   $other_user = get_user_id_name_list($link,$user_id); // ランダムに、フォローするユーザーIDを取得
 

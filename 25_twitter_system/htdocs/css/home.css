@@ -227,7 +227,7 @@ body{
 
 .tweet_str_inner_wrapper{
   float: left;
-  margin-top : 12px;
+  margin-top : 10px;
   margin-left : 8px;
   width: 510px;
 }
@@ -282,6 +282,12 @@ body{
   padding-bottom: 12px;
 }
 
+.retweet_str_img{
+  width:12px;
+  height: 12px;
+  margin-right: 4px;
+}
+
 .retweet_str_wapper{
   height :50px;
   display: none;
@@ -292,6 +298,8 @@ body{
 .retweet_user{
   font-size: 10px;
   color: #8899a6;
+  margin-top: 8px;
+  margin-left: 8px;
 }
 
 .delete_btn{
