@@ -94,7 +94,7 @@ function get_as_array($link,$sql){
 
 function get_my_tweet_list($link,$user_id) {
   
-  $sql = 'SELECT tweet_table.user_id,tweet_table.tweet_id,tweet_table.user_tweet_reply_id,user_table.user_name,tweet_table.user_tweet_str,tweet_table.user_tweet_time FROM tweet_table JOIN user_table ON tweet_table.user_id = user_table.user_id  WHERE tweet_table.user_id = '.$user_id; 
+  $sql = 'SELECT tweet_table.user_id,tweet_table.tweet_id,tweet_table.retweet_id,tweet_table.user_tweet_reply_id,user_table.user_name,tweet_table.user_tweet_str,tweet_table.user_tweet_time FROM tweet_table JOIN user_table ON tweet_table.user_id = user_table.user_id  WHERE tweet_table.user_id = '.$user_id; 
 
 
   return get_as_array($link, $sql); //SQL実行 

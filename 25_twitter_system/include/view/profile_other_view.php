@@ -105,6 +105,12 @@
       <div class="tweet_str_parents_wrapper">
 
         <div class="tweet_str_wrapper">
+
+        <?php if($data_text["retweet_id"]){ ?>
+
+        <p class="retweet_user"><img src="./image/retweet_btn.png" class="retweet_str_img"><?php echo $user_name ?>さんがリツイート</p>
+
+        <?php } ?>    
         
           <a href="profile_other.php?user_id=<?php echo sanitize(($data_text["user_id"])) ?>">
 
@@ -164,11 +170,7 @@
 
       </div>
 
-
-
-
-    
-      <?php } ?>
+    <?php } ?>
       
     </div>
 
@@ -194,10 +196,6 @@ $('.tweet_replay').click(function(){
 
   $tweet_replay_id = ($(this).attr('class'));
 
-  //$replay_tweet_str_wapper = $('.replay_tweet_str_wapper').attr('class');
-
-
-
   // クラス名をスライス
 
   $tweet_replay_id = $tweet_replay_id.slice(36); 
@@ -207,17 +205,11 @@ $('.tweet_replay').click(function(){
 
   $replay_tweet_str_wapper = $('.'+ $tweet_replay_id).parent().next().attr('class');
 
-  console.log($replay_tweet_str_wapper);
-
   // クラス名をスライス
 
   $replay_tweet_str_wapper = $replay_tweet_str_wapper.slice(24);
 
-
-
   $('.' + $replay_tweet_str_wapper).css('display','block'); // 返信ブロックを表示
-
-
 
   });
 

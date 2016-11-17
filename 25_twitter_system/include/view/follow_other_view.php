@@ -116,5 +116,21 @@
   </section>
 
 <?php } ?>
+<script type="text/javascript" src="./js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+
+$('.section_follow_follow_btn').hover(function(){
+
+  $(this).val('フォロー解除');
+  $(this).css('background','#e81c4f');
+
+},function (){
+
+  $(this).val('フォロー中');
+  $(this).css('background','#0099CC');
+
+});
+
+</script>
 </body>
 </html>

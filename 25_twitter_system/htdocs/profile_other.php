@@ -88,6 +88,12 @@ if(isset($_SESSION['login'])){
 if ($_SERVER['REQUEST_METHOD'] === 'GET'){ 
 
   $other_user_id = $_GET['user_id'];
+
+  if($other_user_id === $user_id){ // IDが自分だったら、profile.phpにリダイレクト
+
+    header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/profile.php'); 
+
+  }
  
   $link = get_db_connect();
 
