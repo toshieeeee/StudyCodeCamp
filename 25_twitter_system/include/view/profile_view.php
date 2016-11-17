@@ -127,7 +127,7 @@
 
           <?php if(!$data_text["retweet_id"]){ ?>
 
-            <img class="garbage_btn retweet_id_<?php echo sanitize(($data_text["tweet_id"])) ?>" src="./image/garbage_btn.png">
+            <img class="garbage_btn delete_id_<?php echo sanitize(($data_text["tweet_id"])) ?>" src="./image/garbage_btn.png">
 
           <?php } ?>
 
@@ -138,9 +138,9 @@
 
           <div class="delete_tweet_str_wapper delete_tweet_str_wapper_<?php echo sanitize(($data_text["tweet_id"])) ?>">
 
-            <form action="home.php" method="post" name="delete_tweet">
+            <form action="profile.php" method="post" name="delete_tweet">
 
-            <input type ="hidden" name= "user_tweet_reply_id" value="<?php echo sanitize(($data_text["tweet_id"])) ?>">
+            <input type ="hidden" name= "delete_id" value="<?php echo sanitize(($data_text["tweet_id"])) ?>">
 
               <input type="submit" value="削除する" class="tweet_btn delete_btn" name="delete_tweet">
 

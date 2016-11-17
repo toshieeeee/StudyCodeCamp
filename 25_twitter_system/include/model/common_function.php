@@ -270,6 +270,19 @@ function get_other_user_info($link,$other_user_id) {
 }
 
 /***********************************
+* ツイートを削除
+***********************************/
+
+function delete_tweet($link,$delete_id){
+
+  $sql = 'DELETE FROM tweet_table WHERE tweet_id ='.$delete_id;
+  $link->query($sql);
+
+}
+
+
+
+/***********************************
 * サニタイズの実行
 *
 * @param str エスケープする文字列

@@ -146,21 +146,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 **************************************************************/
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST'){ 
-
-  //if(isset($_POST['tweet']) === TRUE){
+if(isset($_POST['delete_tweet']) === TRUE){
 
   $link = get_db_connect();
-  
-  $user_tweet_str = $_POST['user_tweet_str'];
 
-  insert_table($link,$user_id,$user_tweet_str); // DBハンドラ,ユーザーID,つぶやき
+  $delete_id = $_POST['delete_id'];
+    
+  delete_tweet($link,$delete_id);
 
-  header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/home.php'); 
-
-  //}
+  header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/profile.php');
 
 }
+
+
 
 /*************************************************************
 
