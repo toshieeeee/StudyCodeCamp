@@ -103,8 +103,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
       $_SESSION['login'] = TRUE;
 
-
-      
       $_SESSION['user_id'] = $user_id; 
       $_SESSION['user_name'] = $user_name; // / セッションにユーザー名を保存
       $_SESSION['user_profile_text'] = $user_profile_text; 

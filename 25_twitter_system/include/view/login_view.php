@@ -4,15 +4,9 @@
 
    <meta charset="UTF-8">
    <title>ログイン</title>
-
-   <style>
-
-       input {
-           display: block;
-           margin-bottom: 10px;
-       }
-
-   </style>
+   <link rel="stylesheet" type="text/css" href="./css/reset.css">
+   <link rel="stylesheet" type="text/css" href="./css/home.css">
+   
 
 </head>
 
@@ -32,25 +26,41 @@
 
   <?php } ?>
 
-  <h1>ログインページ</h1>
 
-  <form action="login.php" method="post">
+    <h1 class="login_header_text">ログインページ</h1>
 
-    <label for="email">メールアドレス</label>
-    <input type="email" id="user_address" name="user_address" value= <?php print $user_address;?>>
+    <div class ='login_form_wrapper'>
 
-    <label for="passwd">パスワード</label>
-    <input type="password" id="user_passwd" name="user_passwd" value="">
+      <form action="login.php" method="post" class="login_form">
 
-    <input type="checkbox" name="cookie_check" value="checked" <?php print $cookie_check;?>>
-    
-    <p>次回からアドレスの入力を省略</p>
-    
-    <div></div>
+        
+      <div class="login_text">
+        メールアドレス 
+        <input type="email" id="user_address" name="user_address" value= <?php print $user_address;?> class="user_address">
 
-    <input type="submit" value="登録">
+      </div>
 
-  </form>
+      <div class="login_text">
+        パスワード
+        <input class="passwd" type="password" id="user_passwd" name="user_passwd" value="">
+
+      </div>
+
+      <div class="login_text">
+
+        <input class="check_box" type="checkbox" name="cookie_check" value="checked" <?php print $cookie_check;?>>
+
+        <p class="login_text check_box_text">次回からアドレスの入力を省略</p>
+
+      </div>
+        
+        
+         
+        <div class="login_btn_wrap"><input type="submit" value="ログイン" class="login_btn"></div>
+
+      </form>
+
+    </div>
 
 </body>
 </html>

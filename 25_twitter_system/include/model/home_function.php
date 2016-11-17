@@ -48,9 +48,9 @@ function str_validation($str){
 * @return ユーザーID / エラー文章
 ************************************/
 
-function get_user_id_name_list($link,$user_id) {
+function get_user_id_name_list($link,$follow_id_list) {
 
-  $sql = 'SELECT user_id,user_name,user_image FROM user_table WHERE user_id != '.$user_id.' ORDER BY RAND() LIMIT 3';
+  $sql = 'SELECT user_id,user_name,user_image FROM user_table WHERE user_id NOT IN ('.$follow_id_list.') ORDER BY RAND() LIMIT 3';
   
   return get_as_array($link, $sql); //SQL実行 
 
@@ -309,11 +309,16 @@ function get_my_tweet_reply_list($link,$user_id) {
       $parents_id[] = $reply_list['user_tweet_reply_id'];// 親ツイIDを変数に格納(一次配列)
       $reply_id = $reply_list['tweet_id'];
 
+      var_dump($reply_id['tweet_id']);
+
+      //var_dump($parents_id.','.$reply_id);
+
     } else{ //テスト用
 
       $reply_list['user_tweet_reply_id'] = 'no_reply';
     }
 
+  //var_dump($data);
   $data[] = $reply_list; // データを配列に格納
   
   }

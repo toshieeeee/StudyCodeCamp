@@ -75,8 +75,8 @@ if(isset($_SESSION['login'])){
 
 } else{
 
-  $error[] .= '<p>ログインされていません</p>';
-  $error[] .= '<p><a href="login.php">ログイン画面へ</a></p>';
+  $error[] .= '<p class="login_error">ログインされていません</p>';
+  $error[] .= '<a href="login.php" class="login_error_btn_text"><p class="login_error_btn">ログイン画面へ</p></a>';
   $_SESSION = array(); 
 
 }
@@ -84,7 +84,7 @@ if(isset($_SESSION['login'])){
 /*************************************************************
 ▼ GETリクエスト時の処理
 **************************************************************/
-
+if(isset($_SESSION['login'])){ 
 if ($_SERVER['REQUEST_METHOD'] === 'GET'){ 
 
   $other_user_id = $_GET['user_id'];
@@ -175,6 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
   //}
 
+}
 }
 
 /*************************************************************

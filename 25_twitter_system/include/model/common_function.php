@@ -166,6 +166,7 @@ function get_follow_user_tweet_retweet_list($link,$follow_id_list) {
 
       $retweet_info = get_retweet($link,$retweet_id); // リツイート・ユーザー情報を、配列に格納
 
+  
       // データ入れ替え
 
       $retweet_list['user_id'] = $retweet_info[0]['user_id']; 

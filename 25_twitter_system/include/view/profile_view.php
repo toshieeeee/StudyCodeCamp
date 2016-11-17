@@ -99,12 +99,15 @@
 
       <div class="tweet_str_parents_wrapper">
 
-    
         <div class="tweet_str_wrapper">
 
           <?php if($data_text["retweet_id"]){ ?>
 
-          <p class="retweet_user"><img src="./image/retweet_btn.png" class="retweet_str_img"><?php echo $user_name ?>さんがリツイート</p>
+          <p class="retweet_user"><img src="./image/retweet_btn.png" class="retweet_str_img">
+
+            <?php echo $user_name ?>さんがリツイート
+            
+          </p>
 
           <?php } ?>    
       

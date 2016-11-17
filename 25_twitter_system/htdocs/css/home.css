@@ -14,6 +14,132 @@ body{
 }
 
 /*************************************************************
+▼ ログイン画面
+**************************************************************/
+
+.login_form_wrapper{
+  width :1020px;
+  margin :0 auto; 
+  margin-top: 48px;
+}
+
+.login_header_text{
+  margin-top :68px;
+  font-size: 24px;
+  font-weight: 100;
+  color: #0099CC;
+  text-align: center; 
+}
+
+.login_form{
+  width :600px;
+  margin :0 auto; 
+}
+
+
+
+.login_btn{
+  /*margin :0 auto; */
+  margin-top: 24px;
+  width:160px;
+  height:47px;
+  border-radius: 4px;
+  background-color: #0099CC;
+  border: 1px solid #e1e8ed;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 47px;
+  position: absolute;
+  left :50%;
+  margin-left: -80px;
+}
+
+.login_btn:hover{
+ opacity: 0.8;
+ transition: 1s; 
+}
+
+.login_text{
+  font-size: 14px;
+  text-align: center;
+  font-weight: 400;
+  color: #0099CC;
+
+}
+
+.user_address,
+.passwd{
+  border: 1px solid #e1e8ed;
+  border-radius: 3px;
+  width: 240px;
+  height: 24px;
+  padding: 4px;
+  font-size: 14px;
+  margin-right: 90px;
+
+}
+
+.passwd{
+  margin-top: 24px;
+  margin-left: 26px;
+}
+
+.check_box{
+  margin-top: 48px;
+  margin-right :12px;
+  display: inline-block;
+
+}
+
+.check_box_text{
+ display: inline-block; 
+}
+
+/*************************************************************
+▼ エラー画面
+**************************************************************/
+
+.login_error{
+  margin-top :240px;
+  font-size: 24px;
+  font-weight: 100;
+  color: #0099CC;
+  text-align: center;
+}
+
+
+.login_error_btn{
+  margin :0 auto; 
+  margin-top: 24px;
+  width:160px;
+  height:47px;
+  border-radius: 4px;
+  background-color: #0099CC;
+  border: 1px solid #e1e8ed;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 47px;
+
+}
+
+.login_error_btn_text{
+  color :#fff;
+}
+
+.login_error_btn:hover{
+  opacity: 0.8;
+  transition: 1s;
+}
+
+/*************************************************************
 ▼ ヘッダー / ナビゲーション
 **************************************************************/
 
@@ -210,6 +336,11 @@ body{
 .tweet_btn:hover{
   background: #0099CC;
   opacity:0.8;
+}
+
+.delete_btn:hover{
+  background: red;
+  opacity:0.7;
 }
 
 /*************************************************************
@@ -605,11 +736,11 @@ body{
   height:47px;
   position: absolute;
   right: 50%;
-  top: 7px;
+  top: 5px;
   margin-right: -445px;
   border-radius: 4px;
   background-color: #fff;
-      background: transparent;
+  background: transparent;
   background-repeat: no-repeat;
   border: 1px solid #e1e8ed;
   border-radius: 4px;
@@ -629,6 +760,33 @@ body{
   background-image: linear-gradient(#fff,#e1e8ed);
   border-color: #e1e8ed;
 
+}
+
+.header_other_profile_follow_btn{
+  width:160px;
+  height:47px;
+  position: absolute;
+  right: 50%;
+  top: 5px;
+  margin-right: -445px;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 47px;
+  background-color: #1da1f2;
+  background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.05));
+  border: 1px solid #3b88c3;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
+
+}
+
+.header_other_profile_follow_btn:hover{
+  border :1px solid #e81c4f;
+  background : #e81c4f;
+  
 }
 
 

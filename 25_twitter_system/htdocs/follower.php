@@ -71,9 +71,9 @@ if(isset($_SESSION['login'])){
 
 } else{
 
-  $error[] .= '<p>ログインされていません</p>';
-  $error[] .= '<p><a href="login.php">ログイン画面へ</a></p>';
-  $_SESSION = array(); 
+  $error[] .= '<p class="login_error">ログインされていません</p>';
+  $error[] .= '<a href="login.php" class="login_error_btn_text"><p class="login_error_btn">ログイン画面へ</p></a>';
+  $_SESSION = array();
 
 }
 
@@ -81,13 +81,18 @@ if(isset($_SESSION['login'])){
 ▼ GETリクエスト時の処理
 **************************************************************/
 
+
+if(isset($_SESSION['login'])){ 
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET'){ 
 
   $link = get_db_connect();
 
   $data = get_user_tweet_list($link);
 
-  $other_user = get_user_id_name_list($link,$user_id); // フォローするユーザーIDを取得
+  $follow_id_list = get_follow_id($link,$user_id);
+  $follow_id_list = $follow_id_list.','.$user_id; // フォローID + 自分のユーザーID
+  $other_user = get_user_id_name_list($link,$follow_id_list); // フォローするユーザーIDを取得
 
   /***********************************
   ▼ つぶやき数取得
@@ -103,8 +108,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
   ************************************/ 
 
   $follower_id_list = get_follower_id($link,$user_id); //　自分がフォローしている人のユーザーIDを"文字列"で取得
-
-
 
   if($follower_id_list){
 
@@ -198,7 +201,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
   }
 
 }
-
+}
 
 /*************************************************************
 

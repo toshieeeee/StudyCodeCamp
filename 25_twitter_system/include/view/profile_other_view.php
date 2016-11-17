@@ -72,6 +72,8 @@
 
     </div>
 
+    <!--<a href="profile_edit.php"><li class="header_other_profile_follow_btn">フォロー済み</li></a>-->
+
   </ul>
 
   
