@@ -163,10 +163,11 @@ body{
 
   border: 1px solid #e1e8ed;
   border-radius: 3px;
-  width: 506px;
+  width: 488px;
   height: 80px;
   margin-top: 12px;
   margin-left: 70px;
+  padding: 8px;
 
 }
 
@@ -196,6 +197,15 @@ body{
 .tweet_str_wrapper{
   min-height : 56px;
 
+}
+
+.tweet_user_image_tweet_area{
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  position: absolute;
+  top: 13px;
+  left: 13px;
 }
 
 .tweet_user_image{

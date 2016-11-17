@@ -98,7 +98,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 
   $link = get_db_connect();
 
-  $data = get_user_tweet_list($link); // $dataには、reply_idも入っている。ここのデータをいじればいいのでは。
+  $follow_id_list = get_follow_id($link,$user_id); // フォローID取得
+
+  $data = get_user_tweet_list($link,$follow_id_list); // $dataには、reply_idも入っている。ここのデータをいじればいいのでは。
 
   // $data = get_my_tweet_reply_list($link,$user_id);
 
@@ -117,8 +119,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
   /***********************************
   ▼ フォロー数取得
   ************************************/ 
-
-  $follow_id_list = get_follow_id($link,$user_id);
 
   if($follow_id_list){
 

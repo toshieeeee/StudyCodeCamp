@@ -113,9 +113,11 @@
 
       <div class="tweet_box_wrapper">
 
+      <img class="tweet_user_image_tweet_area" src=./image/<?php echo sanitize($user_image) ?>>
+
         <form action="home.php" method="post">
 
-          <input type="text" name="user_tweet_str" class="tweer_form_wrapper"  placeholder="いまなにしてる？">
+          <textarea name="user_tweet_str" class="tweer_form_wrapper"  placeholder="いまなにしてる？"></textarea>
 
           <input type="submit" value="つぶやく" class="tweet_btn" name="tweet">
 
