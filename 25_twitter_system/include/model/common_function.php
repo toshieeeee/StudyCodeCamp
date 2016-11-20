@@ -94,7 +94,7 @@ function get_as_array($link,$sql){
 
 function get_my_tweet_list($link,$user_id) {
   
-  $sql = 'SELECT tweet_table.user_id,tweet_table.tweet_id,tweet_table.retweet_id,tweet_table.user_tweet_reply_id,user_table.user_name,tweet_table.user_tweet_str,tweet_table.user_tweet_time FROM tweet_table JOIN user_table ON tweet_table.user_id = user_table.user_id  WHERE tweet_table.user_id = '.$user_id; 
+  $sql = 'SELECT tweet_table.user_id,tweet_table.tweet_id,tweet_table.retweet_id,tweet_table.reply_id,user_table.user_name,tweet_table.user_tweet_str,tweet_table.user_tweet_time FROM tweet_table JOIN user_table ON tweet_table.user_id = user_table.user_id  WHERE tweet_table.user_id = '.$user_id; 
 
 
   return get_as_array($link, $sql); //SQL実行 
@@ -154,7 +154,7 @@ function get_my_tweet_retweet_list($link,$user_id) {
 
 function get_follow_user_tweet_retweet_list($link,$follow_id_list) {
   
-  $sql = 'SELECT tweet_table.user_id,user_table.user_name,user_table.user_image,tweet_table.tweet_id,tweet_table.retweet_id,tweet_table.user_tweet_str,tweet_table.user_tweet_time FROM tweet_table JOIN user_table ON tweet_table.user_id = user_table.user_id WHERE tweet_table.user_id IN ('.$follow_id_list.')';// ユーザーのツイート情報を取得するSQL生成
+  $sql = 'SELECT tweet_table.user_id,user_table.user_name,user_table.user_image,tweet_table.tweet_id,tweet_table.reply_id,tweet_table.retweet_id,tweet_table.user_tweet_str,tweet_table.user_tweet_time FROM tweet_table JOIN user_table ON tweet_table.user_id = user_table.user_id WHERE tweet_table.user_id IN ('.$follow_id_list.')';// ユーザーのツイート情報を取得するSQL生成
 
   $retweet = get_as_array($link, $sql); // ユーザーの全ツイート情報取得
 
@@ -330,6 +330,92 @@ function sanitize($str) {
   return htmlspecialchars($str, ENT_QUOTES, HTML_CHARACTER_SET);
 
 }
+
+
+/*******************************************************
+▼ 返信機能
+********************************************************/
+
+/**********************************
+▼リプライを、連想配列（２次元）に格納
+***********************************/
+
+function reply_into_ass_array($tweet_table){
+
+  foreach ($tweet_table as $value) {
+
+    // foreachは、配列から、上から順番に、値を取り出す（暗黙のインデックスが隠れている）
+
+    if($value['reply_id']){ // リプライツイートを、二次元配列に格納
+
+      $rep_list[] = array(
+
+        'tweet_id' => $value['tweet_id'],
+        'user_id' => $value['user_id'],
+        'user_name' => $value['user_name'],
+        'user_image' => $value['user_image'],
+        'user_tweet_str' => $value['user_tweet_str'],
+        'user_tweet_time' => $value['user_tweet_time'],
+        'reply_id' => $value['reply_id']
+
+      );
+
+    }
+
+  }
+
+
+  //return $rep_list;
+
+  /******************************************
+  ▼リプライを、連想配列（3次元）に格納
+  ******************************************/
+
+
+  for($i = 0;  $i < count($tweet_table) ;$i++){
+
+    for($k = 0;  $k < count($rep_list) ;$k++){
+
+      if($tweet_table[$i]['tweet_id'] === $rep_list[$k]['reply_id']){
+
+        $tweet_table[$i]['tweet_reply'][] = 
+
+          array( // ユーザー情報を、４次元に格納
+
+            'user_id' => $rep_list[$k]['user_id'],
+            'user_name' => $rep_list[$k]['user_name'],
+            'user_tweet_str' => $rep_list[$k]['user_tweet_str'],
+            'user_image' => $rep_list[$k]['user_image']
+
+          );
+
+/*
+          $rep_list[$k]['user_id'].','.
+          $rep_list[$k]['user_name'].','.
+          $rep_list[$k]['user_tweet_str'].','.
+          $rep_list[$k]['user_image'];*/
+      
+      }
+
+    }
+
+  }
+
+
+  for($k = 0;  $k < count($rep_list) ;$k++){
+
+    unset($tweet_table[$rep_list[$k]['tweet_id']]);
+
+  }
+
+
+  return $tweet_table;
+
+}
+
+
+
+
 
 /*************************************************************
 

@@ -132,16 +132,6 @@
 
       <?php foreach ($data as $data_text) { ?>
 
-        <?php foreach ($data_text as $data_text_nest) { ?>
-
-        <?php if(isset($data_text_nest['user_tweet_reply_id'])){ ?>
-
-          <p class="tweet_str"><?php echo sanitize(($data_text_nest["user_tweet_str"])) ?></p>
-
-        <?php } ?>
-
-      <?php }  ?>
-
       <?php if(isset($data_text['user_tweet_str'])){ ?>
 
 
@@ -181,6 +171,31 @@
 
 
           </div>
+
+          <!--*************** 返信を出力 *******************-->
+
+          <?php if(isset($data_text['tweet_reply'])){ ?>
+          
+            <?php for($i = 0;  $i < count($data_text['tweet_reply']) ;$i++){ ?>
+
+            <div class="tweet_str_wrapper tweet_reply_wrapper">
+
+              <div class="border_reply"></div>
+
+              <img class="tweet_user_image" src=./image/<?php echo $data_text['tweet_reply'][$i]['user_image']; ?>>
+
+              <p class="tweet_user"><?php echo $data_text['tweet_reply'][$i]['user_name']; ?></p>
+
+              <p class="tweet_str"><?php echo $data_text['tweet_reply'][$i]['user_tweet_str']; ?></p>
+
+             </div>
+
+            <?php } ?>
+
+                    
+          <?php }  ?>
+
+        <!--*************** 返信を出力 *******************-->
 
         <!--*****返信機能 [display : none] *****-->
 

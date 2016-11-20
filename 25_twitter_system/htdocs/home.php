@@ -102,9 +102,17 @@ if(isset($_SESSION['login'])){
 
     $follow_id_list = $follow_id_list.','.$user_id; // フォローID + 自分のユーザーID
 
-    //$data = get_user_tweet_list($link,$follow_id_list); // $dataには、reply_idも入っている。ここのデータをいじればいいのでは。
+    // $data = get_user_tweet_list($link,$follow_id_list); // $dataには、reply_idも入っている。ここのデータをいじればいいのでは。
 
     $data = get_follow_user_tweet_retweet_list($link,$follow_id_list); // $
+
+    //var_dump(reply_into_ass_array($data));
+
+    $data = reply_into_ass_array($data);
+
+    // var_dump($data);
+
+    // var_dump($data);
 
     $other_user = get_user_id_name_list($link,$follow_id_list); // ランダムに、フォローするユーザーIDを取得
 
@@ -156,6 +164,8 @@ if(isset($_SESSION['login'])){
     /***********************************
     ▼ 返信のつぶやき取得
     ************************************/ 
+
+
 
    // $reply_id_list = get_tweet_reply_id($link);
 

@@ -193,7 +193,7 @@ function insert_tweet_replay($link,$param1,$param2,$param3){
 
   try{
 
-    $sql_info = 'INSERT INTO tweet_table(user_id,user_tweet_reply_id,user_tweet_str,user_tweet_time) VALUES (?,?,?,?)';
+    $sql_info = 'INSERT INTO tweet_table(user_id,reply_id,user_tweet_str,user_tweet_time) VALUES (?,?,?,?)';
     $stmt = $link->prepare($sql_info);
 
     $data[] = $param1;

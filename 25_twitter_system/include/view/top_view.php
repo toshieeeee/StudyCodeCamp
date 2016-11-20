@@ -52,6 +52,8 @@
 
     <input type="submit" value="登録" class="login_btn">
 
+    <div class="user_text">登録済みの方は<a href="login.php">こちら</a></div>
+
   </form>
 
 </body>
