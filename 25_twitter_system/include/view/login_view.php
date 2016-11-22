@@ -21,7 +21,7 @@
         
       <div class="login_text">
         メールアドレス 
-        <input type="email" id="user_address" name="user_address" value= <?php print $user_address;?> class="user_address">
+        <input type="email" id="user_address" name="user_address" class="user_address">
 
       </div>
 
@@ -45,17 +45,9 @@
 
       <?php } ?>
 
-      <div class="login_text">
-
-        <input class="check_box" type="checkbox" name="cookie_check" value="checked" <?php print $cookie_check;?>>
-
-        <p class="login_text check_box_text">次回からアドレスの入力を省略</p>
-
-      </div>
-        
-        
+      <div class="user_text">新しく登録する方は<a href="index.php">こちら</a></div>
          
-        <div class="login_btn_wrap"><input type="submit" value="ログイン" class="login_btn"></div>
+      <div class="login_btn_wrap"><input type="submit" value="ログイン" class="login_btn"></div>
 
       </form>
 

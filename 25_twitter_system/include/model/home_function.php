@@ -133,16 +133,19 @@ function get_user_tweet_list($link,$follow_id_list) {
 
 // tweet_idはA_I
 
-function insert_table($link,$param1,$param2){
+function insert_table($link,$param1,$param2,$param3,$param4){
 
   try{
 
-    $sql_info = 'INSERT INTO tweet_table(user_id,user_tweet_str,user_tweet_time) VALUES (?,?,?)';
+    $sql_info = 'INSERT INTO tweet_table(user_id,reply_id,retweet_id,user_tweet_str,user_tweet_time) VALUES (?,?,?,?,?)';
     $stmt = $link->prepare($sql_info); 
 
     $data[] = $param1;
     $data[] = $param2;
+    $data[] = $param3;
+    $data[] = $param4;
     $data[] = date('Y-m-d H:i:s');
+
   
     if(!$stmt->execute($data)){ // SQLの判定 / 実行
 
@@ -207,16 +210,17 @@ function insert_follow_table($link,$param1,$param2){
 * @return TRUE / FALSE
 ***********************************/
 
-function insert_tweet_replay($link,$param1,$param2,$param3){
+function insert_tweet_replay($link,$param1,$param2,$param3,$param4){
 
   try{
 
-    $sql_info = 'INSERT INTO tweet_table(user_id,reply_id,user_tweet_str,user_tweet_time) VALUES (?,?,?,?)';
+    $sql_info = 'INSERT INTO tweet_table(user_id,reply_id,retweet_id,user_tweet_str,user_tweet_time) VALUES (?,?,?,?,?)';
     $stmt = $link->prepare($sql_info);
 
     $data[] = $param1;
     $data[] = $param2;
     $data[] = $param3;
+    $data[] = $param4;
     $data[] = date('Y-m-d H:i:s');
   
     if(!$stmt->execute($data)){ // SQLの判定 / 実行
@@ -327,16 +331,11 @@ function get_my_tweet_reply_list($link,$user_id) {
       $parents_id[] = $reply_list['user_tweet_reply_id'];// 親ツイIDを変数に格納(一次配列)
       $reply_id = $reply_list['tweet_id'];
 
-      var_dump($reply_id['tweet_id']);
-
-      //var_dump($parents_id.','.$reply_id);
-
     } else{ //テスト用
 
       $reply_list['user_tweet_reply_id'] = 'no_reply';
     }
 
-  //var_dump($data);
   $data[] = $reply_list; // データを配列に格納
   
   }
@@ -350,15 +349,16 @@ function get_my_tweet_reply_list($link,$user_id) {
 retweet_id = リツイートするつぶやきの、ツイートID
 ***********************************/
 
-function insert_retweet($link,$param1,$param2){
+function insert_retweet($link,$param1,$param2,$param3){
 
   try{
 
-    $sql_info = 'INSERT INTO tweet_table(user_id,retweet_id,user_tweet_time) VALUES (?,?,?)';
+    $sql_info = 'INSERT INTO tweet_table(user_id,retweet_id,user_tweet_str,user_tweet_time) VALUES (?,?,?,?)';
     $stmt = $link->prepare($sql_info);
 
     $data[] = $param1;
     $data[] = $param2;
+    $data[] = $param3;
     $data[] = date('Y-m-d H:i:s');
   
     if(!$stmt->execute($data)){ // SQLの判定 / 実行

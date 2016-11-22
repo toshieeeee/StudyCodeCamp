@@ -110,12 +110,12 @@ if(isset($_SESSION['login'])){
 
       // リツイートを含む、ツイートを取得
 
-     //$data = get_my_tweet_retweet_list($link,$user_id);
+      //$data = get_my_tweet_retweet_list($link,$user_id);
 
 
-      // 返信リプライ / リツイートを含む、ツイートを取得 
+      // 返信リプライ含む、ツイートを取得 
 
-      $data = reply_into_ass_array($data); 
+       $data = reply_into_ass_array($data); 
 
       $other_user = get_user_id_name_list($link,$follow_id_list); // ランダムに、フォローするユーザーIDを取得
 
@@ -196,12 +196,16 @@ if(isset($_SESSION['login'])){
       
       $user_tweet_str = $_POST['user_tweet_str'];
 
-      $user_tweet_str = str_validation('user_tweet_str'); // バリデーション 
+      $user_tweet_str = str_validation('user_tweet_str'); // バリデーション
+
+      $reply_id = '0'; 
+
+      $retweet_id = '0';
 
       if(count($error) === 0){
 
-        insert_table($link,$user_id,$user_tweet_str); // DBハンドラ,ユーザーID,つぶやき
-
+        insert_table($link,$user_id,$reply_id,$retweet_id,$user_tweet_str); // DBハンドラ,ユーザーID,つぶやき
+  
         header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/home.php'); 
 
       }
@@ -236,7 +240,9 @@ if(isset($_SESSION['login'])){
 
       $user_tweet_str = $_POST['user_tweet_str'];
 
-      insert_tweet_replay($link,$user_id,$user_tweet_reply_id,$user_tweet_str);
+      $retweet_id = '0';
+
+      insert_tweet_replay($link,$user_id,$user_tweet_reply_id,$retweet_id ,$user_tweet_str);
 
       header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/home.php'); 
       
@@ -252,7 +258,10 @@ if(isset($_SESSION['login'])){
 
       $retweet_id = $_POST['retweet_id'];
 
-      insert_retweet($link,$user_id,$retweet_id);
+      $reply_id = '0'; 
+      $user_tweet_str = ''; 
+
+      insert_retweet($link,$user_id,$retweet_id,$user_tweet_str);
 
       header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/home.php'); 
 
