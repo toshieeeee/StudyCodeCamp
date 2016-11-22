@@ -100,23 +100,34 @@ if(isset($_SESSION['login'])){
 
     $follow_id_list = get_follow_id($link,$user_id); // フォローID取得
 
-    $follow_id_list = $follow_id_list.','.$user_id; // フォローID + 自分のユーザーID
+    // フォローしているユーザーがいたら、フォローユーザー + 自分のつぶやきを表示
 
-    // $data = get_user_tweet_list($link,$follow_id_list); // $dataには、reply_idも入っている。ここのデータをいじればいいのでは。
+    if($follow_id_list){ // 条件 : フォローユーザーがいる
 
-    $data = get_follow_user_tweet_retweet_list($link,$follow_id_list); // $
+      // フォローユーザーのツイートを取得
 
-    //var_dump(reply_into_ass_array($data));
+      $data = get_follow_user_tweet_list($link,$user_id,$follow_id_list);
 
-    $data = reply_into_ass_array($data);
+      // リツイートを含む、ツイートを取得
 
-    // var_dump($data);
-
-    // var_dump($data);
-
-    $other_user = get_user_id_name_list($link,$follow_id_list); // ランダムに、フォローするユーザーIDを取得
+     //$data = get_my_tweet_retweet_list($link,$user_id);
 
 
+      // 返信リプライ / リツイートを含む、ツイートを取得 
+
+      $data = reply_into_ass_array($data); 
+
+      $other_user = get_user_id_name_list($link,$follow_id_list); // ランダムに、フォローするユーザーIDを取得
+
+    } else{
+
+      // フォローユーザーがいなければ、自分のつぶやきのみを表示
+
+      $data = get_my_tweet_list($link,$user_id);
+
+      $other_user = get_first_user_id_name_list($link,$user_id);
+
+    }
 
     /***********************************
     ▼ 自分のつぶやき数取得
@@ -130,11 +141,16 @@ if(isset($_SESSION['login'])){
     ▼ フォロー数取得
     ************************************/ 
 
+    // $follow_id_list = get_follow_id($link,$user_id); // フォローID取得
+
     if($follow_id_list){
+
+      $follow_id_list = $follow_id_list.','.$user_id; // フォローID + 自分のユーザーID
 
       $follow_user = get_follow_user($link, $follow_id_list);
 
       $follow_user_num = count($follow_user);
+      
       $follow_user_num = $follow_user_num - 1; 
 
     } else {
@@ -160,28 +176,6 @@ if(isset($_SESSION['login'])){
 
     }
 
-
-    /***********************************
-    ▼ 返信のつぶやき取得
-    ************************************/ 
-
-
-
-   // $reply_id_list = get_tweet_reply_id($link);
-
-    // $reply_list = get_my_tweet_reply_list($link,$user_id);
-
-   
-
-    // 親ツイート取得
-
-  // $reply_parents_tweet = get_tweet_parents_reply($link,$reply_id_list);
-
-
-    // 子ツイート取得
-
-    //$reply_tweet = get_tweet_reply($link,$reply_id_list);
-
   }
 
   /*************************************************************
@@ -198,13 +192,19 @@ if(isset($_SESSION['login'])){
 
     if(isset($_POST['tweet']) === TRUE){
 
-    $link = get_db_connect();
-    
-    $user_tweet_str = $_POST['user_tweet_str'];
+      $link = get_db_connect();
+      
+      $user_tweet_str = $_POST['user_tweet_str'];
 
-    insert_table($link,$user_id,$user_tweet_str); // DBハンドラ,ユーザーID,つぶやき
+      $user_tweet_str = str_validation('user_tweet_str'); // バリデーション 
 
-    header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/home.php'); 
+      if(count($error) === 0){
+
+        insert_table($link,$user_id,$user_tweet_str); // DBハンドラ,ユーザーID,つぶやき
+
+        header('Location: http://'. $_SERVER['HTTP_HOST'] .'/25_twitter_system/htdocs/home.php'); 
+
+      }
 
     }
 

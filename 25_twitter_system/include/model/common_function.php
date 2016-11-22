@@ -94,7 +94,7 @@ function get_as_array($link,$sql){
 
 function get_my_tweet_list($link,$user_id) {
   
-  $sql = 'SELECT tweet_table.user_id,tweet_table.tweet_id,tweet_table.retweet_id,tweet_table.reply_id,user_table.user_name,tweet_table.user_tweet_str,tweet_table.user_tweet_time FROM tweet_table JOIN user_table ON tweet_table.user_id = user_table.user_id  WHERE tweet_table.user_id = '.$user_id; 
+  $sql = 'SELECT tweet_table.user_id,tweet_table.tweet_id,tweet_table.retweet_id,tweet_table.reply_id,user_table.user_name,user_table.user_image,tweet_table.user_tweet_str,tweet_table.user_tweet_time FROM tweet_table JOIN user_table ON tweet_table.user_id = user_table.user_id  WHERE tweet_table.user_id = '.$user_id; 
 
 
   return get_as_array($link, $sql); //SQL実行 
@@ -123,30 +123,45 @@ function get_my_tweet_retweet_list($link,$user_id) {
 
   $retweet = get_as_array($link, $sql); // ユーザーの全ツイート情報取得
 
-  foreach($retweet as $retweet_list) {
-        
-    if($retweet_list['retweet_id'] !== '0'){ // リツイートIDが存在したら != 
+    foreach($retweet as $retweet_list) {
+          
+      if($retweet_list['retweet_id'] !== '0'){ // リツイートIDが存在したら != 
 
-      $retweet_id = $retweet_list['retweet_id']; // リツイートIDを変数に格納
+        $retweet_id = $retweet_list['retweet_id']; // リツイートIDを変数に格納
 
-      $retweet_info = get_retweet($link,$retweet_id); // リツイート・ユーザー情報を、配列に格納
+        $retweet_info = get_retweet($link,$retweet_id); // リツイート・ユーザー情報を、配列に格納
 
-      // データ入れ替え
+        // データ入れ替え
 
-      $retweet_list['user_id'] = $retweet_info[0]['user_id']; 
-      $retweet_list['user_name'] = $retweet_info[0]['user_name']; 
-      $retweet_list['user_image'] = $retweet_info[0]['user_image']; 
-      $retweet_list['user_tweet_str'] = $retweet_info[0]['user_tweet_str']; 
+        $retweet_list['user_id'] = $retweet_info[0]['user_id']; 
+        $retweet_list['user_name'] = $retweet_info[0]['user_name']; 
+        $retweet_list['user_image'] = $retweet_info[0]['user_image']; 
+        $retweet_list['user_tweet_str'] = $retweet_info[0]['user_tweet_str']; 
 
-    } 
+      } 
 
-  $data[] = $retweet_list; // データを配列に格納    
+      $data[] = $retweet_list; // データを配列に格納    
 
-  }
+    }
 
   return $data;
 
 }
+
+/***********************************
+* フォローユーザーのつぶやき取得 
+************************************/
+
+function get_follow_user_tweet_list($link,$user_id,$follow_id_list) {
+  
+  $sql = 'SELECT tweet_table.user_id,user_table.user_name,user_table.user_image,tweet_table.tweet_id,tweet_table.reply_id,tweet_table.retweet_id,tweet_table.user_tweet_str,tweet_table.user_tweet_time FROM tweet_table JOIN user_table ON tweet_table.user_id = user_table.user_id WHERE tweet_table.user_id IN ('.$user_id.','.$follow_id_list.')';// ユーザーのツイート情報を取得するSQL生成
+
+  // var_dump($sql);
+
+  return get_as_array($link, $sql); 
+
+}
+
 
 /***********************************
 * フォローユーザーのつぶやき取得 - リツイートを含む
@@ -192,6 +207,7 @@ function get_follow_user_tweet_retweet_list($link,$follow_id_list) {
 function get_follow_id($link,$user_id){
 
   $sql = 'SELECT follow_id FROM follow_table WHERE user_id ='.$user_id;
+
   
   $list = ''; // 保存用
 
@@ -346,7 +362,7 @@ function reply_into_ass_array($tweet_table){
 
     // foreachは、配列から、上から順番に、値を取り出す（暗黙のインデックスが隠れている）
 
-    if($value['reply_id']){ // リプライツイートを、二次元配列に格納
+    if(isset($value['reply_id'])){ // リプライツイートを、二次元配列に格納
 
       $rep_list[] = array(
 
@@ -371,50 +387,75 @@ function reply_into_ass_array($tweet_table){
   ▼リプライを、連想配列（3次元）に格納
   ******************************************/
 
+  if(isset($rep_list)){
 
-  for($i = 0;  $i < count($tweet_table) ;$i++){
+    for($i = 0;  $i < count($tweet_table) ;$i++){
 
-    for($k = 0;  $k < count($rep_list) ;$k++){
+      for($k = 0;  $k < count($rep_list) ;$k++){
 
-      if($tweet_table[$i]['tweet_id'] === $rep_list[$k]['reply_id']){
+        if($tweet_table[$i]['tweet_id'] === $rep_list[$k]['reply_id']){
 
-        $tweet_table[$i]['tweet_reply'][] = 
+          $tweet_table[$i]['tweet_reply'][] = 
 
-          array( // ユーザー情報を、４次元に格納
+            array( // ユーザー情報を、４次元に格納
 
             'user_id' => $rep_list[$k]['user_id'],
             'user_name' => $rep_list[$k]['user_name'],
             'user_tweet_str' => $rep_list[$k]['user_tweet_str'],
             'user_image' => $rep_list[$k]['user_image']
 
-          );
-
-/*
-          $rep_list[$k]['user_id'].','.
-          $rep_list[$k]['user_name'].','.
-          $rep_list[$k]['user_tweet_str'].','.
-          $rep_list[$k]['user_image'];*/
+            );
       
+        }
+
       }
 
     }
 
   }
 
+  /******************************************
+  ▼2次元配列のリプライを、削除
+  ******************************************/
 
-  for($k = 0;  $k < count($rep_list) ;$k++){
+  // 121,119,118
 
-    unset($tweet_table[$rep_list[$k]['tweet_id']]);
+ // var_dump($tweet_table[0]['tweet_id']);
+
+  
+
+  //for($k = 0;  $k < count($rep_list) ;$k++){
+/*
+  for($k = 0;  $k < 20 ;$k++){
+
+   // var_dump($tweet_table[$k]['tweet_id']);
+
+    //unset($tweet_table[$rep_list[$k]['tweet_id']]);
+
+    //var_dump($rep_list[$k]['tweet_id']);
+
+    if($tweet_table[$k]['tweet_id'] === $rep_list[$k]['tweet_id']){
+
+      var_dump($tweet_table[$k]['user_tweet_str']); 
+    }
 
   }
+
+*/
 
 
   return $tweet_table;
 
+
 }
 
+function get_first_user_id_name_list($link,$user_id) {
 
+  $sql = 'SELECT user_id,user_name,user_image FROM user_table WHERE user_id NOT IN ('.$user_id.') ORDER BY RAND() LIMIT 3';
+  
+  return get_as_array($link, $sql); //SQL実行 
 
+}
 
 
 /*************************************************************

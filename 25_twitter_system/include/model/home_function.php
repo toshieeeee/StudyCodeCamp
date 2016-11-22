@@ -25,9 +25,9 @@ function str_validation($str){
 
     $error[$attr] = $attr.'を入力してください';
 
-  } else if(mb_strlen($str) > 20){
+  } else if(mb_strlen($str) > 140){
 
-    $error[$attr] = $attr.'は20文字以内で入力してください';
+    $error[$attr] = $attr.'は140文字以内で入力してください';
 
   } else if(preg_match ('/^\s*$|^　*$/',$str)){
 
@@ -40,6 +40,24 @@ function str_validation($str){
   }
 
 }
+
+
+/***********************************
+* すべてのユーザー名/ユーザーIDを取得する
+
+* @param DBハンドラ,ユーザーから受け取るID,ユーザーから受け取る整数 
+* @return ユーザーID / エラー文章
+************************************/
+/*
+function get_first_user_id_name_list($link,$user_id) {
+
+  $sql = 'SELECT user_id,user_name,user_image FROM user_table WHERE user_id NOT IN ('.$user_id.') ORDER BY RAND() LIMIT 3';
+  
+  return get_as_array($link, $sql); //SQL実行 
+
+}
+*/
+
 
 /***********************************
 * すべてのユーザー名/ユーザーIDを取得する

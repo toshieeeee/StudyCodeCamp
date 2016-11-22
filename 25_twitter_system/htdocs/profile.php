@@ -93,12 +93,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
   ▼ つぶやき数取得
   ************************************/ 
 
-  //$data = get_my_tweet_list($link,$user_id);
+  $data = get_my_tweet_list($link,$user_id);
 
-  $data = get_my_tweet_retweet_list($link,$user_id);
+  if($data){
+
+    $data = get_my_tweet_retweet_list($link,$user_id);
+
+  }
 
   $my_tweet_num = count($data);
-
 
   /***********************************
   ▼ フォロワー取得

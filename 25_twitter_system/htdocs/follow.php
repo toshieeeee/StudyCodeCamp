@@ -88,10 +88,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
   $link = get_db_connect();
 
   $data = get_user_tweet_list($link);
-
   $follow_id_list = get_follow_id($link,$user_id);
-  $follow_id_list = $follow_id_list.','.$user_id; // フォローID + 自分のユーザーID
-  $other_user = get_user_id_name_list($link,$follow_id_list); // フォローするユーザーIDを取得
+  
+  if($follow_id_list){
+
+    $follow_id_list = $follow_id_list.','.$user_id; // フォローID + 自分のユーザーID
+    $other_user = get_user_id_name_list($link,$follow_id_list); // フォローするユーザーIDを取得
+
+  } else{
+
+    $other_user = get_first_user_id_name_list($link,$user_id);
+
+  }
 
   /***********************************
   ▼ 自分のつぶやき数取得

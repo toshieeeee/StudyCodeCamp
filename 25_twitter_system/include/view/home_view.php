@@ -127,8 +127,8 @@
 
       <!--*****ツイート繰り返し*****-->
 
-      <!--*****GETでユーザーIDを渡す*****-->
 
+      <?php if($data){ ?>
 
       <?php foreach ($data as $data_text) { ?>
 
@@ -144,7 +144,7 @@
 
               <?php if($data_text["retweet_id"]){ ?>
 
-              <p class="retweet_user"><img src="./image/retweet_btn.png" class="retweet_str_img"><?php echo $user_name ?>さんがリツイート</p>
+              <p class="retweet_user"><img src="./image/retweet_btn.png" class="retweet_str_img"><?php echo sanitize(($data_text["user_name"])) ?>さんがリツイート</p>
 
               <?php } ?>    
 
@@ -178,17 +178,25 @@
           
             <?php for($i = 0;  $i < count($data_text['tweet_reply']) ;$i++){ ?>
 
-            <div class="tweet_str_wrapper tweet_reply_wrapper">
+            <div class="tweet_str_parents_wrapper tweet_reply_wrapper">
 
-              <div class="border_reply"></div>
+              <div class="tweet_str_wrapper">
 
-              <img class="tweet_user_image" src=./image/<?php echo $data_text['tweet_reply'][$i]['user_image']; ?>>
+                <div class="border_reply"></div>
 
-              <p class="tweet_user"><?php echo $data_text['tweet_reply'][$i]['user_name']; ?></p>
+                <img class="tweet_user_image" src=./image/<?php echo $data_text['tweet_reply'][$i]['user_image']; ?>>
 
-              <p class="tweet_str"><?php echo $data_text['tweet_reply'][$i]['user_tweet_str']; ?></p>
+                <div class="tweet_str_inner_wrapper">   
 
-             </div>
+                  <p class="tweet_user"><?php echo $data_text['tweet_reply'][$i]['user_name']; ?></p>
+
+                  <p class="tweet_str"><?php echo $data_text['tweet_reply'][$i]['user_tweet_str']; ?></p>
+
+                </div>
+
+              </div>
+
+            </div>
 
             <?php } ?>
 
@@ -233,6 +241,8 @@
         <?php } ?>
       
       <?php } ?>
+
+    <?php } ?> <!--IF($DATA)-->
 
 
     </div>
